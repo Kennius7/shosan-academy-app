@@ -13,10 +13,9 @@ export default {
     extend: {
       colors: {
         primaryBlack: "#00040f",
-        primaryGreen: "#0db915",
         primaryBlue: "#0E6DBA",
         secondaryBlue: "#084170",
-        secondaryBrown: "#613207",
+        secondaryYellow: "#E0D538",
         dimWhite: "rgba(255, 255, 255, 0.7)",
         dimBlue: "rgba(9, 151, 124, 0.1)",
       },

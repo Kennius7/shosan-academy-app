@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import { MainContext } from "./context/mainContext.js";
 import ScrollToTop from "../ScrollToTop.jsx";
 import Navbar from "./components/Navbar.jsx";
+import '@mantine/core/styles.css';
+
 
 
 

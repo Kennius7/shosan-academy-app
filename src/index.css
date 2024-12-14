@@ -41,5 +41,32 @@ h1 { @apply flex flex-row justify-center items-center };
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  color: #faf5aac2;
+}
+
+
+
+/********************************************    CUSTOM CSS   *******************************************/
+
+
+
+.title-text-shadow1{
+  text-shadow: 0 0 4px #000000;
+}
+
+.title-text-shadow2{
+  text-shadow: 0 0 4px #d3e0d3;
+}
+
+.title-text-shadow3{
+  text-shadow: 0 0 5px #e2eee2;
+}
+
+.title-text-shadow4{
+  text-shadow: 0 0 1px #0db915;
+}
+
+.title-text-no-shadow{
+  text-shadow: 0 0 0 #e2eee2;
 }
 
