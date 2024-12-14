@@ -1,31 +1,27 @@
 import { useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { navLinks } from "../utils/data";
-import { NavLink, Link } from "react-router-dom";
-import { capitalize } from "lodash";
+import { NavLink, Link, useLocation } from "react-router-dom";
+// import { capitalize } from "lodash";
 // import _ from "lodash";
 import { Logo } from "../assets";
 import Button from "./Button";
-// import { IoCartOutline } from "react-icons/io5";
-// import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { BsCart } from "react-icons/bs";
 
 
 
 const Navbar = () => {
-    const { active, setActive } = useContext(MainContext);
+    const { cartItemNumber, lightBlue, darkBlue, yellow } = useContext(MainContext);
+    const location = useLocation();
     const sentenceCase = (string) => {
         if (!string) return "";
         return string.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     }
-    let cartItemNumber = 3;
-    const lightBlue = "#0E6DBA";
-    const darkBlue = "#084170";
-    const yellow = "#E0D538";
+    const isActive = (path) => location.pathname === path ? 'active' : '';
 
     return (
-        <nav className="w-full h-[60px] bg-secondaryBlue/80 fixed z-10 flexBetween backdrop-blur-md">
+        <nav className="w-full h-[60px] bg-secondaryBlue/80 fixed z-10 flexBetween backdrop-blur-md px-2">
             <Link to={"/"} className="flexStart">
                 <img 
                     src={Logo}
@@ -33,8 +29,8 @@ const Navbar = () => {
                     className="md:w-[40px] md:h-[40px] sm:w-[35px] sm:h-[35px] shadow-[0px_0px_5px_0px_#faf5aac2]
                         xs:w-[30px] xs:h-[30px] w-[24px] h-[24px] rounded-[50%]" 
                 />
-                <div className="font-semibold text-start text-slate-200 sm:text-[18px] xs:text-[16px] text-[13px] 
-                    sm:pl-[10px] pl-[6px]">
+                <div className="font-semibold text-start text-slate-100 sm:text-[18px] xs:text-[16px] text-[13px] 
+                    sm:pl-[10px] ml-2">
                     Shosan Code Hub
                 </div>
             </Link>
@@ -52,12 +48,11 @@ const Navbar = () => {
                                         : "flexEnd w-full h-[30px] px-2 ss:text-[18px] text-[15px]"
                                 } 
                                 ${
-                                    active === capitalize(nav.name) 
+                                    isActive(nav.link) === "active"
                                     ? "text-secondaryYellow font-bold" 
                                     : "text-white font-normal title-text-shadow4"
                                 }`
                             }
-                            onClick={() => setActive(capitalize(nav.name))}
                         >
                             {sentenceCase(nav.name)}
                         </NavLink>
@@ -65,7 +60,7 @@ const Navbar = () => {
                 }
             </div>
 
-            <div className="flexAround w-[180px] pr-2">
+            <div className="flexAround w-[180px]">
                 {/*Cart block*/}
                 <NavLink
                     to={"/cart"} 
@@ -93,13 +88,15 @@ const Navbar = () => {
                         btnGradColor1={lightBlue}
                         btnGradColor2={darkBlue}
                         buttonText={"Login"} 
-                        className={`xs:w-20 xs:h-8 w-16 h-8 rounded-[20px] xs:text-[14px] 
-                        text-[12px] text-white shadow-[0px_0px_5px_0px_#0b1f139c]`} />
+                        className={`xs:w-20 xs:h-8 w-16 h-8 rounded-[20px] xs:text-[14px] text-[12px] 
+                        shadow-[0px_0px_5px_0px_#0b1f139c] font-medium
+                        ${isActive("/login") === "active" ? "text-secondaryYellow" : "text-white"}`} 
+                    />
                 </NavLink>
             </div>
         </nav>
     )
-}
+} 
 
 export default Navbar
 

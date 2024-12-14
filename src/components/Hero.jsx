@@ -1,6 +1,7 @@
 
 import { Overlay } from "@mantine/core";
 import { BG1 } from "../assets";
+import CountdownTimer from "./CountdownTimer";
 
 
 const Hero = () => {
@@ -31,8 +32,8 @@ const Hero = () => {
                         40%
                     </div>
                     &nbsp;
-                    <div className="text-center px-4 py-1 sm:text-[20px] xs:text-[16px] text-[16px] bg-blue-600 
-                        text-yellow-400 rounded-[8px]">
+                    <div className="text-center px-4 py-1 sm:text-[20px] xs:text-[16px] text-[16px] bg-primaryBlue 
+                        text-secondaryYellow rounded-[8px]">
                         Early Bird discount
                     </div> 
                     <div className="text-center sm:text-[20px] xs:text-[16px] text-[17px] ml-[10px]">
@@ -45,6 +46,10 @@ const Hero = () => {
                     <div className="font-sans font-bold text-white sm:text-[22px] xs:text-[20px] text-[16px] tracking-wider">
                         Offer Lasts Till
                     </div>
+                </div>
+
+                <div className="w-full mt-12">
+                    <CountdownTimer examTimeLimit={1000} days={10} hours={4} minutes={3} seconds={1} />
                 </div>
 
             </div>

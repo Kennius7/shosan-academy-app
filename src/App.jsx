@@ -5,6 +5,7 @@ import { MainContext } from "./context/mainContext.js";
 import ScrollToTop from "../ScrollToTop.jsx";
 import Navbar from "./components/Navbar.jsx";
 import '@mantine/core/styles.css';
+import Login from "./pages/Login.jsx";
 
 
 
@@ -12,14 +13,21 @@ import '@mantine/core/styles.css';
 
 function App() {
   const [active, setActive] = useState("Home");
+  const [loginState, setLoginState] = useState(false);
+  let cartItemNumber = 10;
+  const lightBlue = "#0E6DBA";
+  const darkBlue = "#084170";
+  const yellow = "#E0D538";
 
   return (
-    <MainContext.Provider value={{ active, setActive }}>
+    <MainContext.Provider 
+      value={{ active, setActive, cartItemNumber, lightBlue, darkBlue, yellow, loginState, setLoginState }}>
       <BrowserRouter>
         <ScrollToTop/>
         <Navbar/>
         <Routes>
           <Route path="/" element={ <Home /> } />
+          <Route path="/login" element={<Login/>} />
           {/* <Route path="/register" element={ <Register /> } />
           <Route path="/dashboard" element={ <Dashboard /> } /> */}
         </Routes>
