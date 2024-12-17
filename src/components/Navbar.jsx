@@ -7,12 +7,13 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { Logo } from "../assets";
 import Button from "./Button";
 import { CgProfile } from "react-icons/cg";
-import { BsCart } from "react-icons/bs";
+import { BiCaretDown } from "react-icons/bi";
+// import { BsCart } from "react-icons/bs";
 
 
 
 const Navbar = () => {
-    const { cartItemNumber, lightBlue, darkBlue, yellow } = useContext(MainContext);
+    const { lightBlue, darkBlue, yellow, isLoggedIn, profileName, DP1 } = useContext(MainContext);
     const location = useLocation();
     const sentenceCase = (string) => {
         if (!string) return "";
@@ -60,9 +61,9 @@ const Navbar = () => {
                 }
             </div>
 
-            <div className="flexAround w-[180px]">
+            <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
                 {/*Cart block*/}
-                <NavLink
+                {/* <NavLink
                     to={"/cart"} 
                     className="relative flex justify-center items-center w-8 h-8 ring-2 ring-white/50 
                     rounded-full shadow-lg p-1"
@@ -73,26 +74,54 @@ const Navbar = () => {
                         ${cartItemNumber >= 100 ? "text-[10px]" : "text-[12px]" }`}>
                         {cartItemNumber}
                     </span>
-                </NavLink>
+                </NavLink> */}
+                {
+                    isLoggedIn 
+                    ? 
+                    <div className="font-normal font-sans text-[15px] text-white italic px-2">
+                        Welcome, {profileName}
+                    </div>
+                    : null
+                }
                 {/*Profile Pics block*/}
                 <NavLink
                     to={"/profile"} 
                     className="relative flex justify-center items-center w-8 h-8 ring-2 ring-white/50 
-                    rounded-full shadow-lg"
+                    rounded-full shadow-lg overflow-hidden"
                 >
-                    <CgProfile size={32} color={yellow} style={{ width: 100, height: 100 }}/>
+                    {
+                        isLoggedIn 
+                        ?
+                            <img src={DP1} alt="profile pics" className="w-full h-full object-cover" /> 
+                        :
+                        <CgProfile size={32} color={yellow} style={{ width: 100, height: 100 }}/>
+                    }
                 </NavLink>
+                {/*Caret block*/}
+                {
+                    isLoggedIn 
+                    ?
+                        <NavLink to={"/profile"} className={`w-6 h-6 pl-1`}>
+                            <BiCaretDown size={20} color={"#fff"} style={{ width: 30, height: 30, opacity: 0.5}} /> 
+                        </NavLink>
+                    : null
+                }
                 {/*Login Button block*/}
-                <NavLink to={"/login"} >
-                    <Button 
-                        btnGradColor1={lightBlue}
-                        btnGradColor2={darkBlue}
-                        buttonText={"Login"} 
-                        className={`xs:w-20 xs:h-8 w-16 h-8 rounded-[20px] xs:text-[14px] text-[12px] 
-                        shadow-[0px_0px_5px_0px_#0b1f139c] font-medium
-                        ${isActive("/login") === "active" ? "text-secondaryYellow" : "text-white"}`} 
-                    />
-                </NavLink>
+                {
+                    isLoggedIn 
+                    ? null 
+                    : 
+                    <NavLink to={"/login"} className={"px-2"} >
+                        <Button 
+                            btnGradColor1={lightBlue}
+                            btnGradColor2={darkBlue}
+                            buttonText={"Login"} 
+                            className={`xs:w-20 xs:h-8 w-16 h-8 rounded-[20px] xs:text-[14px] text-[12px] 
+                            shadow-[0px_0px_5px_0px_#0b1f139c] font-medium
+                            ${isActive("/login") === "active" ? "text-secondaryYellow" : "text-white"}`} 
+                        />
+                    </NavLink>
+                }
             </div>
         </nav>
     )
