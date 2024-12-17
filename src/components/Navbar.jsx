@@ -13,7 +13,7 @@ import { BiCaretDown } from "react-icons/bi";
 
 
 const Navbar = () => {
-    const { lightBlue, darkBlue, yellow, isLoggedIn, profileName, DP1 } = useContext(MainContext);
+    const { lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, profileName, DP1 } = useContext(MainContext);
     const location = useLocation();
     const sentenceCase = (string) => {
         if (!string) return "";
@@ -75,11 +75,26 @@ const Navbar = () => {
                         {cartItemNumber}
                     </span>
                 </NavLink> */}
+                <button 
+                    onClick={() => setIsLoggedIn(!isLoggedIn)} 
+                    className="flexCenter w-8 h-8 ring-2 ring-white/70 rounded-full shadow-lg p-1 cursor-pointer mx-2">
+                    {
+                        isLoggedIn 
+                        ?
+                        <div className="text-white text-center flexCenter text-[8px] w-6 h-6 ring-2 ring-white/50">
+                            Open
+                        </div>
+                        :
+                        <div className="text-white text-center flexCenter text-[8px] w-6 h-6 ring-2 ring-white/50">
+                            Close
+                        </div>
+                    }
+                </button>
                 {
                     isLoggedIn 
                     ? 
                     <div className="font-normal font-sans text-[15px] text-white italic px-2">
-                        Welcome, {profileName}
+                        Welcome, {profileName.split(" ")[0]}
                     </div>
                     : null
                 }

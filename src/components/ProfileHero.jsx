@@ -9,7 +9,7 @@ const ProfileHero = () => {
     const { profileName, DP1, lastVisitedTime } = useContext(MainContext);
 
     return (
-        <section className="flexColStart w-full h-[400px] bg-white pt-[60px]">
+        <section className="flexColStart w-full bg-white pt-[60px]">
             <ImageBackground 
                 imgSrc={CoverPics} 
                 isOverlay={true}

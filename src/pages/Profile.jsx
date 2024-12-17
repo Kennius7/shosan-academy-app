@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import ProfileHero from "../components/ProfileHero";
 import NotLoggedProfile from "../components/NotLoggedProfile";
+import ProfileSection from "../components/ProfileSection";
 
 
 
@@ -15,6 +16,7 @@ const Profile = () => {
                 ?
                 <div>
                     <ProfileHero/>
+                    <ProfileSection/>
                 </div>
                 : <NotLoggedProfile/>
             }

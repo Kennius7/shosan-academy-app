@@ -16,19 +16,20 @@ import { DP1 } from "./assets";
 function App() {
   const [active, setActive] = useState("Home");
   const [loginState, setLoginState] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   let cartItemNumber = 10;
   const lightBlue = "#0E6DBA";
   const darkBlue = "#084170";
   const yellow = "#E0D538";
-  const profileName = "Kennius";
+  const profileName = "Kennius Boggs";
+  const email = "ogbogukenny@yahoo.com"
   const lastVisitedTime = "2 days ago";
 
   return (
     <MainContext.Provider 
       value={{ 
-        active, setActive, cartItemNumber, lightBlue, darkBlue, yellow, DP1,
-        loginState, setLoginState, isLoggedIn, setLoggedIn, profileName, lastVisitedTime 
+        active, setActive, cartItemNumber, lightBlue, darkBlue, yellow, DP1, email,
+        loginState, setLoginState, isLoggedIn, setIsLoggedIn, profileName, lastVisitedTime 
       }}
     >
       <BrowserRouter>
