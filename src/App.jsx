@@ -7,6 +7,9 @@ import Navbar from "./components/Navbar.jsx";
 import '@mantine/core/styles.css';
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
+import Classes from "./pages/Classes.jsx";
+import Contact from "./pages/Contact.jsx";
+import About from "./pages/About.jsx";
 import { DP1 } from "./assets";
 
 
@@ -16,20 +19,37 @@ import { DP1 } from "./assets";
 function App() {
   const [active, setActive] = useState("Home");
   const [loginState, setLoginState] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  let cartItemNumber = 10;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [isEditProfile, setIsEditProfile] = useState({
+    name: false,
+    email: false,
+    number: false,
+    courseDetails: false,
+  });
+
+  const [profileFormData, setProfileFormData] = useState({
+    name: "Kennius Boggs",
+    email: "ogbogukenny@yahoo.com",
+    number: "07033325279",
+    batchNum: "001",
+    courseDetails: "Web Development",
+    courseProgress: 60,
+  });
+
   const lightBlue = "#0E6DBA";
   const darkBlue = "#084170";
   const yellow = "#E0D538";
-  const profileName = "Kennius Boggs";
-  const email = "ogbogukenny@yahoo.com"
   const lastVisitedTime = "2 days ago";
 
   return (
     <MainContext.Provider 
       value={{ 
-        active, setActive, cartItemNumber, lightBlue, darkBlue, yellow, DP1, email,
-        loginState, setLoginState, isLoggedIn, setIsLoggedIn, profileName, lastVisitedTime 
+        active, setActive, lightBlue, darkBlue, yellow, DP1, 
+        loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, 
+        setIsEditProfile, isEditProfile, profileFormData, setProfileFormData,
+        isMenuOpen, setIsMenuOpen
       }}
     >
       <BrowserRouter>
@@ -39,8 +59,9 @@ function App() {
           <Route path="/" element={ <Home /> } />
           <Route path="/login" element={<Login/>} />
           <Route path="/profile" element={<Profile/>} />
-          {/* <Route path="/register" element={ <Register /> } />
-          <Route path="/dashboard" element={ <Dashboard /> } /> */}
+          <Route path="/classes" element={<Classes/>} />
+          <Route path="/contact" element={<Contact/>} />
+          <Route path="/about_us" element={<About/>} />
         </Routes>
       </BrowserRouter>
     </MainContext.Provider>

@@ -6,7 +6,7 @@ import ImageBackground from "./ImageBackground";
 
 
 const ProfileHero = () => {
-    const { profileName, DP1, lastVisitedTime } = useContext(MainContext);
+    const { profileFormData, DP1, lastVisitedTime } = useContext(MainContext);
 
     return (
         <section className="flexColStart w-full bg-white pt-[60px]">
@@ -22,7 +22,7 @@ const ProfileHero = () => {
             </ImageBackground>
             <div className="w-full h-[40px] mt-[120px] flexColCenterStart pl-2">
                 <p className="text-secondaryBlue text-[25px] font-semibold text-start leading-[28px]">
-                    {profileName}
+                    {profileFormData.name}
                 </p>
                 <p className="font-sans text-black text-[14px] leading-[28px]">
                     Last time here:&nbsp;

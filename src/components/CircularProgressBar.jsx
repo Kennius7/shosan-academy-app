@@ -3,19 +3,13 @@
 
 
 const CircularProgressBar = ({ 
-    percentage, radius=50, strokeWidth=10, radiusOffset=10, textSize=18, className 
+    percentage, radius=50, strokeWidth=10, radiusOffset=10, textSize=18, textColor="#084170", className 
 }) => {
     const normalizedRadius = radius - strokeWidth / 2;
     const circumference = normalizedRadius * 2 * Math.PI;
-    // const circleWidth = "w-[" + ((radius * 2) + radiusOffset).toString() + "px]";
-    // const circleHeight = "h-[" + ((radius * 2) + radiusOffset).toString() + "px]";
     const circleWidth = ((radius * 2) + radiusOffset).toString() + "px";
     const circleHeight = ((radius * 2) + radiusOffset).toString() + "px";
-    console.log("Width and Height: ", circleWidth, circleHeight);
-
-    // Calculate the stroke-dashoffset based on progress
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
 
     return (
         <div 
@@ -50,8 +44,8 @@ const CircularProgressBar = ({
             </svg>
             {/* Percentage Text */}
             <div 
-                style={{ fontSize: textSize }} 
-                className="absolute text-center font-semibold text-secondaryBlue">
+                style={{ fontSize: textSize, color: textColor }} 
+                className="absolute text-center font-semibold">
                 {percentage}%
             </div>
         </div>
