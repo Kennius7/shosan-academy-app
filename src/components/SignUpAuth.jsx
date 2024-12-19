@@ -30,7 +30,7 @@ const SignUp = () => {
                 Continue
             </button>
             <p className="text-slate-900 font-semibold mt-8 text-[14px]">Already have an account?&nbsp;
-                <span onClick={() => setLoginState(true)} className="text-red-900 underline cursor-pointer">Login</span>
+                <span onClick={() => setLoginState(true)} className="text-red-900 underline cursor-pointer">Sign In</span>
             </p>
             <div className="flex flex-row justify-start items-center mt-0">
                 <input type="checkbox" />

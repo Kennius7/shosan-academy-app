@@ -10,6 +10,7 @@ import Profile from "./pages/Profile.jsx";
 import Classes from "./pages/Classes.jsx";
 import Contact from "./pages/Contact.jsx";
 import About from "./pages/About.jsx";
+import CourseSelect from "./components/CourseSelect.jsx";
 import { DP1 } from "./assets";
 
 
@@ -62,6 +63,9 @@ function App() {
           <Route path="/classes" element={<Classes/>} />
           <Route path="/contact" element={<Contact/>} />
           <Route path="/about_us" element={<About/>} />
+          <Route path="/classes" element={<CourseSelect/>}>
+            <Route path=":courseId" element={<CourseSelect/>} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </MainContext.Provider>

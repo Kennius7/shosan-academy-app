@@ -1,7 +1,6 @@
 import CourseList from "../components/CourseList";
 
 
-
 const Classes = () => {
 
     return (

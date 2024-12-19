@@ -18,6 +18,7 @@ export default {
         secondaryYellow: "#E0D538",
         dimWhite: "rgba(255, 255, 255, 0.7)",
         dimBlue: "rgba(9, 151, 124, 0.1)",
+        lightBlue: "rgb(180, 209, 247)",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
