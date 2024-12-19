@@ -1,10 +1,15 @@
+import AboutUsSection from "../components/AboutUsSection";
+import MiniHero from "../components/MiniHero";
 
 
 
 const About = () => {
 
     return (
-        <div>About</div>
+        <>
+            <MiniHero/>
+            <AboutUsSection/>
+        </>
     )
 }
 

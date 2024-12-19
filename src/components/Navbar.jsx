@@ -106,7 +106,7 @@ const Navbar = () => {
                             <Button 
                                 btnGradColor1={lightBlue}
                                 btnGradColor2={darkBlue}
-                                buttonText={"Login"} 
+                                buttonText={"Sign In"} 
                                 className={`w-[65px] h-[27px] rounded-[16px] text-[12px] 
                                 shadow-[0px_0px_5px_0px_#0b1f139c] font-medium
                                 ${isActive("/login") === "active" ? "text-secondaryYellow" : "text-white"}`} 
@@ -136,7 +136,7 @@ const Navbar = () => {
                             <Button 
                                 btnGradColor1={lightBlue}
                                 btnGradColor2={darkBlue}
-                                buttonText={"Login"} 
+                                buttonText={"Sign In"} 
                                 className={`xs:w-20 xs:h-8 w-16 h-8 rounded-[20px] xs:text-[14px] text-[12px] 
                                 shadow-[0px_0px_5px_0px_#0b1f139c] font-medium
                                 ${isActive("/login") === "active" ? "text-secondaryYellow" : "text-white"}`} 
@@ -158,7 +158,7 @@ const Navbar = () => {
                             }
                         </div>
                         <div className={`top-[58px] w-[170px] ss:hidden flexColCenterEnd 
-                            bg-secondaryBlue/80 transition-all duration-500 backdrop-blur-md pr-2
+                            bg-secondaryBlue/95 transition-all duration-500 backdrop-blur-md pr-2
                             rounded-bl-[20px] fixed z-10 py-2 ${isMenuOpen ? "right-0" : "-right-60" }`}>
                             {
                                 navLinks.map((nav, index) => (

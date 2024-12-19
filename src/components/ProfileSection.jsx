@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { MainContext } from "../context/mainContext";
-// import { BiPen } from "react-icons/bi";
 import { PiPencil } from "react-icons/pi";
 import CircularProgressBar from "../components/CircularProgressBar";
 import { selectCourses } from "../utils/data";
@@ -52,35 +51,46 @@ const ProfileSection = () => {
 
     return (
         <section className="w-full">
-            <div className="w-full h-[300px] mt-10 flexStartStart px-3 relative">
-                <div className="w-[30%] flexColCenterStart">
-                    <CircularProgressBar percentage={profileData.courseProgress} 
-                        radius={90} strokeWidth={8} radiusOffset={8} 
-                        textSize={18} textColor="white" className={`bg-secondaryBlue`}
+            <div className="w-full h-[300px] sm:mt-10 mt-4 flexStartStart sm:px-3 px-2 relative">
+                <div className="sm:w-[30%] w-full flexColCenterStart">
+                    <CircularProgressBar 
+                        percentage={profileData.courseProgress} 
+                        radius={
+                            window.innerWidth > 768 ? 100 
+                            : window.innerWidth < 768 
+                            && window.innerWidth > 480 ? 75 : 55 
+                        } 
+                        strokeWidth={ window.innerWidth > 480 ? 8 : 5 } 
+                        radiusOffset={8} 
+                        textSize={18} 
+                        textColor="white" className={`bg-secondaryBlue`}
                     />
                     <div className="w-full h-[40px] mt-4 flexColCenterStart">
-                        <p className="text-secondaryBlue text-[20px] font-semibold text-start leading-[28px]">
+                        <p className="text-secondaryBlue sm:text-[25px] text-[18px] font-semibold 
+                            text-start leading-[28px]">
                             Course completion
                         </p>
-                        <p className="font-sans text-black text-[14px] leading-[28px]">
+                        <p className="font-sans text-black sm:text-[14px] text-[12px] sm:leading-[28px] 
+                            leading-[14px]">
                             Course Title:&nbsp;
-                            <span className="font-sans text-secondaryBlue text-[14px] leading-[28px]">
+                            <span className="font-sans text-secondaryBlue sm:text-[14px] text-[12px] 
+                                sm:leading-[28px] leading-[14px]">
                                 { profileData.courseDetails }
                             </span>
                         </p>
                     </div>
                 </div>
-                <div className="w-[60%] absolute -top-32 right-32 flexColCenter">
-                    <div className="w-full h-[350px] rounded-2xl bg-slate-200 flexColStartCenter">
+                <div className="sm:w-[60%] w-[96%] absolute sm:-top-32 top-[210px] sm:right-32 right-2 flexColCenter">
+                    <div className="w-full sm:h-[350px] h-[550px] rounded-2xl bg-slate-200 flexColStartCenter">
                         <div className="text-secondaryBlue text-[25px] mt-4">
                             Profile Section
                         </div>
-                        <hr className="border-[1px] border-black/30 w-[50%] mb-[1px]" />
-                        <hr className="border-[1px] border-black/30 w-[30%] mb-[1px]" />
-                        <hr className="border-[1px] border-black/30 w-[20%] mb-[1px]" />
-                        <hr className="border-[1px] border-black/30 w-[10%] mb-[1px]" />
+                        <hr className="border-[1px] border-black/30 sm:w-[50%] w-[70%] mb-[1px]" />
+                        <hr className="border-[1px] border-black/30 sm:w-[30%] w-[55%] mb-[1px]" />
+                        <hr className="border-[1px] border-black/30 sm:w-[20%] w-[35%] mb-[1px]" />
+                        <hr className="border-[1px] border-black/30 sm:w-[10%] w-[20%] mb-[1px]" />
 
-                        <ul className="grid grid-cols-2 gap-4 mx-auto mt-10 w-full px-4">
+                        <ul className="grid sm:grid-cols-2 grid-cols-1 gap-4 mx-auto mt-10 w-full px-4">
                             <li className="flexColCenterStart">
                                 <div className="text-black text-[18px]">
                                     Full Name
@@ -225,7 +235,7 @@ const ProfileSection = () => {
                             </li>
                         </ul>
                     </div>
-                    <Link to={"/"} className="mt-6">
+                    <Link to={"/"} className="sm:my-6 my-4">
                         <Button 
                             btnGradColor1={darkBlue}
                             btnGradColor2={"#000"}

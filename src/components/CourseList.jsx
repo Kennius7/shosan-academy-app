@@ -13,11 +13,11 @@ function CourseList() {
     return (
         <section className="flex flex-col md:justify-center justify-start items-center 
             bg-slate-100 w-full">
-            <div className="font-EncodeSans font-semibold text-start text-slate-700 sm:w-[95%] 
+            <div className="font-EncodeSans font-semibold sm:text-center text-start text-slate-700 sm:w-[95%] 
                 xs:w-[80%] w-[88%] sm:text-[30px] xs:text-[25px] text-[18px] sm:mb-[20px] 
-                xs:mb-[30px] mb-[20px] md:mt-0 sm:mt-[50px] mt-[90px]">
+                xs:mb-[30px] mb-[20px] sm:mt-[60px] mt-[40px]">
                 Courses Information
-                <hr className="bg-black w-full h-[3px]"/>
+                <hr className="bg-black w-full h-[3px] sm:mt-3 mt-1"/>
             </div>
 
             <div className="flex justify-center items-center w-full mb-[30px]">
@@ -54,8 +54,8 @@ function CourseList() {
                                     />
                                 </div>
                                 <div className="flexColCenter w-full mt-3">
-                                    <hr className="border-[1px] border-black/30 w-[90%] mb-[2px]" />
-                                    <hr className="border-[1px] border-black/30 w-[90%] mb-[2px]" />
+                                    <hr className="border-[1px] border-black/30 w-full mb-[2px]" />
+                                    <hr className="border-[1px] border-black/30 w-full mb-[2px]" />
                                 </div>
                             </li>
                         ))

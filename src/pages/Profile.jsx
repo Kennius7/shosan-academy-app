@@ -3,6 +3,7 @@ import { MainContext } from "../context/mainContext";
 import ProfileHero from "../components/ProfileHero";
 import NotLoggedProfile from "../components/NotLoggedProfile";
 import ProfileSection from "../components/ProfileSection";
+import MiniHero from "../components/MiniHero";
 
 
 
@@ -14,11 +15,15 @@ const Profile = () => {
             { 
                 isLoggedIn 
                 ?
-                <div>
+                <>
                     <ProfileHero/>
                     <ProfileSection/>
-                </div>
-                : <NotLoggedProfile/>
+                </>
+                : 
+                <>
+                    <MiniHero subText="Join us and enjoy all that we are" />
+                    <NotLoggedProfile/>
+                </>
             }
         </>
     )
