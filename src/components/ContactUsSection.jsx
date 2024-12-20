@@ -24,7 +24,7 @@ const ContactUsSection = () => {
                 <div className="w-[96%] flexCenter mt-4 border border-secondaryBlue rounded-xl p-4 bg-slate-100">
                     <div className="text-[15px] font-EncodeSans">
                         Have questions or need more information? Feel free to reach out to us 
-                        at the channels below. We&apos;d love to hear from you!
+                        and fill the form below. We&apos;d love to hear from you!
                     </div>
                 </div>
             </div>
