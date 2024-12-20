@@ -44,7 +44,7 @@ const ContactUsSection = () => {
                 <div className="w-[60%] flexCenter mt-4 border border-secondaryBlue rounded-xl p-6 bg-slate-100">
                     <div className="text-[15px] font-EncodeSans">
                         Do you have more questions to enquire of us or you need more information on certain things? 
-                        Feel free to reach out to us at the channels below. We&apos;d love to hear from you!
+                        Feel free to reach out to us and fill the form below. We&apos;d love to hear from you!
                     </div>
                 </div>
             </div>
