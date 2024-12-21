@@ -58,6 +58,8 @@ h1 { @apply flex flex-row justify-center items-center };
 .flexColStartEnd { @apply flex flex-col justify-start items-end }
 .flexColEndStart { @apply flex flex-col justify-end items-start }
 
+.flexAroundStart { @apply flex flex-row justify-around items-start};
+
 .helloWorld {
   height: 400px;
   width: 100%;
@@ -66,7 +68,7 @@ h1 { @apply flex flex-row justify-center items-center };
   justify-content: center;
   align-items: center;
   color: #faf5aac2;
-  color: #000205;
+  color: #0002056e;
   position: static;
 }
 

@@ -29,9 +29,9 @@ const Navbar = () => {
     const isActive = (path) => location.pathname === path ? 'active' : '';
 
     return (
-        <nav className="w-full h-[60px] bg-secondaryBlue/80 fixed z-10 flexBetween backdrop-blur-md px-2">
+        <nav className="w-full sm:h-[60px] h-[70px] bg-secondaryBlue/80 fixed z-10 flexBetween backdrop-blur-md px-2">
             {/*Logo Section block*/}
-            <Link to={"/"} className="flexStart">
+            <Link to={"/"} className="h-full sm:pb-0 pb-[10px] flex flex-row justify-start sm:items-center items-end">
                 <img 
                     src={Logo}
                     alt="logo" 
@@ -39,7 +39,7 @@ const Navbar = () => {
                     rounded-full shadow-[0px_0px_5px_0px_#faf5aac2]" 
                 />
                 <div className="font-semibold text-start text-slate-100 md:text-[18px] ss:text-[14px] text-[17px] 
-                    sm:pl-[10px] ml-2 ss:tracking-[0] -tracking-[2px]">
+                    sm:pl-[10px] ml-2 ss:tracking-[0] -tracking-[1px]">
                     Shosan Code Hub
                 </div>
             </Link>
