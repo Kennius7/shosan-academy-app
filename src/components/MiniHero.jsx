@@ -29,13 +29,3 @@ const MiniHero = ({ mainText="Shosan Code Hub", subText="An online tech academy 
 
 export default MiniHero
 
-
-
-
-
-
-
-// Contact Us
-// Have questions or need more information? Feel free to reach out to us at [email/contact link]. We’d love to hear from you!
-
-// Let’s code the future together!
