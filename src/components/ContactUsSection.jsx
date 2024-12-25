@@ -27,7 +27,7 @@ const ContactUsSection = () => {
     return (
         <section className="w-full flex sm:flex-row flex-col sm:justify-around justify-center 
             sm:items-start items-center my-4">
-            <div className="sm:w-[40%] w-[90%] flexColStart mt-8">
+            <div className="sm:w-[40%] w-[90%] flexColStart sm:mt-14 mt-8">
                 <div className="w-full flexColCenter">
                     <div className="w-full flexCenter">
                         <img src={Logo} alt="Logo" className="w-7 h-7 object-cover rounded-full" />
