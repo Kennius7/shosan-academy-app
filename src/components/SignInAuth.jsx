@@ -1,12 +1,50 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../FirebaseConfig";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 
 
 const SignUp = () => {
+    const navigate = useNavigate();
+    const [currentUser] = useAuthState(auth);
     const { setLoginState } = useContext(MainContext);
-    const handleSignin = () => {
-        alert("Logged in to your account...");
+    const [isVisible, setIsVisible] = useState(false);
+    const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
+    const { email, password } = signInFormData;
+    const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
+
+    const handleSignin = async() => {
+        if (currentUser) {
+            alert("User is already logged in...")
+            return;
+        };
+
+        if (email !== "" || password !== "") {
+            try {
+                const newUser = await signInWithEmailAndPassword(auth, email, password);
+                // console.log(newUser);
+                alert(`Welcome, ${newUser?.user?.displayName}`);
+                // downloadData();
+                setSignInFormData({ ...signInFormData, email: "", password: "" });
+                setTimeout(() => {
+                    navigate("/profile");
+                }, 3000);
+            } catch (error) {
+                if (error.code === "auth/user-not-found") {
+                    console.error(error.code);
+                    alert(`Error: ${error.code}`)
+                } else if (error.code === "auth/wrong-password") {
+                    console.error(error.code);
+                    alert(`Error: ${error.code}`)
+                } else {
+                    console.error(error.code);
+                    alert(`Error: ${error.code}`)
+                }
+            }
+        }
     }
 
 
@@ -20,11 +58,24 @@ const SignUp = () => {
                 <input 
                     type="email" 
                     placeholder="Your Email Address" 
+                    name="email"
+                    value={email}
+                    onChange={handleChange}
                     className="h-10 outline-none bg-slate-900/10 rounded-xl pl-5 w-full" />
-                <input 
-                    type="password" 
-                    placeholder="Your Password" 
-                    className="h-10 outline-none bg-slate-900/10 rounded-xl pl-5 w-full" />
+                <div className="relative">
+                    <input 
+                        type={!isVisible ? "password" : "text"} 
+                        placeholder="Your Password" 
+                        name="password"
+                        value={password}
+                        onChange={handleChange}
+                        className="h-10 outline-none bg-slate-900/10 rounded-xl pl-5 w-full" />
+                    <div 
+                    onClick={() => setIsVisible(!isVisible)} 
+                    className={`sm:w-5 sm:h-5 w-4 h-4 rounded-full absolute z-[2] top-3 
+                    sm:right-1 right-2 cursor-pointer
+                    ${!isVisible ? "bg-secondaryBlue" : "bg-secondaryYellow"}`}></div>
+                </div>
             </div>
             <button 
                 onClick={handleSignin} 
@@ -39,12 +90,6 @@ const SignUp = () => {
                     Sign Up
                 </span>
             </p>
-            {/* <div className="flex flex-row justify-start sm:items-center items-start sm:mt-0 mt-1">
-                <input type="checkbox" className="sm:mt-0 mt-1" onClick={() => setIsChecked(!isChecked)} />
-                <p className="text-slate-900 sm:text-[14px] text-[12px] pl-2 italic">
-                    By continuing, I agree to the terms of use and privacy policy of Shosan Code Hub.
-                </p>
-            </div> */}
         </div>
     )
 }

@@ -1,50 +1,104 @@
-import { useState, useContext } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { MainContext } from "../context/mainContext";
 import { PiPencil } from "react-icons/pi";
 import CircularProgressBar from "../components/CircularProgressBar";
 import { selectCourses } from "../utils/data";
 import Button from "./Button";
+import { db, auth } from "../../FirebaseConfig";
+import { signOut } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
 
 
 
 const ProfileSection = () => {
-    const { setIsEditProfile, isEditProfile, profileFormData, setProfileFormData, darkBlue } = useContext(MainContext);
+    // const navigate = useNavigate();
+    const { darkBlue, profileFormData, setProfileFormData } = useContext(MainContext);
+    const nameRef = useRef(null);
+    const emailRef = useRef(null);
+    const numberRef = useRef(null);
+    const courseRef = useRef(null);
 
-    const [profileData, setProfileData] = useState({
-        name: profileFormData.name,
-        email: profileFormData.email,
-        number: profileFormData.number,
-        batchNum: profileFormData.batchNum,
-        courseDetails: profileFormData.courseDetails,
-        courseProgress: profileFormData.courseProgress,
+    const [isEditProfile, setIsEditProfile] = useState({
+        name: false,
+        email: false,
+        number: false,
+        courseDetails: false,
     });
 
+    const { name, email, number, batchNum, courseDetails, courseProgress, id } = profileFormData;
+
     const handleChange = (e) => {
-        setProfileData({
-            ...profileData,
+        setProfileFormData({
+            ...profileFormData,
             [e.target.name]: e.target.value,
         });
     };
 
-    const editName = () => {
-        setIsEditProfile({ ...isEditProfile, name: !isEditProfile.name });
-        setProfileFormData({ ...profileFormData, name: profileData.name });
+    const editField = async (ref) => {
+        console.log("Ref Values Check:", typeof (ref.current.firstChild.name));
+        console.log(id);
+        const docRef = doc(db, "User_Data", id);
+
+        if (ref.current && ref.current.firstChild.name === "name") {
+            setIsEditProfile({ ...isEditProfile, name: !isEditProfile.name });
+            setProfileFormData({ ...profileFormData, name: name });
+            try {
+                await updateDoc(docRef, { name: name });
+                alert("Name updated successfully!");
+            } catch (error) {
+                console.error("Error updating name: ", error);
+                alert("Failed to update name.");
+            }
+        }
+        if (ref.current && ref.current.firstChild.name === "email") {
+            setIsEditProfile({ ...isEditProfile, email: !isEditProfile.email });
+            setProfileFormData({ ...profileFormData, email: email });
+        }
+        if (ref.current && ref.current.firstChild.name === "number") {
+            setIsEditProfile({ ...isEditProfile, number: !isEditProfile.number });
+            setProfileFormData({ ...profileFormData, number: number });
+        }
+        if (ref.current && ref.current.firstChild.name === "courseDetails") {
+            setIsEditProfile({ ...isEditProfile, courseDetails: !isEditProfile.courseDetails });
+            setProfileFormData({ ...profileFormData, courseDetails: courseDetails });
+        }
+    }
+
+    const editName = (ref) => {
+        if (ref.current) {
+            setIsEditProfile({ ...isEditProfile, name: !isEditProfile.name });
+            setProfileFormData({ ...profileFormData, [ref.current.children.name]: name });
+        }
     };
 
     const editEmail = () => {
         setIsEditProfile({ ...isEditProfile, email: !isEditProfile.email });
-        setProfileFormData({ ...profileFormData, email: profileData.email });
+        setProfileFormData({ ...profileFormData, email: email });
     };
 
     const editNumber = () => {
         setIsEditProfile({ ...isEditProfile, number: !isEditProfile.number });
-        setProfileFormData({ ...profileFormData, number: profileData.number });
+        setProfileFormData({ ...profileFormData, number: number });
     };
 
     const editCourseDetails = () => {
         setIsEditProfile({ ...isEditProfile, courseDetails: !isEditProfile.courseDetails });
-        setProfileFormData({ ...profileFormData, courseDetails: profileData.courseDetails });
+        setProfileFormData({ ...profileFormData, courseDetails: courseDetails });
+    };
+
+    const handleLogout = () => {
+        signOut(auth);
+        setProfileFormData({ 
+            ...profileFormData, 
+            name: "Guest",
+            email: "guest@mail.com",
+            number: "10000100001",
+            batchNum: "000",
+            courseDetails: "None",
+            courseProgress: 3, 
+        })
     };
 
 
@@ -54,7 +108,7 @@ const ProfileSection = () => {
             <div className="w-full h-[300px] sm:mt-10 mt-4 flexStartStart sm:px-3 px-2 relative">
                 <div className="sm:w-[30%] w-full flexColCenterStart">
                     <CircularProgressBar 
-                        percentage={profileData.courseProgress} 
+                        percentage={courseProgress} 
                         radius={
                             window.innerWidth > 768 ? 100 
                             : window.innerWidth < 768 
@@ -75,7 +129,7 @@ const ProfileSection = () => {
                             Course Title:&nbsp;
                             <span className="font-sans text-secondaryBlue sm:text-[14px] text-[12px] 
                                 sm:leading-[28px] leading-[14px]">
-                                { profileData.courseDetails }
+                                { courseDetails }
                             </span>
                         </p>
                     </div>
@@ -95,20 +149,20 @@ const ProfileSection = () => {
                                 <div className="text-black text-[18px]">
                                     Full Name
                                 </div>
-                                <div className="flexBetween w-full">
+                                <div ref={nameRef} className="flexBetween w-full">
                                     <input 
-                                        placeholder={ profileData.name } 
+                                        placeholder={ name } 
                                         disabled={!isEditProfile.name}
                                         name="name"
-                                        value={!isEditProfile.name ? "" : profileData.name}
+                                        value={!isEditProfile.name ? "" : name}
                                         onChange={handleChange}
-                                        onBlur={editName}
+                                        onBlur={() => editField(nameRef)}
                                         className="placeholder:text-secondaryBlue placeholder:text-[16px] 
                                         placeholder:font-sans placeholder:italic bg-transparent outline-none 
                                         cursor-pointer flex-1 text-[15px]"
                                     />
                                     <PiPencil 
-                                        onClick={editName} 
+                                        onClick={() => editField(nameRef)} 
                                         size={20} 
                                         color={isEditProfile.name ? "#ff0101" : "#000"} 
                                         style={{ width: 20, height: 20, opacity: 0.7}} 
@@ -121,20 +175,20 @@ const ProfileSection = () => {
                                 <div className="text-black text-[18px]">
                                     Email Address
                                 </div>
-                                <div className="flexBetween w-full">
+                                <div ref={emailRef} className="flexBetween w-full">
                                     <input 
-                                        placeholder={ profileData.email } 
+                                        placeholder={ email } 
                                         disabled={!isEditProfile.email}
                                         name="email"
-                                        value={!isEditProfile.email ? "" : profileData.email}
+                                        value={!isEditProfile.email ? "" : email}
                                         onChange={handleChange}
-                                        onBlur={editEmail}
+                                        onBlur={() => editField(emailRef)}
                                         className="placeholder:text-secondaryBlue placeholder:text-[16px] 
                                         placeholder:font-sans placeholder:italic bg-transparent outline-none 
                                         cursor-pointer flex-1 text-[15px]"
                                     />
                                     <PiPencil 
-                                        onClick={editEmail} 
+                                        onClick={() => editField(emailRef)} 
                                         size={20} 
                                         color={isEditProfile.email ? "#ff0101" : "#000"} 
                                         style={{ width: 20, height: 20, opacity: 0.7}} 
@@ -147,20 +201,20 @@ const ProfileSection = () => {
                                 <div className="text-black text-[18px]">
                                     Phone Number
                                 </div>
-                                <div className="flexBetween w-full">
+                                <div ref={numberRef} className="flexBetween w-full">
                                     <input 
-                                        placeholder={ profileData.number } 
+                                        placeholder={ number } 
                                         disabled={!isEditProfile.number}
                                         name="number"
-                                        value={!isEditProfile.number ? "" : profileData.number}
+                                        value={!isEditProfile.number ? "" : number}
                                         onChange={handleChange}
-                                        onBlur={editNumber}
+                                        onBlur={() => editField(numberRef)}
                                         className="placeholder:text-secondaryBlue placeholder:text-[16px] 
                                         placeholder:font-sans placeholder:italic bg-transparent outline-none 
                                         cursor-pointer flex-1 text-[15px]"
                                     />
                                     <PiPencil 
-                                        onClick={editNumber} 
+                                        onClick={() => editField(numberRef)} 
                                         size={20} 
                                         color={isEditProfile.number ? "#ff0101" : "#000"} 
                                         style={{ width: 20, height: 20, opacity: 0.7}} 
@@ -175,8 +229,9 @@ const ProfileSection = () => {
                                 </div>
                                 <div className="flexBetween w-full">
                                     <input 
-                                        placeholder={ profileData.batchNum } 
+                                        placeholder={ batchNum } 
                                         disabled={ !isEditProfile.batchNum }
+                                        value={!isEditProfile.batchNum ? "" : batchNum}
                                         className="placeholder:text-secondaryBlue placeholder:text-[16px] 
                                         placeholder:font-sans placeholder:italic bg-transparent outline-none 
                                         cursor-pointer flex-1 text-[15px]"
@@ -188,12 +243,12 @@ const ProfileSection = () => {
                                 <div className="text-black text-[18px]">
                                     Course Details
                                 </div>
-                                <div className="flexBetween w-full">
+                                <div ref={courseRef} className="flexBetween w-full">
                                     <select
                                         name="courseDetails"
-                                        value={profileData.courseDetails}
+                                        value={courseDetails}
                                         onChange={handleChange}
-                                        onBlur={editCourseDetails}
+                                        onBlur={() => editField(courseRef)}
                                         style={{ appearance: "none"}}
                                         disabled={!isEditProfile.courseDetails}
                                         className={`italic w-full text-secondaryBlue bg-transparent outline-none 
@@ -209,7 +264,7 @@ const ProfileSection = () => {
                                         ))}
                                     </select>
                                     <PiPencil 
-                                        onClick={editCourseDetails} 
+                                        onClick={() => editField(courseRef)} 
                                         size={20} 
                                         color={isEditProfile.courseDetails ? "#ff0101" : "#000"} 
                                         style={{ width: 20, height: 20, opacity: 0.7}} 
@@ -224,8 +279,9 @@ const ProfileSection = () => {
                                 </div>
                                 <div className="flexBetween w-full">
                                     <input 
-                                        placeholder={ profileData.courseProgress + "%" } 
+                                        placeholder={ courseProgress + "%" } 
                                         disabled={ !isEditProfile.courseProgress }
+                                        value={!isEditProfile.courseProgress ? "" : courseProgress}
                                         className="placeholder:text-secondaryBlue placeholder:text-[16px] 
                                         placeholder:font-sans placeholder:italic bg-transparent outline-none 
                                         cursor-pointer flex-1 text-[15px]"
@@ -240,6 +296,7 @@ const ProfileSection = () => {
                             btnGradColor1={darkBlue}
                             btnGradColor2={"#000"}
                             buttonText={"Logout"} 
+                            onClick={handleLogout}
                             className={`w-[150px] h-[40px] rounded-[20px] text-[16px] text-secondaryYellow 
                             shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
                         />

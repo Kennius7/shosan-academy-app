@@ -3,13 +3,13 @@
 
 
 const CircularProgressBar = ({ 
-    percentage, radius=50, strokeWidth=10, radiusOffset=10, textSize=18, textColor="#084170", className 
+    percentage=0, radius=50, strokeWidth=10, radiusOffset=10, textSize=18, textColor="#084170", className 
 }) => {
     const normalizedRadius = radius - strokeWidth / 2;
     const circumference = normalizedRadius * 2 * Math.PI;
     const circleWidth = ((radius * 2) + radiusOffset).toString() + "px";
     const circleHeight = ((radius * 2) + radiusOffset).toString() + "px";
-    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+    const strokeDashoffset = (circumference - (percentage / 100) * circumference);
 
     return (
         <div 

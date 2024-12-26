@@ -13,12 +13,12 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDVGuV-IyFdvojdLyi8sWs_KGfiUwgqpVg",
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "shosan-acodemia-app.firebaseapp.com",
   projectId: "shosan-acodemia-app",
   storageBucket: "shosan-acodemia-app.firebasestorage.app",
-  messagingSenderId: "489465738069",
-  appId: "1:489465738069:web:35970f316c39b06211f5dc",
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDERID,
+  appId: import.meta.env.VITE_APP_ID,
   measurementId: "G-ZXK5YT4PBN"
 };
 
@@ -30,6 +30,4 @@ export const storage = getStorage(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
-
-
 

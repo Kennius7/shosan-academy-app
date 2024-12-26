@@ -1,9 +1,14 @@
 import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
+import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
+// import { useAuthState } from "react-firebase-hooks/auth";
+import { db } from "../../FirebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 
 
 const SignUp = () => {
+    // const [ user ] = useAuthState(auth);
     const { setLoginState } = useContext(MainContext);
     const [isChecked, setIsChecked] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -12,12 +17,36 @@ const SignUp = () => {
         email: "",
         number: "",
         password: "",
+        batchNum: "001",
+        courseDetails: "None",
+        courseProgress: 0,
     });
-    const { name, email, number, password } = signUpFormData;
+    const { name, email, number, password, batchNum, courseDetails, courseProgress } = signUpFormData;
+
     const handleChange = (e) => setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
-    const handleSignUp = () => {
+    const uploadData = async() => await addDoc(
+        collection(db, "User_Data"), 
+        { name, email, number, password, batchNum, courseDetails, courseProgress }
+    );
+    const handleSignUp = async() => {
         if (name !== "" || email !== "" || number !== "" || password !== "") {
-            alert(`Signed Up with this data: Name: ${name}...Email: ${email}...Phone Number: ${number}`);
+            try {
+                const authInstance = getAuth();
+                const newUser = await createUserWithEmailAndPassword(authInstance, email, password);
+                await updateProfile(newUser.user, { displayName: name });
+                console.log(newUser);
+                uploadData();
+                alert(`Signed Up with this data, Name: ${newUser?.user?.displayName}`);
+                setSignUpFormData({ ...signUpFormData, name: "", email: "", number: "", password: "" });
+            } catch (error) {
+                if (error.code === "auth/email-already-in-use") {
+                    console.log(error.code);
+                    alert(`Error: ${error.code}`);
+                } else {
+                    console.error(error);
+                    alert(`Error: ${error.code}`);
+                }
+            }
         }
     }
 

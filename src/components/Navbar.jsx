@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { navLinks } from "../utils/data";
 import { NavLink, Link, useLocation } from "react-router-dom";
@@ -13,20 +13,34 @@ import { CgProfile } from "react-icons/cg";
 import { MdMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
 import { BiChevronLeft } from "react-icons/bi";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../FirebaseConfig";
 
 
 
 const Navbar = () => {
-    const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, 
-        profileFormData, DP1, isMenuOpen, setIsMenuOpen 
-    } = useContext(MainContext);
+    const { lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, DP1, isMenuOpen, setIsMenuOpen } = useContext(MainContext);
+    const [ user ] = useAuthState(auth);
     const location = useLocation();
     const sentenceCase = (string) => {
         if (!string) return "";
         return string.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     }
     const isActive = (path) => location.pathname === path ? 'active' : '';
+    const [gottenData, setGottenData] = useState({
+        name: "",
+        email: "",
+        number: ""
+    });
+
+    useEffect(() => {
+        const getData = JSON.parse(localStorage.getItem("user"));
+        setGottenData({ ...gottenData, name: getData.name, email: getData.email, number: getData.number });
+    }, [])
+    
+
+    // console.log(profileFormData);
+    // console.log(gottenData);
 
     return (
         <nav className="w-full sm:h-[60px] h-[70px] bg-secondaryBlue/80 fixed z-10 flexBetween backdrop-blur-md px-2">
@@ -71,7 +85,9 @@ const Navbar = () => {
                 <div className="xs:hidden block">
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
-                        Hi, { isLoggedIn ? profileFormData.name.split(" ")[0] : "Guest" }
+                        {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
+                        {/* Hi, { isLoggedIn ? user && user.displayName : "Guest" } */}
+                        Hi, { isLoggedIn && user ? user?.displayName : "Guest" }
                     </div>
                 </div>
                 <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
@@ -95,7 +111,9 @@ const Navbar = () => {
                     {/*Name Welcome block*/}
                     <div className="xs:block hidden font-normal font-sans md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white italic ss:px-2 px-1">
-                        Hi, { isLoggedIn ? profileFormData.name.split(" ")[0] : "Guest" }
+                        {/* Hi, { isLoggedIn ? profileFormData.name.split(" ")[0] : "Guest" } */}
+                        {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
+                        Hi, { isLoggedIn && user ? user?.displayName : "Guest" }
                     </div>
                     {/*Mobile Screen Login Button block*/}
                     {

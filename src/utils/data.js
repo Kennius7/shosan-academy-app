@@ -11,6 +11,7 @@ export const navLinks = [
 ];
 
 export const selectCourses = [
+    { id: 0, name: 'None' },
     { id: 1, name: 'Web Design Basics' },
     { id: 2, name: 'Front End Development' },
     { id: 3, name: 'Back End Development' },
