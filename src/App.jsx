@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -25,8 +25,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ user ] = useAuthState(auth);
-
-  const userData = JSON.parse(localStorage.getItem("user"));
 
   const [profileFormData, setProfileFormData] = useState({
     name: "Guest",
@@ -63,16 +61,14 @@ function App() {
               console.log("Name: ", name);
               // localStorage.setItem("user", JSON.stringify(profileFormData));
               // console.log(profileFormData);
-              // setTimeout(() => {
-              //     navigate("/profile");
-              // }, 3000);
           } catch (error) {
               console.error(error);
           }
       } else console.log("We are offline or logged out.");
   };
 
-  useEffect(() => { 
+  useEffect(() => {
+    () => downloadData();
     const downloadInt = setInterval(() => {
       downloadData() 
     }, 3000);
@@ -98,6 +94,12 @@ function App() {
   const darkBlue = "#084170";
   const yellow = "#E0D538";
   const lastVisitedTime = "2 days ago";
+
+  localStorage.setItem("user", JSON.stringify(profileFormData));
+
+  const userData = JSON.parse(localStorage.getItem("user"));
+
+  console.log("Locally Stored Data: ", userData);
 
 
   return (
