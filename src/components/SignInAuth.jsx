@@ -9,16 +9,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const [currentUser] = useAuthState(auth);
-    const { setLoginState } = useContext(MainContext);
+    const [ user ] = useAuthState(auth);
+    const { setLoginState, profileFormData: { name } } = useContext(MainContext);
     const [isVisible, setIsVisible] = useState(false);
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
 
     const handleSignin = async() => {
-        if (currentUser) {
-            alert("User is already logged in...")
+        if (user) {
+            alert(`${name.split(" ")[0]} is already logged in...`);
             return;
         };
 

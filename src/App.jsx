@@ -72,7 +72,14 @@ function App() {
       } else console.log("We are offline or logged out.");
   };
 
-  useEffect(() => { downloadData() }, []);
+  useEffect(() => { 
+    const downloadInt = setInterval(() => {
+      downloadData() 
+    }, 3000);
+
+    return () => clearInterval(downloadInt);
+
+  }, []);
 
   // useEffect(() => {
   //   const userData = JSON.parse(localStorage.getItem("user"));
