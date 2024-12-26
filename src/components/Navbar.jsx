@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { navLinks } from "../utils/data";
@@ -19,7 +20,10 @@ import { auth } from "../../FirebaseConfig";
 
 
 const Navbar = () => {
-    const { lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, DP1, isMenuOpen, setIsMenuOpen } = useContext(MainContext);
+    const { 
+        lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, 
+        DP1, isMenuOpen, setIsMenuOpen, profileFormData: { name } 
+    } = useContext(MainContext);
     const [ user ] = useAuthState(auth);
     const location = useLocation();
     const sentenceCase = (string) => {
@@ -27,16 +31,16 @@ const Navbar = () => {
         return string.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     }
     const isActive = (path) => location.pathname === path ? 'active' : '';
-    const [gottenData, setGottenData] = useState({
-        name: "",
-        email: "",
-        number: ""
-    });
+    // const [gottenData, setGottenData] = useState({
+    //     name: "",
+    //     email: "",
+    //     number: ""
+    // });
 
-    useEffect(() => {
-        const getData = JSON.parse(localStorage.getItem("user"));
-        setGottenData({ ...gottenData, name: getData.name, email: getData.email, number: getData.number });
-    }, [])
+    // useEffect(() => {
+    //     const getData = JSON.parse(localStorage.getItem("user"));
+    //     setGottenData({ ...gottenData, name: getData.name, email: getData.email, number: getData.number });
+    // }, [])
     
 
     // console.log(profileFormData);
@@ -86,8 +90,9 @@ const Navbar = () => {
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
                         {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
+                        Hi, { isLoggedIn && user ? name?.split(" ")[0] : "Guest" }
                         {/* Hi, { isLoggedIn ? user && user.displayName : "Guest" } */}
-                        Hi, { isLoggedIn && user ? user?.displayName : "Guest" }
+                        {/* Hi, { isLoggedIn && user ? user?.displayName : "Guest" } */}
                     </div>
                 </div>
                 <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
@@ -113,7 +118,8 @@ const Navbar = () => {
                         text-white italic ss:px-2 px-1">
                         {/* Hi, { isLoggedIn ? profileFormData.name.split(" ")[0] : "Guest" } */}
                         {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
-                        Hi, { isLoggedIn && user ? user?.displayName : "Guest" }
+                        {/* Hi, { isLoggedIn && user ? user?.displayName : "Guest" } */}
+                        Hi, { isLoggedIn && user ? name?.split(" ")[0] : "Guest" }
                     </div>
                     {/*Mobile Screen Login Button block*/}
                     {

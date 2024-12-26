@@ -24,7 +24,7 @@ function App() {
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [ currentUser ] = useAuthState(auth);
+  const [ user ] = useAuthState(auth);
 
   const userData = JSON.parse(localStorage.getItem("user"));
 
@@ -39,7 +39,7 @@ function App() {
   });
 
   const downloadData = async () => {
-      const userEmail = currentUser?.email;
+      const userEmail = user?.email;
       console.log("Current User Email: ", userEmail);
       if (navigator.onLine && userEmail) {
           console.log("We are online or logged in.");

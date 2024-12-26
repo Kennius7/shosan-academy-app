@@ -14,7 +14,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const ProfileSection = () => {
     // const navigate = useNavigate();
-    const { darkBlue, profileFormData, setProfileFormData } = useContext(MainContext);
+    const { darkBlue, lightBlue, profileFormData, setProfileFormData } = useContext(MainContext);
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const numberRef = useRef(null);
@@ -37,24 +37,12 @@ const ProfileSection = () => {
     };
 
     const editField = async (ref) => {
-        console.log("Ref Values Check:", typeof (ref.current.firstChild.name));
-        console.log(id);
-        const docRef = doc(db, "User_Data", id);
+        console.log("Ref Values Check:", ref.current.firstChild.placeholder);
+        console.log("Doc Id: ", id);
 
         if (ref.current && ref.current.firstChild.name === "name") {
             setIsEditProfile({ ...isEditProfile, name: !isEditProfile.name });
             setProfileFormData({ ...profileFormData, name: name });
-            try {
-                await updateDoc(docRef, { name: name });
-                alert("Name updated successfully!");
-            } catch (error) {
-                console.error("Error updating name: ", error);
-                alert("Failed to update name.");
-            }
-        }
-        if (ref.current && ref.current.firstChild.name === "email") {
-            setIsEditProfile({ ...isEditProfile, email: !isEditProfile.email });
-            setProfileFormData({ ...profileFormData, email: email });
         }
         if (ref.current && ref.current.firstChild.name === "number") {
             setIsEditProfile({ ...isEditProfile, number: !isEditProfile.number });
@@ -66,27 +54,6 @@ const ProfileSection = () => {
         }
     }
 
-    const editName = (ref) => {
-        if (ref.current) {
-            setIsEditProfile({ ...isEditProfile, name: !isEditProfile.name });
-            setProfileFormData({ ...profileFormData, [ref.current.children.name]: name });
-        }
-    };
-
-    const editEmail = () => {
-        setIsEditProfile({ ...isEditProfile, email: !isEditProfile.email });
-        setProfileFormData({ ...profileFormData, email: email });
-    };
-
-    const editNumber = () => {
-        setIsEditProfile({ ...isEditProfile, number: !isEditProfile.number });
-        setProfileFormData({ ...profileFormData, number: number });
-    };
-
-    const editCourseDetails = () => {
-        setIsEditProfile({ ...isEditProfile, courseDetails: !isEditProfile.courseDetails });
-        setProfileFormData({ ...profileFormData, courseDetails: courseDetails });
-    };
 
     const handleLogout = () => {
         signOut(auth);
@@ -100,6 +67,34 @@ const ProfileSection = () => {
             courseProgress: 3, 
         })
     };
+
+    const handleSaveData = async () => {
+        const docRef = doc(db, "User_Data", id);
+
+        try {
+            await updateDoc(docRef, { name: name });
+            console.log("Name updated successfully!");
+        } catch (error) {
+            console.error("Error updating name: ", error);
+            alert("Failed to update name.");
+        }
+
+        try {
+            await updateDoc(docRef, { number: number });
+            console.log("Number updated successfully!");
+        } catch (error) {
+            console.error("Error updating number: ", error);
+            alert("Failed to update number.");
+        }
+
+        try {
+            await updateDoc(docRef, { courseDetails: courseDetails });
+            console.log("Course Details updated successfully!");
+        } catch (error) {
+            console.error("Error updating Course Details: ", error);
+            alert("Failed to update Course Details.");
+        }
+    }
 
 
 
@@ -181,19 +176,16 @@ const ProfileSection = () => {
                                         disabled={!isEditProfile.email}
                                         name="email"
                                         value={!isEditProfile.email ? "" : email}
-                                        onChange={handleChange}
-                                        onBlur={() => editField(emailRef)}
                                         className="placeholder:text-secondaryBlue placeholder:text-[16px] 
                                         placeholder:font-sans placeholder:italic bg-transparent outline-none 
                                         cursor-pointer flex-1 text-[15px]"
                                     />
-                                    <PiPencil 
-                                        onClick={() => editField(emailRef)} 
+                                    {/* <PiPencil 
                                         size={20} 
                                         color={isEditProfile.email ? "#ff0101" : "#000"} 
                                         style={{ width: 20, height: 20, opacity: 0.7}} 
                                         className={`cursor-pointer`}
-                                    />
+                                    /> */}
                                 </div>
                                 <hr className="border-[1px] border-black/30 w-full" />
                             </li>
@@ -291,16 +283,28 @@ const ProfileSection = () => {
                             </li>
                         </ul>
                     </div>
-                    <Link to={"/"} className="sm:my-6 my-4">
-                        <Button 
-                            btnGradColor1={darkBlue}
-                            btnGradColor2={"#000"}
-                            buttonText={"Logout"} 
-                            onClick={handleLogout}
-                            className={`w-[150px] h-[40px] rounded-[20px] text-[16px] text-secondaryYellow 
-                            shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
-                        />
-                    </Link>
+                    <div className="w-full flexAround">
+                        <div className="sm:my-6 my-4">
+                            <Button 
+                                btnGradColor1={lightBlue}
+                                btnGradColor2={darkBlue}
+                                buttonText={"Save"} 
+                                onClick={handleSaveData}
+                                className={`w-[130px] h-[40px] rounded-[20px] text-[16px] text-white
+                                shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
+                            />
+                        </div>
+                        <Link to={"/"} className="sm:my-6 my-4">
+                            <Button 
+                                btnGradColor1={darkBlue}
+                                btnGradColor2={"#000"}
+                                buttonText={"Logout"} 
+                                onClick={handleLogout}
+                                className={`w-[130px] h-[40px] rounded-[20px] text-[16px] text-secondaryYellow 
+                                shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
+                            />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>
