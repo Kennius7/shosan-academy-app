@@ -23,8 +23,9 @@ function App() {
   const [active, setActive] = useState("Home");
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isActualLoggedIn, setIsActualLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [ user ] = useAuthState(auth);
+  const [ currentlyLoggedInUser ] = useAuthState(auth);
 
   const [profileFormData, setProfileFormData] = useState({
     name: "Guest",
@@ -37,7 +38,7 @@ function App() {
   });
 
   const downloadData = async () => {
-      const userEmail = user?.email;
+      const userEmail = currentlyLoggedInUser?.email;
       console.log("Current User Email: ", userEmail);
       if (navigator.onLine && userEmail) {
           console.log("We are online or logged in.");
@@ -107,7 +108,7 @@ function App() {
       value={{ 
         active, setActive, lightBlue, darkBlue, yellow, DP1, 
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, 
-        profileFormData, setProfileFormData,
+        profileFormData, setProfileFormData, isActualLoggedIn, setIsActualLoggedIn,
         isMenuOpen, setIsMenuOpen
       }}
     >

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -9,29 +10,31 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const [ currentlyLoggedInUser ] = useAuthState(auth);
     const [ user ] = useAuthState(auth);
-    const { setLoginState, profileFormData: { name } } = useContext(MainContext);
+    const { setLoginState, setIsActualLoggedIn } = useContext(MainContext);
     const [isVisible, setIsVisible] = useState(false);
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
 
     const handleSignin = async() => {
-        if (user) {
-            alert(`${name.split(" ")[0]} is already logged in...`);
-            return;
+        console.log("Current User Data: ", currentlyLoggedInUser);
+
+        if (user?.email === currentlyLoggedInUser?.email) {
+            alert(`${currentlyLoggedInUser?.displayName?.split(" ")[0]} is already logged in...`);
         };
 
         if (email !== "" || password !== "") {
             try {
                 const newUser = await signInWithEmailAndPassword(auth, email, password);
-                // console.log(newUser);
                 alert(`Welcome, ${newUser?.user?.displayName}`);
-                // downloadData();
                 setSignInFormData({ ...signInFormData, email: "", password: "" });
+                // setIsActualLoggedIn(true);
+
                 setTimeout(() => {
                     navigate("/profile");
-                }, 3000);
+                }, 2000);
             } catch (error) {
                 if (error.code === "auth/user-not-found") {
                     console.error(error.code);

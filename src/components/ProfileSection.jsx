@@ -14,7 +14,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const ProfileSection = () => {
     // const navigate = useNavigate();
-    const { darkBlue, lightBlue, profileFormData, setProfileFormData } = useContext(MainContext);
+    const { darkBlue, lightBlue, profileFormData, setProfileFormData, setIsActualLoggedIn } = useContext(MainContext);
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const numberRef = useRef(null);
@@ -65,7 +65,8 @@ const ProfileSection = () => {
             batchNum: "000",
             courseDetails: "None",
             courseProgress: 3, 
-        })
+        });
+        // setIsActualLoggedIn(false);
     };
 
     const handleSaveData = async () => {
