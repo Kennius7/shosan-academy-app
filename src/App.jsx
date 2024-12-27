@@ -13,9 +13,10 @@ import Contact from "./pages/Contact.jsx";
 import About from "./pages/About.jsx";
 import CourseSelect from "./components/CourseSelect.jsx";
 import { DP1, reactNativePics } from "./assets";
-import { query, collection, where, getDocs } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { db, auth } from "../FirebaseConfig.js";
+// import { query, collection, where, getDocs } from "firebase/firestore";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { db, auth } from "../FirebaseConfig.js";
+import axios from "axios";
 
 
 
@@ -24,7 +25,8 @@ function App() {
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [ currentlyLoggedInUser ] = useAuthState(auth);
+  const apiUrl = import.meta.env.VITE_API_PROD_URL;
+
 
   const [profileFormData, setProfileFormData] = useState({
     name: "Guest",
@@ -34,42 +36,37 @@ function App() {
     courseDetails: "None",
     courseProgress: 3,
     id: "",
+    currentlyLoggedInUser: null
   });
 
   const downloadData = async () => {
-      const userEmail = currentlyLoggedInUser?.email;
-      console.log("Current User Email: ", userEmail);
-      if (navigator.onLine && userEmail) {
-          console.log("We are online or logged in.");
-          try {
-              const q = query(collection(db, "User_Data"), where("email", "==", userEmail));
-              const querySnapshot = await getDocs(q);
-              const filteredData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-              console.log("Filtered Data: ", filteredData);
-              const { name, email, number, batchNum, courseDetails, courseProgress, id } = filteredData[0];
-              setProfileFormData({ 
-                  ...profileFormData, 
-                  name: name, 
-                  email: email, 
-                  number: number, 
-                  batchNum: batchNum, 
-                  courseDetails: courseDetails, 
-                  courseProgress: courseProgress,
-                  id: id
-              });
-              console.log("Updated Data: ", profileFormData);
-              console.log("Name: ", name);
-              // localStorage.setItem("user", JSON.stringify(profileFormData));
-              // console.log(profileFormData);
-          } catch (error) {
-              console.error(error);
-          }
-      } else console.log("We are offline or logged out.");
+
+    try {
+        const fetchedData = await axios.get(apiUrl);
+        const { name, email, number, batchNum, courseDetails, courseProgress, id, currentlyLoggedInUser } = fetchedData;
+        setProfileFormData({ 
+            ...profileFormData, 
+            name: name, 
+            email: email, 
+            number: number, 
+            batchNum: batchNum, 
+            courseDetails: courseDetails, 
+            courseProgress: courseProgress,
+            id: id,
+            currentlyLoggedInUser: currentlyLoggedInUser
+        });
+        console.log("Updated Data: ", profileFormData);
+        console.log("Name: ", name);
+        // localStorage.setItem("user", JSON.stringify(profileFormData));
+        // console.log(profileFormData);
+    } catch (error) {
+        console.error(error);
+    }
   };
 
   useEffect(() => {
     downloadData();
-    if (currentlyLoggedInUser?.displayName) {
+    if (profileFormData.currentlyLoggedInUser.displayName) {
       setIsLoggedIn(true);
     } else setIsLoggedIn(false);
   });

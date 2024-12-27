@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -13,7 +11,6 @@ import axios from "axios";
 const SignUp = () => {
     const navigate = useNavigate();
     const [ currentlyLoggedInUser ] = useAuthState(auth);
-    const [ user ] = useAuthState(auth);
     const { setLoginState, lightBlue, darkBlue, yellow } = useContext(MainContext);
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +88,7 @@ const SignUp = () => {
                     { email, password }, 
                     {
                         headers: { "Content-Type": "application/json" },
-                        withCredentials: false, // Set true if you use cookies for authentication
+                        withCredentials: false,
                     }
                 );
 
