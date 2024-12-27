@@ -39,6 +39,7 @@ const SignUp = () => {
 
         if (email !== "" || password !== "") {
             try {
+                console.log("API URL: ", apiUrl);
                 const signInData = await axios.post(apiUrl, { email, password });
                 console.log("Sign In Data Post: ", signInData);
                 const newUser = await signInWithEmailAndPassword(auth, email, password);
