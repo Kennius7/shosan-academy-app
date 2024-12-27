@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../FirebaseConfigBackEnd.js";
+import { auth } from "../FirebaseConfig.js";
 
 
 
