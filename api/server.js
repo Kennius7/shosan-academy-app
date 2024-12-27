@@ -17,13 +17,17 @@ export default async function handler(req, res) {
     }
 
     if (req.method === "POST") {
-        const { email, password } = req.body;
-        const newUser = await signInWithEmailAndPassword(auth, email, password);
-
-        const message = email || password 
-        ? `Welcome, ${newUser?.user?.displayName.split(" ")[0]}` : "Welcome, guest";
-
-        res.status(200).json({ message: message });
+        try {
+            const { email, password } = req.body;
+            const newUser = await signInWithEmailAndPassword(auth, email, password);
+    
+            const message = email || password 
+            ? `Welcome, ${newUser?.user?.displayName.split(" ")[0]}` : "Welcome, guest";
+    
+            res.status(200).json({ message: message });
+        } catch (error) {
+            res.json({ error: `Error: ${error.message}` });
+        }
     }
 }
 
