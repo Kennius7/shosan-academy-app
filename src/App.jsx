@@ -69,7 +69,7 @@ function App() {
 
   useEffect(() => {
     downloadData();
-    if (currentlyLoggedInUser) {
+    if (currentlyLoggedInUser?.displayName) {
       setIsLoggedIn(true);
     } else setIsLoggedIn(false);
   });
