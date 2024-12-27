@@ -28,57 +28,104 @@ const SignUp = () => {
         console.log("Current User Name: ", currentlyLoggedInUser.displayName);
     } else console.log("Current User logged out...");
 
+    // const handleSignin = async () => {
+    //     setIsLoading(true);
+    //     setSignInText("Signing In...");
+    //     // console.log("Current User Data: ", currentlyLoggedInUser);
+
+    //     // if (user?.email === currentlyLoggedInUser?.email) {
+    //     //     alert(`${currentlyLoggedInUser?.displayName?.split(" ")[0]} is already logged in...`);
+    //     // };
+
+    //     if (email !== "" || password !== "") {
+    //         try {
+    //             const signInData = await axios.post(
+    //                 apiUrl, 
+    //                 { email, password }, 
+    //                 { headers: { "Content-Type": "application/json"}, withCredentials: false,}
+    //             );
+    //             // console.log("Sign In Data Post: ", signInData);
+    //             // const newUser = await signInWithEmailAndPassword(auth, email, password);
+    //             alert(`${signInData?.data?.data?.message}`);
+    //             setSignInFormData({ ...signInFormData, email: "", password: "" });
+    //             setIsLoading(false);
+    //             setSignInText("Signed In!");
+    //             setTimeout(() => setSignInText("Sign In"), 2000);
+    //             setTimeout(() => navigate("/profile"), 4000)
+    //         } catch (error) {
+    //             if (error.code === "auth/user-not-found") {
+    //                 console.error(error.code);
+    //                 alert(`Error: ${error.code}`)
+    //                 setIsLoading(false);
+    //                 setSignInText("Signed In Failed!");
+    //                 setTimeout(() => setSignInText("Sign In"), 2000);
+    //             } else if (error.code === "auth/wrong-password") {
+    //                 console.error(error.code);
+    //                 alert(`Error: ${error.code}`)
+    //                 setIsLoading(false);
+    //                 setSignInText("Signed In Failed!");
+    //                 setTimeout(() => setSignInText("Sign In"), 2000);
+    //             } else {
+    //                 console.error(error.code);
+    //                 alert(`Error: ${error.code}`)
+    //                 setIsLoading(false);
+    //                 setSignInText("Signed In Failed!");
+    //                 setTimeout(() => setSignInText("Sign In"), 2000);
+    //             }
+    //         }
+    //     } else {
+    //         setIsLoading(false);
+    //         setSignInText("Signed In Failed!");
+    //         setTimeout(() => setSignInText("Sign In"), 2000);
+    //     }
+    // }
+
     const handleSignin = async () => {
         setIsLoading(true);
         setSignInText("Signing In...");
-        // console.log("Current User Data: ", currentlyLoggedInUser);
-
-        // if (user?.email === currentlyLoggedInUser?.email) {
-        //     alert(`${currentlyLoggedInUser?.displayName?.split(" ")[0]} is already logged in...`);
-        // };
-
-        if (email !== "" || password !== "") {
+    
+        if (email.trim() && password.trim()) {
             try {
-                const signInData = await axios.post(
+                const response = await axios.post(
                     apiUrl, 
                     { email, password }, 
-                    { headers: { "Content-Type": "application/json"}, withCredentials: false,}
+                    {
+                        headers: { "Content-Type": "application/json" },
+                        withCredentials: false, // Set true if you use cookies for authentication
+                    }
                 );
-                // console.log("Sign In Data Post: ", signInData);
-                // const newUser = await signInWithEmailAndPassword(auth, email, password);
-                alert(`${signInData?.data?.data?.message}`);
-                setSignInFormData({ ...signInFormData, email: "", password: "" });
-                setIsLoading(false);
+    
+                // Extract the message from the API response
+                const message = response?.data?.message || "Signed in successfully!";
+                alert(message);
+    
+                // Reset the form and update UI states
+                setSignInFormData({ email: "", password: "" });
                 setSignInText("Signed In!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
-                setTimeout(() => navigate("/profile"), 4000)
+                setTimeout(() => navigate("/profile"), 4000);
             } catch (error) {
-                if (error.code === "auth/user-not-found") {
-                    console.error(error.code);
-                    alert(`Error: ${error.code}`)
-                    setIsLoading(false);
-                    setSignInText("Signed In Failed!");
-                    setTimeout(() => setSignInText("Sign In"), 2000);
-                } else if (error.code === "auth/wrong-password") {
-                    console.error(error.code);
-                    alert(`Error: ${error.code}`)
-                    setIsLoading(false);
-                    setSignInText("Signed In Failed!");
-                    setTimeout(() => setSignInText("Sign In"), 2000);
-                } else {
-                    console.error(error.code);
-                    alert(`Error: ${error.code}`)
-                    setIsLoading(false);
-                    setSignInText("Signed In Failed!");
-                    setTimeout(() => setSignInText("Sign In"), 2000);
-                }
+                console.error("Error signing in:", error);
+    
+                // Extract and display meaningful error messages
+                const errorMessage = error.response?.data?.error || "An unexpected error occurred.";
+                alert(`Error: ${errorMessage}`);
+    
+                // Update UI states
+                setSignInText("Sign In Failed!");
+                setTimeout(() => setSignInText("Sign In"), 2000);
+            } finally {
+                setIsLoading(false); // Ensure loading is stopped in all cases
             }
         } else {
+            // Handle empty email or password
+            alert("Please provide both email and password.");
             setIsLoading(false);
-            setSignInText("Signed In Failed!");
+            setSignInText("Sign In Failed!");
             setTimeout(() => setSignInText("Sign In"), 2000);
         }
-    }
+    };
+    
 
 
     return (
