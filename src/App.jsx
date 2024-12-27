@@ -42,8 +42,8 @@ function App() {
   const downloadData = async () => {
 
     try {
-        const fetchedData = await axios.get(apiUrl);
-        const { name, email, number, batchNum, courseDetails, courseProgress, id, currentlyLoggedInUser } = fetchedData;
+        const response = await axios.get(apiUrl);
+        const { name, email, number, batchNum, courseDetails, courseProgress, id, currentlyLoggedInUser } = response.data;
         setProfileFormData({ 
             ...profileFormData, 
             name: name, 
