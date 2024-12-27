@@ -94,28 +94,21 @@ const SignUp = () => {
                         withCredentials: false, // Set true if you use cookies for authentication
                     }
                 );
-    
-                // Extract the message from the API response
+
                 const message = response?.data?.message || "Signed in successfully!";
                 alert(message);
-    
-                // Reset the form and update UI states
                 setSignInFormData({ email: "", password: "" });
                 setSignInText("Signed In!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
                 setTimeout(() => navigate("/profile"), 4000);
             } catch (error) {
                 console.error("Error signing in:", error);
-    
-                // Extract and display meaningful error messages
                 const errorMessage = error.response?.data?.error || "An unexpected error occurred.";
                 alert(`Error: ${errorMessage}`);
-    
-                // Update UI states
                 setSignInText("Sign In Failed!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
             } finally {
-                setIsLoading(false); // Ensure loading is stopped in all cases
+                setIsLoading(false);
             }
         } else {
             // Handle empty email or password
