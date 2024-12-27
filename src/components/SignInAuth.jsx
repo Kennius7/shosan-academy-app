@@ -6,6 +6,7 @@ import { auth } from "../../FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Button from "./Button";
+import axios from "axios";
 
 
 
@@ -19,6 +20,8 @@ const SignUp = () => {
     const [signInText, setSignInText] = useState("Sign In");
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
+    const apiUrl = import.meta.env.VITE_API_PROD_URL;
+
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
     
     if (currentlyLoggedInUser) {
@@ -36,6 +39,8 @@ const SignUp = () => {
 
         if (email !== "" || password !== "") {
             try {
+                const signInData = await axios.post(apiUrl, { email, password });
+                console.log("Sign In Data Post: ", signInData);
                 const newUser = await signInWithEmailAndPassword(auth, email, password);
                 alert(`Welcome, ${newUser?.user?.displayName.split(" ")[0]}`);
                 setSignInFormData({ ...signInFormData, email: "", password: "" });
