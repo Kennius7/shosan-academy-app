@@ -1,6 +1,9 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../FirebaseConfig";
 
 
-export default function handler(req, res) {
+
+export default async function handler(req, res) {
     // const { name } = req.query;
     // const message = name ? `Hello, ${name}` : "Hello Guest";
     // res.status(200).json({ message: message });
@@ -15,7 +18,11 @@ export default function handler(req, res) {
 
     if (req.method === "POST") {
         const { email, password } = req.body;
-        const message = email || password ? `This email, ${email} has been logged in.` : "";
+        const newUser = await signInWithEmailAndPassword(auth, email, password);
+
+        const message = email || password 
+        ? `Welcome, ${newUser?.user?.displayName.split(" ")[0]}` : "Welcome, guest";
+
         res.status(200).json({ message: message });
     }
 }

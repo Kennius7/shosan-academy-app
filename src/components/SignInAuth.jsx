@@ -39,11 +39,10 @@ const SignUp = () => {
 
         if (email !== "" || password !== "") {
             try {
-                console.log("API URL: ", apiUrl);
                 const signInData = await axios.post(apiUrl, { email, password });
-                console.log("Sign In Data Post: ", signInData);
-                const newUser = await signInWithEmailAndPassword(auth, email, password);
-                alert(`Welcome, ${newUser?.user?.displayName.split(" ")[0]}`);
+                // console.log("Sign In Data Post: ", signInData);
+                // const newUser = await signInWithEmailAndPassword(auth, email, password);
+                alert(`${signInData?.data?.data?.message}`);
                 setSignInFormData({ ...signInFormData, email: "", password: "" });
                 setIsLoading(false);
                 setSignInText("Signed In!");
