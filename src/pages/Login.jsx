@@ -11,7 +11,7 @@ const Login = () => {
 
     return (
         <section className="flexCenter w-full h-dvh bg-slate-200">
-            { loginState ? (<SignInAuth/>) : (<SignUpAuth/>) }
+            { !loginState ? (<SignInAuth/>) : (<SignUpAuth/>) }
         </section>
     )
 }

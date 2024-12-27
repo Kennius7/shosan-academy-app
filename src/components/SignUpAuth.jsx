@@ -127,7 +127,7 @@ const SignUp = () => {
             />
             <p className="text-slate-900 font-semibold sm:mt-6 mt-3 text-[14px]">Already have an account?&nbsp;
                 <span 
-                    onClick={() => setLoginState(true)} 
+                    onClick={() => setLoginState(false)} 
                     className="text-red-900 underline cursor-pointer">
                     Sign In
                 </span>

@@ -12,7 +12,7 @@ import Classes from "./pages/Classes.jsx";
 import Contact from "./pages/Contact.jsx";
 import About from "./pages/About.jsx";
 import CourseSelect from "./components/CourseSelect.jsx";
-import { DP1 } from "./assets";
+import { DP1, reactNativePics } from "./assets";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth } from "../FirebaseConfig.js";
@@ -23,7 +23,6 @@ function App() {
   const [active, setActive] = useState("Home");
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isActualLoggedIn, setIsActualLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ currentlyLoggedInUser ] = useAuthState(auth);
 
@@ -70,12 +69,9 @@ function App() {
 
   useEffect(() => {
     downloadData();
-    // const downloadInt = setInterval(() => {
-    //   downloadData() 
-    // }, 3000);
-
-    // return () => clearInterval(downloadInt);
-
+    if (currentlyLoggedInUser) {
+      setIsLoggedIn(true);
+    } else setIsLoggedIn(false);
   });
 
 
@@ -94,10 +90,9 @@ function App() {
   return (
     <MainContext.Provider 
       value={{ 
-        active, setActive, lightBlue, darkBlue, yellow, DP1, 
+        active, setActive, lightBlue, darkBlue, yellow, DP1, reactNativePics,
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, 
-        profileFormData, setProfileFormData, isActualLoggedIn, setIsActualLoggedIn,
-        isMenuOpen, setIsMenuOpen
+        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen
       }}
     >
       <BrowserRouter>

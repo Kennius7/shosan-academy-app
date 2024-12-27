@@ -7,7 +7,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 // import _ from "lodash";
 import { Logo } from "../assets";
 import Button from "./Button";
-import { CgProfile } from "react-icons/cg";
+// import { CgProfile } from "react-icons/cg";
 // import { BiCaretDown } from "react-icons/bi";
 // import { BsCart } from "react-icons/bs";
 
@@ -21,9 +21,10 @@ import { auth } from "../../FirebaseConfig";
 
 const Navbar = () => {
     const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, 
+        lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, reactNativePics,
         DP1, isMenuOpen, setIsMenuOpen, profileFormData: { name } 
     } = useContext(MainContext);
+    const [ currentlyLoggedInUser ] = useAuthState(auth);
     const [ user ] = useAuthState(auth);
     const location = useLocation();
     const sentenceCase = (string) => {
@@ -97,7 +98,7 @@ const Navbar = () => {
                 </div>
                 <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
                     {/*Testing Logging In block*/}
-                    <button 
+                    {/* <button 
                         onClick={() => setIsLoggedIn(!isLoggedIn)} 
                         className="flexCenter md:w-8 md:h-8 ss:w-6 ss:h-6 w-4 h-4 ss:ring-2 ring-1 ring-white/70 
                         rounded-full shadow-lg p-1 cursor-pointer mx-2">
@@ -112,7 +113,7 @@ const Navbar = () => {
                                 Close
                             </div>
                         }
-                    </button>
+                    </button> */}
                     {/*Name Welcome block*/}
                     <div className="xs:block hidden font-normal font-sans md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white italic ss:px-2 px-1">
@@ -144,11 +145,12 @@ const Navbar = () => {
                         rounded-full shadow-lg overflow-hidden ss:mx-0 mx-2"
                     >
                         {
-                            isLoggedIn 
+                            isLoggedIn && currentlyLoggedInUser?.email === "ogbogukenny@yahoo.com"
                             ?
                                 <img src={DP1} alt="profile pics" className="w-full h-full object-cover" /> 
                             :
-                            <CgProfile size={32} color={yellow} style={{ width: 100, height: 100 }}/>
+                            // <CgProfile size={32} color={yellow} style={{ width: 100, height: 100 }}/>
+                                <img src={reactNativePics} alt="profile pics" className="w-full h-full object-cover" /> 
                         }
                     </NavLink>
                     {/*Large Screen Login Button block*/}

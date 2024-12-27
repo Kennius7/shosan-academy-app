@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { MainContext } from "../context/mainContext";
-import { BG1, reactNativePics } from "../assets";
+import { BG1 } from "../assets";
 import ImageBackground from "./ImageBackground";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../FirebaseConfig.js";
@@ -8,7 +8,7 @@ import { auth } from "../../FirebaseConfig.js";
 
 
 const ProfileHero = () => {
-    const { profileFormData, DP1, lastVisitedTime } = useContext(MainContext);
+    const { profileFormData, DP1, reactNativePics, lastVisitedTime } = useContext(MainContext);
     const [ currentlyLoggedInUser ] = useAuthState(auth);
 
     return (
