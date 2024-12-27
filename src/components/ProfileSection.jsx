@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MainContext } from "../context/mainContext";
 import { PiPencil } from "react-icons/pi";
 import CircularProgressBar from "../components/CircularProgressBar";
@@ -13,8 +13,9 @@ import { doc, updateDoc } from "firebase/firestore";
 
 
 const ProfileSection = () => {
-    // const navigate = useNavigate();
-    const { darkBlue, lightBlue, profileFormData, setProfileFormData, setIsActualLoggedIn } = useContext(MainContext);
+    const navigate = useNavigate();
+    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData } = useContext(MainContext);
+    const [isLoading, setIsLoading] = useState(false);
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const numberRef = useRef(null);
@@ -56,6 +57,7 @@ const ProfileSection = () => {
 
 
     const handleLogout = () => {
+        setIsLoading(true);
         signOut(auth);
         setProfileFormData({ 
             ...profileFormData, 
@@ -66,7 +68,12 @@ const ProfileSection = () => {
             courseDetails: "None",
             courseProgress: 3, 
         });
-        // setIsActualLoggedIn(false);
+        setTimeout(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
+        }, 1000);
     };
 
     const handleSaveData = async () => {
@@ -295,16 +302,18 @@ const ProfileSection = () => {
                                 shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
                             />
                         </div>
-                        <Link to={"/"} className="sm:my-6 my-4">
+                        <div className="sm:my-6 my-4">
                             <Button 
                                 btnGradColor1={darkBlue}
                                 btnGradColor2={"#000"}
                                 buttonText={"Logout"} 
+                                isLoading={isLoading}
+                                loaderColor={yellow}
                                 onClick={handleLogout}
                                 className={`w-[130px] h-[40px] rounded-[20px] text-[16px] text-secondaryYellow 
-                                shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
+                                shadow-[0px_0px_5px_0px_#0b1f139c] font-medium flexAround`} 
                             />
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>

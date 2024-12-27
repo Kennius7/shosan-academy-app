@@ -4,14 +4,17 @@ import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase
 // import { useAuthState } from "react-firebase-hooks/auth";
 import { db } from "../../FirebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
+import Button from "./Button";
 
 
 
 const SignUp = () => {
     // const [ user ] = useAuthState(auth);
-    const { setLoginState } = useContext(MainContext);
+    const { setLoginState, lightBlue, darkBlue, yellow } = useContext(MainContext);
     const [isChecked, setIsChecked] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [signUpText, setSignUpText] = useState("Sign Up");
     const [signUpFormData, setSignUpFormData] = useState({
         name: "",
         email: "",
@@ -29,6 +32,8 @@ const SignUp = () => {
         { name, email, number, password, batchNum, courseDetails, courseProgress }
     );
     const handleSignUp = async() => {
+        setIsLoading(true);
+        setSignUpText("Signing Up...");
         if (name !== "" || email !== "" || number !== "" || password !== "") {
             try {
                 const authInstance = getAuth();
@@ -38,16 +43,25 @@ const SignUp = () => {
                 uploadData();
                 alert(`Signed Up with this data, Name: ${newUser?.user?.displayName}`);
                 setSignUpFormData({ ...signUpFormData, name: "", email: "", number: "", password: "" });
+                setIsLoading(false);
+                setSignUpText("Signed Up!");
+                setTimeout(() => setSignUpText("Sign Up"), 3000);
             } catch (error) {
                 if (error.code === "auth/email-already-in-use") {
                     console.log(error.code);
                     alert(`Error: ${error.code}`);
+                    setIsLoading(false);
+                    setSignUpText("Signed Up Failed!");
+                    setTimeout(() => setSignUpText("Sign Up"), 3000);
                 } else {
                     console.error(error);
                     alert(`Error: ${error.code}`);
+                    setIsLoading(false);
+                    setSignUpText("Signed Up Failed!");
+                    setTimeout(() => setSignUpText("Sign Up"), 3000);
                 }
             }
-        }
+        } else setIsLoading(false);
     }
 
     return (
@@ -93,15 +107,30 @@ const SignUp = () => {
                         ${!isVisible ? "bg-secondaryBlue" : "bg-secondaryYellow"}`}></div>
                 </div>
             </div>
-            <button 
+            {/* <button 
                 disabled={!isChecked} 
                 onClick={handleSignUp}
                 className={`bg-slate-800 rounded-xl w-full h-9 sm:mt-8 mt-10 font-semibold 
                 ${!isChecked ? "text-slate-500" : "text-white"}`}>
                 Continue
-            </button>
+            </button> */}
+            <Button 
+                btnGradColor1={lightBlue}
+                btnGradColor2={darkBlue}
+                buttonText={signUpText} 
+                isLoading={isLoading}
+                loaderColor={yellow}
+                disabled={!isChecked}
+                onClick={handleSignUp}
+                className={`w-full h-9 rounded-[20px] text-[16px] shadow-[0px_0px_5px_0px_#0b1f139c] 
+                font-semibold sm:mt-8 mt-10 flexCenter ${!isChecked ? "text-slate-400" : "text-white"}`} 
+            />
             <p className="text-slate-900 font-semibold sm:mt-6 mt-3 text-[14px]">Already have an account?&nbsp;
-                <span onClick={() => setLoginState(true)} className="text-red-900 underline cursor-pointer">Sign In</span>
+                <span 
+                    onClick={() => setLoginState(true)} 
+                    className="text-red-900 underline cursor-pointer">
+                    Sign In
+                </span>
             </p>
             <div className="flex flex-row justify-start items-start sm:mt-0 mt-1">
                 <input type="checkbox" className="mt-1" onClick={() => setIsChecked(!isChecked)} />

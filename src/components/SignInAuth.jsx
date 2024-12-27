@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Button from "./Button";
 
 
 
@@ -12,8 +13,10 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [ currentlyLoggedInUser ] = useAuthState(auth);
     const [ user ] = useAuthState(auth);
-    const { setLoginState, setIsActualLoggedIn } = useContext(MainContext);
+    const { setLoginState, lightBlue, darkBlue, yellow } = useContext(MainContext);
     const [isVisible, setIsVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [signInText, setSignInText] = useState("Sign In");
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
@@ -22,7 +25,9 @@ const SignUp = () => {
         console.log("Current User Name: ", currentlyLoggedInUser.displayName);
     } else console.log("Current User logged out...");
 
-    const handleSignin = async() => {
+    const handleSignin = async () => {
+        setIsLoading(true);
+        setSignInText("Signing In...");
         // console.log("Current User Data: ", currentlyLoggedInUser);
 
         // if (user?.email === currentlyLoggedInUser?.email) {
@@ -34,23 +39,35 @@ const SignUp = () => {
                 const newUser = await signInWithEmailAndPassword(auth, email, password);
                 alert(`Welcome, ${newUser?.user?.displayName.split(" ")[0]}`);
                 setSignInFormData({ ...signInFormData, email: "", password: "" });
-                // setIsActualLoggedIn(true);
-
-                setTimeout(() => {
-                    navigate("/profile");
-                }, 2000);
+                setIsLoading(false);
+                setSignInText("Signed In!");
+                setTimeout(() => setSignInText("Sign In"), 2000);
+                setTimeout(() => navigate("/profile"), 4000)
             } catch (error) {
                 if (error.code === "auth/user-not-found") {
                     console.error(error.code);
                     alert(`Error: ${error.code}`)
+                    setIsLoading(false);
+                    setSignInText("Signed In Failed!");
+                    setTimeout(() => setSignInText("Sign In"), 2000);
                 } else if (error.code === "auth/wrong-password") {
                     console.error(error.code);
                     alert(`Error: ${error.code}`)
+                    setIsLoading(false);
+                    setSignInText("Signed In Failed!");
+                    setTimeout(() => setSignInText("Sign In"), 2000);
                 } else {
                     console.error(error.code);
                     alert(`Error: ${error.code}`)
+                    setIsLoading(false);
+                    setSignInText("Signed In Failed!");
+                    setTimeout(() => setSignInText("Sign In"), 2000);
                 }
             }
+        } else {
+            setIsLoading(false);
+            setSignInText("Signed In Failed!");
+            setTimeout(() => setSignInText("Sign In"), 2000);
         }
     }
 
@@ -84,11 +101,21 @@ const SignUp = () => {
                     ${!isVisible ? "bg-secondaryBlue" : "bg-secondaryYellow"}`}></div>
                 </div>
             </div>
-            <button 
+            {/* <button 
                 onClick={handleSignin} 
                 className="bg-slate-800 rounded-xl w-full h-10 sm:mt-16 mt-10 text-white font-semibold">
                 Continue
-            </button>
+            </button> */}
+            <Button 
+                btnGradColor1={lightBlue}
+                btnGradColor2={darkBlue}
+                buttonText={signInText} 
+                isLoading={isLoading}
+                loaderColor={yellow}
+                onClick={handleSignin}
+                className={`w-full h-10 rounded-[20px] text-[16px] text-white 
+                shadow-[0px_0px_5px_0px_#0b1f139c] font-semibold sm:mt-16 mt-10 flexCenter`} 
+            />
             <p className="text-secondaryBlue font-semibold sm:mt-4 mt-3 text-[14px]">
                 Don&apos;t have an account?&nbsp;
                 <span 
