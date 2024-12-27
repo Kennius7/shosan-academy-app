@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         } catch (error) {
             res.json({ error: `Error: ${error.message}` });
         }
-    }
+    } else res.status(405).json({ error: "Method not allowed" });
 }
 
 
