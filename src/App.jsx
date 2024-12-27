@@ -69,26 +69,14 @@ function App() {
   };
 
   useEffect(() => {
-    () => downloadData();
-    const downloadInt = setInterval(() => {
-      downloadData() 
-    }, 3000);
+    downloadData();
+    // const downloadInt = setInterval(() => {
+    //   downloadData() 
+    // }, 3000);
 
-    return () => clearInterval(downloadInt);
+    // return () => clearInterval(downloadInt);
 
-  }, []);
-
-  // useEffect(() => {
-  //   const userData = JSON.parse(localStorage.getItem("user"));
-  //   // const { name, email, number } = userData;
-  //   setFetchedUserData({ 
-  //     ...fetchedUserData, 
-  //     name: (!userData ? "Kenny Boggs" : userData.name), 
-  //     email: (!userData ? "ogbogukenny@yahoo.com" : userData.email), 
-  //     number: (!userData ? "07033325279" : userData.number)
-  //   });
-  // }, []);
-  // console.log(userData);
+  });
 
 
   const lightBlue = "#0E6DBA";

@@ -17,18 +17,22 @@ const SignUp = () => {
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
+    
+    if (currentlyLoggedInUser) {
+        console.log("Current User Name: ", currentlyLoggedInUser.displayName);
+    } else console.log("Current User logged out...");
 
     const handleSignin = async() => {
-        console.log("Current User Data: ", currentlyLoggedInUser);
+        // console.log("Current User Data: ", currentlyLoggedInUser);
 
-        if (user?.email === currentlyLoggedInUser?.email) {
-            alert(`${currentlyLoggedInUser?.displayName?.split(" ")[0]} is already logged in...`);
-        };
+        // if (user?.email === currentlyLoggedInUser?.email) {
+        //     alert(`${currentlyLoggedInUser?.displayName?.split(" ")[0]} is already logged in...`);
+        // };
 
         if (email !== "" || password !== "") {
             try {
                 const newUser = await signInWithEmailAndPassword(auth, email, password);
-                alert(`Welcome, ${newUser?.user?.displayName}`);
+                alert(`Welcome, ${newUser?.user?.displayName.split(" ")[0]}`);
                 setSignInFormData({ ...signInFormData, email: "", password: "" });
                 // setIsActualLoggedIn(true);
 
