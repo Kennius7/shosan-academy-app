@@ -95,7 +95,7 @@ const SignUp = () => {
                 // console.log("ID Token :>>>>", idToken);
 
                 const response = await axios.post(
-                    devApiSigninUrl, 
+                    apiSignInUrl, 
                     { email, password }, 
                     {
                         headers: { 

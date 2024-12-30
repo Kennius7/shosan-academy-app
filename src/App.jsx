@@ -46,7 +46,7 @@ function App() {
   const downloadData = async () => {
 
     try {
-        const response = await axios.get(devApiFetchUrl, {
+        const response = await axios.get(apiFetchUrl, {
           headers: { 
               "Content-Type": "application/json", 
               Authorization: `Bearer ${signInToken}`,
