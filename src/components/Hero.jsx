@@ -1,11 +1,13 @@
-
+import { useContext } from "react";
 import { Overlay } from "@mantine/core";
 import { BG1 } from "../assets";
 import CountdownTimer from "./CountdownTimer";
+import { MainContext } from "../context/mainContext";
 
 
 
 const Hero = () => {
+    const { examTimeLimit, days, hours, minutes, seconds } = useContext(MainContext);
 
     return (
         <section className="w-full relative">
@@ -49,7 +51,13 @@ const Hero = () => {
                 </div>
 
                 <div className="w-full sm:mt-12 mt-4">
-                    <CountdownTimer examTimeLimit={1000} days={10} hours={4} minutes={3} seconds={4} />
+                    <CountdownTimer 
+                        examTimeLimit={examTimeLimit} 
+                        days={days} 
+                        hours={hours} 
+                        minutes={minutes} 
+                        seconds={seconds} 
+                    />
                 </div>
 
             </div>

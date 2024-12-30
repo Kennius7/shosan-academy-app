@@ -18,6 +18,7 @@ import { DP1, reactNativePics } from "./assets";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { db, auth } from "../FirebaseConfig.js";
 import axios from "axios";
+import { monthFunct, dayFunct, hourFunct, minuteFunct, secFunct } from "./utils/data.js";
 
 
 
@@ -27,6 +28,45 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [signInToken, setSignInToken] = useState("");
+
+  const [savedDateOnDataBase, setSavedDateOnDataBase] = useState("");
+  const deadlineDate = new Date(savedDateOnDataBase);
+  const todayDate = new Date;
+  const todayTimeCounted = todayDate.valueOf();
+  let deadlineTimeCounted = deadlineDate.valueOf();
+  const fetchTimeout = 3000;
+
+  const [isFetched, setIsFetched] = useState(false);
+
+  const futureUTCDate = new Date(deadlineTimeCounted);
+  const getHours = futureUTCDate.getHours();
+  const getMinutes = futureUTCDate.getMinutes();
+  const getSeconds = futureUTCDate.getSeconds();
+  const getDay = futureUTCDate.getDate();
+  const getMonth = futureUTCDate.getMonth();
+  const getYear = futureUTCDate.getFullYear();
+  const futureDate = `${monthFunct(getMonth)}/${dayFunct(getDay)}/${getYear} ${hourFunct(getHours)}:${minuteFunct(getMinutes)}:${secFunct(getSeconds)}`;
+
+  const NowUTCDate = new Date;
+  const getNowHours = NowUTCDate.getHours();
+  const getNowMinutes = NowUTCDate.getMinutes();
+  const getNowSeconds = NowUTCDate.getSeconds();
+  const getNowDay = NowUTCDate.getDate();
+  const getNowMonth = NowUTCDate.getMonth();
+  const getNowYear = NowUTCDate.getFullYear();
+  const nowDate = `${monthFunct(getNowMonth)}/${dayFunct(getNowDay)}/${getNowYear} ${hourFunct(getNowHours)}:${minuteFunct(getNowMinutes)}:${secFunct(getNowSeconds)}`;
+
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  // const [timeValues, setTimeValues] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  // const { days, hours, minutes, seconds } = timeValues;
+
+  const ninetyDaysCount = 7776000000;
+  let examTimeLimit = isNaN(deadlineTimeCounted) || isNaN(todayTimeCounted) 
+    ? 1000000 : (deadlineTimeCounted - todayTimeCounted)/1000;
+
 
   const devApiFetchUrl = "http://localhost:3000/api/fetchdata";
   const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
@@ -84,6 +124,38 @@ function App() {
     }
   });
 
+  const fetchDateData = () => {
+    console.log("Fetch Date...");
+  }
+
+  const updateDateFunction = () => {
+    console.log("Update Date...");
+  }
+
+  useEffect(() => {
+    if (!isFetched) {
+      fetchDateData();
+    }
+
+    if (examTimeLimit < 1) {
+      updateDateFunction();
+    }
+
+    const setExamTimerInterval = setInterval(() => {
+        examTimeLimit = examTimeLimit - 1;
+        setSeconds(()=>Math.floor(examTimeLimit % 60));
+        setMinutes(()=>Math.floor((examTimeLimit / 60) % 60));
+        setHours(()=>Math.floor((examTimeLimit / 3600) % 24));
+        setDays(()=>Math.floor(examTimeLimit / 86400));
+    }, 1000);
+
+
+    return () => { clearInterval(setExamTimerInterval) }
+
+  })
+
+  console.log("Exam Time Limit: >>>", examTimeLimit);
+
 
   const lightBlue = "#0E6DBA";
   const darkBlue = "#084170";
@@ -100,8 +172,8 @@ function App() {
   return (
     <MainContext.Provider 
       value={{ 
-        active, setActive, lightBlue, darkBlue, yellow, DP1, reactNativePics,
-        loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, 
+        active, setActive, lightBlue, darkBlue, yellow, DP1, reactNativePics, examTimeLimit,
+        loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, hours, minutes, seconds, days,
         profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, signInToken, setSignInToken,
       }}
     >

@@ -32,4 +32,49 @@ export const courses = [
     { id: 3, name: 'Mobile App Development (React Native)', formerPrice: 300000, price: 30000, duration: '12 weeks', alt: 'Mobile design Pics', picsRep: reactNativePics, description: courseDesc.mobile, },
 ];
 
+export const getYear = (dateString) => {
+    const fullYear = new Date(dateString).getUTCFullYear();
+    return fullYear;
+}
+
+export const monthFunct = (mon) => {
+    if (mon <= 9) {
+        return `0${mon + 1}`;
+    } else return mon;
+}
+
+export const dayFunct = (day) => {
+    if (day <= 9) {
+        return `0${day}`;
+    } else return day;
+}
+
+export const hourFunct = (hr) => {
+    if (hr <= 9) {
+        return `0${hr}`;
+    } else return hr;
+}
+
+export const minuteFunct = (min) => {
+    if (min <= 9) {
+        return `0${min}`;
+    } else return min;
+}
+
+export const secFunct = (sec) => {
+    if (sec <= 9) {
+        return `0${sec}`;
+    } else return sec;
+}
+
+
+
+
+
+
+
+
+
+
+
 
