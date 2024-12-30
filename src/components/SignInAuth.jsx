@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { auth } from "../../FirebaseConfig";
@@ -11,19 +12,22 @@ import axios from "axios";
 const SignUp = () => {
     const navigate = useNavigate();
     const [ currentlyLoggedInUser ] = useAuthState(auth);
-    const { setLoginState, lightBlue, darkBlue, yellow } = useContext(MainContext);
+    const { setLoginState, lightBlue, darkBlue, yellow, setSignInToken, setIsLoggedIn } = useContext(MainContext);
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [signInText, setSignInText] = useState("Sign In");
+
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
-    const apiUrl = import.meta.env.VITE_API_PROD_URL;
+
+    const devApiSigninUrl = "http://localhost:3000/api/signin";
+    const apiSignInUrl = import.meta.env.VITE_API_SIGN_IN_URL;
 
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
     
-    if (currentlyLoggedInUser) {
-        console.log("Current User Name: ", currentlyLoggedInUser.displayName);
-    } else console.log("Current User logged out...");
+    // if (currentlyLoggedInUser) {
+    //     console.log("Current User Name: ", currentlyLoggedInUser.displayName);
+    // } else console.log("Current User logged out...");
 
     // const handleSignin = async () => {
     //     setIsLoading(true);
@@ -80,24 +84,35 @@ const SignUp = () => {
     const handleSignin = async () => {
         setIsLoading(true);
         setSignInText("Signing In...");
+        // console.log("Auth Data: ", auth);
+        // const user = auth.currentUser;
     
         if (email.trim() && password.trim()) {
             try {
+                // const idToken = user ? await user.getIdToken() : null;
+                // console.log("ID Token :>>>>", idToken);
+                // const idToken = await user.getIdToken() || { name: "Ken" };
+                // console.log("ID Token :>>>>", idToken);
+
                 const response = await axios.post(
-                    apiUrl, 
+                    devApiSigninUrl, 
                     { email, password }, 
                     {
-                        headers: { "Content-Type": "application/json" },
+                        headers: { 
+                            "Content-Type": "application/json", 
+                            // Authorization: `Bearer ${idToken}`,
+                        },
                         withCredentials: false,
                     }
                 );
-
+                const fetchedToken = response?.data?.token;
+                setSignInToken(fetchedToken);
                 const message = response?.data?.message || "Signed in successfully!";
                 alert(message);
                 setSignInFormData({ email: "", password: "" });
                 setSignInText("Signed In!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
-                setTimeout(() => navigate("/profile"), 4000);
+                setTimeout(() => navigate("/profile"), 3000);
             } catch (error) {
                 console.error("Error signing in:", error);
                 const errorMessage = error.response?.data?.error || "An unexpected error occurred.";

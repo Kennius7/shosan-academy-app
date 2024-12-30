@@ -14,7 +14,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const ProfileSection = () => {
     const navigate = useNavigate();
-    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData } = useContext(MainContext);
+    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData, setSignInToken } = useContext(MainContext);
     const [isLoading, setIsLoading] = useState(false);
     const nameRef = useRef(null);
     const emailRef = useRef(null);
@@ -58,7 +58,7 @@ const ProfileSection = () => {
 
     const handleLogout = () => {
         setIsLoading(true);
-        signOut(auth);
+        setSignInToken("");
         setProfileFormData({ 
             ...profileFormData, 
             name: "Guest",

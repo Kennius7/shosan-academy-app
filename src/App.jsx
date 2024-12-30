@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -25,7 +26,10 @@ function App() {
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const apiUrl = import.meta.env.VITE_API_PROD_URL;
+  const [signInToken, setSignInToken] = useState("");
+
+  const devApiFetchUrl = "http://localhost:3000/api/fetchdata";
+  const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
 
 
   const [profileFormData, setProfileFormData] = useState({
@@ -42,8 +46,19 @@ function App() {
   const downloadData = async () => {
 
     try {
-        const response = await axios.get(apiUrl);
-        const { name, email, number, batchNum, courseDetails, courseProgress, id, currentlyLoggedInUser } = response.data;
+        const response = await axios.get(devApiFetchUrl, {
+          headers: { 
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${signInToken}`,
+          },
+          // withCredentials: false,
+        });
+        // console.log("Res:>>>", response);
+        const { 
+          name, email, number, batchNum, courseDetails, 
+          courseProgress, id, currentlyLoggedInUser 
+        } = response.data.data;
+
         setProfileFormData({ 
             ...profileFormData, 
             name: name, 
@@ -55,8 +70,9 @@ function App() {
             id: id,
             currentlyLoggedInUser: currentlyLoggedInUser
         });
+
         console.log("Updated Data: ", profileFormData);
-        console.log("Name: ", name);
+        // console.log("Name: ", name);
         // localStorage.setItem("user", JSON.stringify(profileFormData));
         // console.log(profileFormData);
     } catch (error) {
@@ -66,7 +82,7 @@ function App() {
 
   useEffect(() => {
     downloadData();
-    if (profileFormData.currentlyLoggedInUser.displayName) {
+    if (profileFormData.name !== "Guest") {
       setIsLoggedIn(true);
     } else setIsLoggedIn(false);
   });
@@ -89,7 +105,7 @@ function App() {
       value={{ 
         active, setActive, lightBlue, darkBlue, yellow, DP1, reactNativePics,
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, 
-        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen
+        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, signInToken, setSignInToken,
       }}
     >
       <BrowserRouter>

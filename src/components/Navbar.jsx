@@ -22,7 +22,7 @@ import { auth } from "../../FirebaseConfig";
 const Navbar = () => {
     const { 
         lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, reactNativePics,
-        DP1, isMenuOpen, setIsMenuOpen, profileFormData: { name } 
+        DP1, isMenuOpen, setIsMenuOpen, profileFormData: { name, email } 
     } = useContext(MainContext);
     const [ currentlyLoggedInUser ] = useAuthState(auth);
     const [ user ] = useAuthState(auth);
@@ -91,7 +91,7 @@ const Navbar = () => {
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
                         {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
-                        Hi, { isLoggedIn && user ? name?.split(" ")[0] : "Guest" }
+                        Hi, { isLoggedIn ? name?.split(" ")[0] : "Guest" }
                         {/* Hi, { isLoggedIn ? user && user.displayName : "Guest" } */}
                         {/* Hi, { isLoggedIn && user ? user?.displayName : "Guest" } */}
                     </div>
@@ -120,7 +120,7 @@ const Navbar = () => {
                         {/* Hi, { isLoggedIn ? profileFormData.name.split(" ")[0] : "Guest" } */}
                         {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
                         {/* Hi, { isLoggedIn && user ? user?.displayName : "Guest" } */}
-                        Hi, { isLoggedIn && user ? name?.split(" ")[0] : "Guest" }
+                        Hi, { isLoggedIn ? name?.split(" ")[0] : "Guest" }
                     </div>
                     {/*Mobile Screen Login Button block*/}
                     {
@@ -145,7 +145,7 @@ const Navbar = () => {
                         rounded-full shadow-lg overflow-hidden ss:mx-0 mx-2"
                     >
                         {
-                            isLoggedIn && currentlyLoggedInUser?.email === "ogbogukenny@yahoo.com"
+                            isLoggedIn && email === "ogbogukenny@yahoo.com"
                             ?
                                 <img src={DP1} alt="profile pics" className="w-full h-full object-cover" /> 
                             :

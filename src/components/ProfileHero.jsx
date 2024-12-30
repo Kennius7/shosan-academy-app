@@ -2,14 +2,14 @@ import { useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { BG1 } from "../assets";
 import ImageBackground from "./ImageBackground";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../FirebaseConfig.js";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { auth } from "../../FirebaseConfig.js";
 
 
 
 const ProfileHero = () => {
     const { profileFormData, DP1, reactNativePics, lastVisitedTime } = useContext(MainContext);
-    const [ currentlyLoggedInUser ] = useAuthState(auth);
+    // const [ currentlyLoggedInUser ] = useAuthState(auth);
 
     return (
         <section className="flexColStart w-full bg-white pt-[60px]">
@@ -25,10 +25,10 @@ const ProfileHero = () => {
                 className="flexCenter w-full" 
                 childClass={`sm:top-[200px] top-[80px] left-2 sm:w-[200px] sm:h-[200px] w-[120px] h-[120px] 
                 rounded-full overflow-hidden border-[5px] border-white 
-                ${currentlyLoggedInUser?.email === "ogbogukenny@yahoo.com" ? "" : "bg-secondaryBlue"}`}
+                ${profileFormData?.email === "ogbogukenny@yahoo.com" ? "" : "bg-secondaryBlue"}`}
             >
                 <img 
-                    src={ currentlyLoggedInUser?.email === "ogbogukenny@yahoo.com" ? DP1 : reactNativePics} 
+                    src={ profileFormData?.email === "ogbogukenny@yahoo.com" ? DP1 : reactNativePics} 
                     alt="dp" 
                     className={`w-full h-full object-cover`} 
                 />
