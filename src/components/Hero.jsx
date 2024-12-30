@@ -49,7 +49,7 @@ const Hero = () => {
                 </div>
 
                 <div className="w-full sm:mt-12 mt-4">
-                    <CountdownTimer examTimeLimit={1000} days={10} hours={4} minutes={3} seconds={1} />
+                    <CountdownTimer examTimeLimit={1000} days={10} hours={4} minutes={3} seconds={4} />
                 </div>
 
             </div>
