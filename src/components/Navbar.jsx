@@ -14,38 +14,24 @@ import Button from "./Button";
 import { MdMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
 import { BiChevronLeft } from "react-icons/bi";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../FirebaseConfig";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { auth } from "../../FirebaseConfig";
 
 
 
 const Navbar = () => {
     const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, setIsLoggedIn, reactNativePics,
+        lightBlue, darkBlue, yellow, isLoggedIn, reactNativePics, signInToken,
         DP1, isMenuOpen, setIsMenuOpen, profileFormData: { name, email } 
     } = useContext(MainContext);
-    const [ currentlyLoggedInUser ] = useAuthState(auth);
-    const [ user ] = useAuthState(auth);
+
     const location = useLocation();
     const sentenceCase = (string) => {
         if (!string) return "";
         return string.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     }
     const isActive = (path) => location.pathname === path ? 'active' : '';
-    // const [gottenData, setGottenData] = useState({
-    //     name: "",
-    //     email: "",
-    //     number: ""
-    // });
 
-    // useEffect(() => {
-    //     const getData = JSON.parse(localStorage.getItem("user"));
-    //     setGottenData({ ...gottenData, name: getData.name, email: getData.email, number: getData.number });
-    // }, [])
-    
-
-    // console.log(profileFormData);
-    // console.log(gottenData);
 
     return (
         <nav className="w-full sm:h-[60px] h-[70px] bg-secondaryBlue/80 fixed z-10 flexBetween backdrop-blur-md px-2">
@@ -90,37 +76,14 @@ const Navbar = () => {
                 <div className="xs:hidden block">
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
-                        {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
-                        Hi, { isLoggedIn ? name?.split(" ")[0] : "Guest" }
-                        {/* Hi, { isLoggedIn ? user && user.displayName : "Guest" } */}
-                        {/* Hi, { isLoggedIn && user ? user?.displayName : "Guest" } */}
+                        Hi, { isLoggedIn && signInToken !== "" ? name?.split(" ")[0] : "Guest" }
                     </div>
                 </div>
                 <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
-                    {/*Testing Logging In block*/}
-                    {/* <button 
-                        onClick={() => setIsLoggedIn(!isLoggedIn)} 
-                        className="flexCenter md:w-8 md:h-8 ss:w-6 ss:h-6 w-4 h-4 ss:ring-2 ring-1 ring-white/70 
-                        rounded-full shadow-lg p-1 cursor-pointer mx-2">
-                        {
-                            isLoggedIn 
-                            ?
-                            <div className="text-white text-center flexCenter text-[8px] w-6 h-6 ring-2 ring-white/50">
-                                Open
-                            </div>
-                            :
-                            <div className="text-white text-center flexCenter text-[8px] w-6 h-6 ring-2 ring-white/50">
-                                Close
-                            </div>
-                        }
-                    </button> */}
                     {/*Name Welcome block*/}
                     <div className="xs:block hidden font-normal font-sans md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white italic ss:px-2 px-1">
-                        {/* Hi, { isLoggedIn ? profileFormData.name.split(" ")[0] : "Guest" } */}
-                        {/* Hi, { isLoggedIn ? gottenData?.name.split(" ")[0] : "Guest" } */}
-                        {/* Hi, { isLoggedIn && user ? user?.displayName : "Guest" } */}
-                        Hi, { isLoggedIn ? name?.split(" ")[0] : "Guest" }
+                        Hi, { isLoggedIn && signInToken !== "" ? name?.split(" ")[0] : "Guest" }
                     </div>
                     {/*Mobile Screen Login Button block*/}
                     {
@@ -183,7 +146,7 @@ const Navbar = () => {
                                 <MdOutlineMenu size={32} color={"#fff"} style={{ width: 50, height: 50 }} />
                             }
                         </div>
-                        <div className={`top-[58px] w-[170px] ss:hidden flexColCenterEnd 
+                        <div className={`top-[68px] w-[170px] ss:hidden flexColCenterEnd 
                             bg-secondaryBlue/95 transition-all duration-500 backdrop-blur-md pr-2
                             rounded-bl-[20px] fixed z-10 py-2 ${isMenuOpen ? "right-0" : "-right-60" }`}>
                             {

@@ -40,7 +40,6 @@ function App() {
     courseDetails: "None",
     courseProgress: 3,
     id: "",
-    currentlyLoggedInUser: null
   });
 
   const downloadData = async () => {
@@ -54,10 +53,7 @@ function App() {
           // withCredentials: false,
         });
         // console.log("Res:>>>", response);
-        const { 
-          name, email, number, batchNum, courseDetails, 
-          courseProgress, id, currentlyLoggedInUser 
-        } = response.data.data;
+        const { name, email, number, batchNum, courseDetails, courseProgress, id } = response.data.data;
 
         setProfileFormData({ 
             ...profileFormData, 
@@ -68,7 +64,6 @@ function App() {
             courseDetails: courseDetails, 
             courseProgress: courseProgress,
             id: id,
-            currentlyLoggedInUser: currentlyLoggedInUser
         });
 
         console.log("Updated Data: ", profileFormData);
@@ -81,10 +76,12 @@ function App() {
   };
 
   useEffect(() => {
-    downloadData();
     if (profileFormData.name !== "Guest") {
       setIsLoggedIn(true);
-    } else setIsLoggedIn(false);
+    } else {
+      downloadData();
+      setIsLoggedIn(false);
+    }
   });
 
 
