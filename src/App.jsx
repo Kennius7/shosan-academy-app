@@ -127,17 +127,17 @@ function App() {
       const dateFetch = await axios.get(apiDateUrl);
       const fetchDate = dateFetch.data.date;
       if (fetchDate === "" || fetchDate === null || fetchDate === undefined || fetchDate === "Invalid date") {
-        savedDateOnDataBase(() => nowDate);
+        setSavedDateOnDataBase(() => nowDate);
         console.log("Polling...");
         setTimeout(() => fetchDateData(), fetchTimeout);
       } else if (fetchDate !== "" && fetchDate !== null && fetchDate !== undefined && fetchDate !== "Invalid date") {
         console.log("Document data:", fetchDate);
-        savedDateOnDataBase(() => fetchDate);
+        setSavedDateOnDataBase(() => fetchDate);
         console.log("Success fetching Date...");
         setIsFetched(true);
       }
     } catch (error) {
-      console.log("Error fetching Date...");
+      console.log("Error fetching Date: >>>", error);
     }
   }
 

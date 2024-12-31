@@ -30,7 +30,7 @@ const Hero = () => {
                     </div>
                     <div className="font-semibold text-secondaryYellow font-EncodeSans title-text-shadow1
                         sm:text-[28px] xs:text-[25px] text-[28px]">
-                        40%
+                        60%
                     </div>
                     &nbsp;
                     <div className="text-center px-4 py-1 sm:text-[20px] text-[16px] bg-primaryBlue 
