@@ -126,16 +126,10 @@ function App() {
     try {
       const dateFetch = await axios.get(apiDateUrl);
       const fetchDate = dateFetch.data.date;
-      if (fetchDate === "" || fetchDate === null || fetchDate === undefined || fetchDate === "Invalid date") {
-        setSavedDateOnDataBase(() => nowDate);
-        console.log("Polling...");
-        setTimeout(() => fetchDateData(), fetchTimeout);
-      } else if (fetchDate !== "" && fetchDate !== null && fetchDate !== undefined && fetchDate !== "Invalid date") {
-        console.log("Document data:", fetchDate);
-        setSavedDateOnDataBase(() => fetchDate);
-        console.log("Success fetching Date...");
-        setIsFetched(true);
-      }
+      console.log("Document data:", fetchDate);
+      setSavedDateOnDataBase(() => fetchDate);
+      console.log("Success fetching Date...");
+      setIsFetched(true);
     } catch (error) {
       console.log("Error fetching Date: >>>", error);
     }
@@ -167,6 +161,7 @@ function App() {
   useEffect(() => {
     if (!isFetched) {
       fetchDateData();
+      console.log("Polling...");
     }
 
     if (examTimeLimit < 1) {
