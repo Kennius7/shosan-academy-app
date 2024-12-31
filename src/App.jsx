@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import { MainContext } from "./context/mainContext.js";
 import ScrollToTop from "../ScrollToTop.jsx";
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 import '@mantine/core/styles.css';
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
@@ -14,9 +15,6 @@ import Contact from "./pages/Contact.jsx";
 import About from "./pages/About.jsx";
 import CourseSelect from "./components/CourseSelect.jsx";
 import { DP1, reactNativePics } from "./assets";
-// import { query, collection, where, getDocs } from "firebase/firestore";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { db, auth } from "../FirebaseConfig.js";
 import axios from "axios";
 import { monthFunct, dayFunct, hourFunct, minuteFunct, secFunct } from "./utils/data.js";
 
@@ -205,7 +203,7 @@ function App() {
       }}
     >
       <BrowserRouter>
-        <ScrollToTop/>
+        {/* <ScrollToTop/> */}
         <Navbar/>
         <Routes>
           <Route path="/" element={ <Home /> } />
@@ -218,6 +216,7 @@ function App() {
             <Route path=":courseId" element={<CourseSelect/>} />
           </Route>
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </MainContext.Provider>
   )
