@@ -60,16 +60,14 @@ function App() {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  // const [timeValues, setTimeValues] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  // const { days, hours, minutes, seconds } = timeValues;
 
   const ninetyDaysCount = 7776000000;
-  let examTimeLimit = isNaN(deadlineTimeCounted) || isNaN(todayTimeCounted) 
-    ? 1000000 : (deadlineTimeCounted - todayTimeCounted)/1000;
+  let examTimeLimit = (deadlineTimeCounted - todayTimeCounted)/1000;
 
 
   const devApiFetchUrl = "http://localhost:3000/api/fetchdata";
   const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
+  const apiDateUrl = import.meta.env.VITE_API_DATE_URL;
 
 
   const [profileFormData, setProfileFormData] = useState({
@@ -124,12 +122,46 @@ function App() {
     }
   });
 
-  const fetchDateData = () => {
-    console.log("Fetch Date...");
+  const fetchDateData = async () => {
+    try {
+      const dateFetch = await axios.get(apiDateUrl);
+      const fetchDate = dateFetch.data.date;
+      if (fetchDate === "" || fetchDate === null || fetchDate === undefined || fetchDate === "Invalid date") {
+        savedDateOnDataBase(() => nowDate);
+        console.log("Polling...");
+        setTimeout(() => fetchDateData(), fetchTimeout);
+      } else if (fetchDate !== "" && fetchDate !== null && fetchDate !== undefined && fetchDate !== "Invalid date") {
+        console.log("Document data:", fetchDate);
+        savedDateOnDataBase(() => fetchDate);
+        console.log("Success fetching Date...");
+        setIsFetched(true);
+      }
+    } catch (error) {
+      console.log("Error fetching Date...");
+    }
   }
 
-  const updateDateFunction = () => {
-    console.log("Update Date...");
+
+
+  const updateDateFunction = async () => {
+    try {
+      deadlineTimeCounted = deadlineTimeCounted + ninetyDaysCount;
+      const updatedDate = new Date(deadlineTimeCounted);
+      const getHours = updatedDate.getHours();
+      const getMinutes = updatedDate.getMinutes();
+      const getSeconds = updatedDate.getSeconds();
+      const getDay = updatedDate.getDate();
+      const getMonth = updatedDate.getMonth();
+      const getYear = updatedDate.getFullYear();
+      const updatedDateFormatted = `${monthFunct(getMonth)}/${dayFunct(getDay)}/${getYear} ${hourFunct(getHours)}:${minuteFunct(getMinutes)}:${secFunct(getSeconds)}`;
+
+      const updateDateRes = await axios.post(apiDateUrl, { date: updatedDateFormatted });
+      console.log(`${updateDateRes.data.msg}`);
+      setIsFetched(false);
+      fetchDateData();
+    } catch (error) {
+      console.log("Error updating Current Date:", error)
+    }
   }
 
   useEffect(() => {
