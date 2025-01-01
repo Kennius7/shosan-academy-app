@@ -8,7 +8,7 @@ const PopularCourses = () => {
 
     return (
         <section className="w-full flexColCenter">
-            <div className="w-full flexCenter mb-10">
+            <div className="w-full flexCenter sm:mb-10 mb-4 smm:mt-0 mt-6">
                 <h2 className="text-secondaryBlue font-semibold text-[25px] text-center">
                     Popular Courses
                 </h2>

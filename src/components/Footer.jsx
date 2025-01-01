@@ -3,8 +3,8 @@
 
 const Footer = () => {
     return (
-        <footer className="w-full h-[130px] flexColCenter border-t-[1px] 
-            border-dimWhite bg-secondaryBlue py-4">
+        <footer className="w-full flexColCenter border-t-[1px] 
+            border-dimWhite bg-secondaryBlue py-6">
             <p className="text-center text-[15px] italic text-white">
                 &copy; {new Date().getFullYear()} Shosan Code Hub Online Academy. All rights reserved.
             </p>
