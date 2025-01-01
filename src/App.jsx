@@ -179,7 +179,7 @@ function App() {
 
   })
 
-  console.log("Exam Time Limit: >>>", examTimeLimit);
+  // console.log("Exam Time Limit: >>>", examTimeLimit);
 
 
   const lightBlue = "#0E6DBA";
@@ -191,7 +191,7 @@ function App() {
 
   const userData = JSON.parse(localStorage.getItem("user"));
 
-  console.log("Locally Stored Data: ", userData);
+  // console.log("Locally Stored Data: ", userData);
 
 
   return (

@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { Logo } from "../assets";
 import Button from "./Button";
 import { MainContext } from "../context/mainContext";
+import axios from "axios";
 
 
 
@@ -16,12 +18,22 @@ const ContactUsSection = () => {
     });
     const { name, email, number, subject, message } = formData;
 
+    const devApiEmailUrl = "http://localhost:3000/api/email";
+    const apiEmailUrl = import.meta.env.VITE_API_EMAIL_URL;
+
     const handleChange = (e) => { setFormData({ ...formData, [e.target.name]: e.target.value }) }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert(`Submitted these data from ${formData.name}`);
-        setFormData({ ...formData, name: "", email: "", number: "", subject: "", message: "" });
+        try {
+            const emailData = await axios.post(apiEmailUrl, formData);
+            console.log(emailData.data.message);
+            alert(emailData.data.message);
+            setFormData({ ...formData, name: "", email: "", number: "", subject: "", message: "" });
+        } catch (error) {
+            alert(`Error subitting email: ${error.message}`);
+            console.log(error.message);
+        }
     }
 
     return (
