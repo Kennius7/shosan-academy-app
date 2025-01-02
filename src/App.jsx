@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { ToastContainer } from 'react-toastify'
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -202,6 +203,16 @@ function App() {
         profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, signInToken, setSignInToken,
       }}
     >
+      <ToastContainer 
+        position='top-right' 
+        autoClose={7000} 
+        hideProgressBar={false} 
+        newestOnTop={true} 
+        closeOnClick
+        draggable
+        pauseOnHover
+        theme='light'
+      />
       <BrowserRouter>
         {/* <ScrollToTop/> */}
         <Navbar/>

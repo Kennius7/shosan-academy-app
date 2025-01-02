@@ -7,14 +7,17 @@ import CircularProgressBar from "../components/CircularProgressBar";
 import { selectCourses } from "../utils/data";
 import Button from "./Button";
 import { db, auth } from "../../FirebaseConfig";
-import { signOut } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 
 
 const ProfileSection = () => {
     const navigate = useNavigate();
-    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData, setSignInToken } = useContext(MainContext);
+    const { 
+        darkBlue, lightBlue, yellow, profileFormData, setProfileFormData, setSignInToken, signInToken 
+    } = useContext(MainContext);
     const [isLoading, setIsLoading] = useState(false);
     const nameRef = useRef(null);
     const emailRef = useRef(null);
@@ -29,6 +32,9 @@ const ProfileSection = () => {
     });
 
     const { name, email, number, batchNum, courseDetails, courseProgress, id } = profileFormData;
+
+    const devApiFetchProfileUrl = "http://localhost:3000/api/fetchprofile";
+    const apiFetchProfileUrl = import.meta.env.VITE_API_FETCH_PROFILE_URL;
 
     const handleChange = (e) => {
         setProfileFormData({
@@ -59,6 +65,7 @@ const ProfileSection = () => {
     const handleLogout = () => {
         setIsLoading(true);
         setSignInToken("");
+        toast(`Logged out, ${name.split(" ")[0]}`, { type: "success" });
         setProfileFormData({ 
             ...profileFormData, 
             name: "Guest",
@@ -77,30 +84,52 @@ const ProfileSection = () => {
     };
 
     const handleSaveData = async () => {
-        const docRef = doc(db, "User_Data", id);
-
+        
         try {
-            await updateDoc(docRef, { name: name });
-            console.log("Name updated successfully!");
-        } catch (error) {
-            console.error("Error updating name: ", error);
-            alert("Failed to update name.");
-        }
+            const dataFetch = await axios.get(apiFetchProfileUrl, {
+                headers: { 
+                    "Content-Type": "application/json", 
+                    Authorization: `Bearer ${signInToken}`,
+                },
+            });
+            const FetchData = dataFetch.data.data;
+            const docRef = doc(db, "User_Data", id);
 
-        try {
-            await updateDoc(docRef, { number: number });
-            console.log("Number updated successfully!");
-        } catch (error) {
-            console.error("Error updating number: ", error);
-            alert("Failed to update number.");
-        }
+            if (FetchData.name !== name) {
+                await updateDoc(docRef, { name: name });
+                console.log("Name updated successfully!");
+                toast("Name updated successfully!", { type: "success" } );
+            }
 
-        try {
-            await updateDoc(docRef, { courseDetails: courseDetails });
-            console.log("Course Details updated successfully!");
+            if (FetchData.number !== number) {
+                await updateDoc(docRef, { number: number });
+                console.log("Number updated successfully!");
+                toast("Number updated successfully!", { type: "success" } );
+            }
+
+            if (FetchData.courseDetails !== courseDetails) {
+                await updateDoc(docRef, { courseDetails: courseDetails });
+                console.log("Course Details updated successfully!");
+                toast("Course Details updated successfully!", { type: "success" } );
+            }
+
+            if (FetchData.name === name) {
+                console.log("No changes made to your name!");
+                toast("No changes made to your name!", { type: "warning" } );
+            }
+
+            if (FetchData.number === number) {
+                console.log("No changes made to your number!");
+                toast("No changes made to your number!", { type: "warning" } );
+            }
+
+            if (FetchData.courseDetails === courseDetails) {
+                console.log("No changes made to your course!");
+                toast("No changes made to your course!", { type: "warning" } );
+            }
         } catch (error) {
-            console.error("Error updating Course Details: ", error);
-            alert("Failed to update Course Details.");
+            console.error(error);
+            toast(`Error saving your data: ${error.message}`, { type: "error" } );
         }
     }
 

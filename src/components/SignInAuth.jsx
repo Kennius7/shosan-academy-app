@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Button from "./Button";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
@@ -108,15 +109,15 @@ const SignUp = () => {
                 const fetchedToken = response?.data?.token;
                 setSignInToken(fetchedToken);
                 const message = response?.data?.message || "Signed in successfully!";
-                alert(message);
+                toast(message, { type: "success" });
                 setSignInFormData({ email: "", password: "" });
                 setSignInText("Signed In!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
                 setTimeout(() => navigate("/profile"), 3000);
             } catch (error) {
                 console.error("Error signing in:", error);
-                const errorMessage = error.response?.data?.error || "An unexpected error occurred.";
-                alert(`Error: ${errorMessage}`);
+                const errorMessage = error?.response?.data?.error || "An unexpected error occurred.";
+                toast(`Error: ${errorMessage}`, { type: "error" });
                 setSignInText("Sign In Failed!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
             } finally {
@@ -124,7 +125,7 @@ const SignUp = () => {
             }
         } else {
             // Handle empty email or password
-            alert("Please provide both email and password.");
+            toast("Please provide both email and password.", { type: "warning" });
             setIsLoading(false);
             setSignInText("Sign In Failed!");
             setTimeout(() => setSignInText("Sign In"), 2000);

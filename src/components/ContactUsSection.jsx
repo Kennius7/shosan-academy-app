@@ -3,11 +3,14 @@ import { Logo } from "../assets";
 import Button from "./Button";
 import { MainContext } from "../context/mainContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
 const ContactUsSection = () => {
     const { lightBlue, darkBlue } = useContext(MainContext);
+    const [buttonText, setButtonText] = useState("Submit");
+    const [isDisabled, setIsDisabled] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -24,14 +27,26 @@ const ContactUsSection = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setButtonText("Submitting...");
+        setIsDisabled(true);
         try {
             const emailData = await axios.post(apiEmailUrl, formData);
             console.log(emailData.data.message);
-            alert(emailData.data.message);
+            toast(`${emailData.data.message}`, { type: "success" });
             setFormData({ ...formData, name: "", email: "", number: "", subject: "", message: "" });
+            setTimeout(() => setButtonText("Submitted!"), 2000);
+            setTimeout(() => {
+                setButtonText("Submit");
+                setIsDisabled(false);
+            }, 4000);
         } catch (error) {
-            alert(`Error subitting email: ${error.message}`);
+            toast(`${error.message}`, { type: "error" });
             console.log(error.message);
+            setTimeout(() => setButtonText("Submit Failed!"), 1000);
+            setTimeout(() => {
+                setButtonText("Submit");
+                setIsDisabled(false);
+            }, 3000);
         }
     }
 
@@ -131,12 +146,14 @@ const ContactUsSection = () => {
                     </div>
                     <div className="w-full mt-8 flexCenter">
                         <Button 
-                            btnGradColor1={lightBlue}
-                            btnGradColor2={darkBlue}
+                            btnGradColor1={!isDisabled ? lightBlue : darkBlue}
+                            btnGradColor2={!isDisabled ? darkBlue : "#000"}
                             buttonType="submit"
-                            buttonText={"Submit"} 
+                            disabled={isDisabled}
+                            buttonText={buttonText} 
                             className={`w-[60%] h-[40px] rounded-[20px] text-[16px] 
-                            shadow-[0px_0px_5px_0px_#0b1f139c] font-semibold text-secondaryYellow`} 
+                            shadow-[0px_0px_5px_0px_#0b1f139c] font-semibold 
+                            ${isDisabled ? "text-dimWhite" : "text-secondaryYellow"}`} 
                         />
                     </div>
                 </form>
