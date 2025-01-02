@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { Logo } from "../assets";
 import Button from "./Button";
@@ -18,7 +17,7 @@ const ContactUsSection = () => {
     });
     const { name, email, number, subject, message } = formData;
 
-    const devApiEmailUrl = "http://localhost:3000/api/email";
+    // const devApiEmailUrl = "http://localhost:3000/api/email";
     const apiEmailUrl = import.meta.env.VITE_API_EMAIL_URL;
 
     const handleChange = (e) => { setFormData({ ...formData, [e.target.name]: e.target.value }) }
