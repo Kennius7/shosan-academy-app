@@ -11,7 +11,7 @@ Currently, two official plugins are available:
 
 Note:
 
-1. Make the logged user state persistent using local storage.
+1. Make the logged user state persistent using local storage. DONE!
 2. Mobile responsiveness for the courses section.
 3. Design the Footer.
 4. Add the deadline date just below the countdown timer.

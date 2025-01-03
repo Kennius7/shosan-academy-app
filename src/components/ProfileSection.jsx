@@ -15,10 +15,10 @@ import axios from "axios";
 
 const ProfileSection = () => {
     const navigate = useNavigate();
-    const { 
-        darkBlue, lightBlue, yellow, profileFormData, setProfileFormData, setSignInToken, signInToken 
-    } = useContext(MainContext);
+    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData } = useContext(MainContext);
     const [isLoading, setIsLoading] = useState(false);
+    const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+    const [buttonText, setButtonText] = useState("Save");
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const numberRef = useRef(null);
@@ -64,7 +64,7 @@ const ProfileSection = () => {
 
     const handleLogout = () => {
         setIsLoading(true);
-        setSignInToken("");
+        localStorage.removeItem("user-token");
         toast(`Logged out, ${name.split(" ")[0]}`, { type: "success" });
         setProfileFormData({ 
             ...profileFormData, 
@@ -84,12 +84,14 @@ const ProfileSection = () => {
     };
 
     const handleSaveData = async () => {
-        
+        setButtonText("Saving...");
+        setIsSaveDisabled(true);
+        const userToken = localStorage.getItem("user-token");
         try {
             const dataFetch = await axios.get(apiFetchProfileUrl, {
                 headers: { 
                     "Content-Type": "application/json", 
-                    Authorization: `Bearer ${signInToken}`,
+                    Authorization: `Bearer ${userToken}`,
                 },
             });
             const FetchData = dataFetch.data.data;
@@ -113,23 +115,22 @@ const ProfileSection = () => {
                 toast("Course Details updated successfully!", { type: "success" } );
             }
 
-            if (FetchData.name === name) {
-                console.log("No changes made to your name!");
-                toast("No changes made to your name!", { type: "warning" } );
-            }
-
-            if (FetchData.number === number) {
-                console.log("No changes made to your number!");
-                toast("No changes made to your number!", { type: "warning" } );
-            }
-
-            if (FetchData.courseDetails === courseDetails) {
-                console.log("No changes made to your course!");
-                toast("No changes made to your course!", { type: "warning" } );
-            }
+            if (FetchData.name === name) console.log("No changes made to your name!");
+            if (FetchData.number === number) console.log("No changes made to your number!");
+            if (FetchData.courseDetails === courseDetails) console.log("No changes made to your course!");
+            setTimeout(() => setButtonText("Saved!"), 2000);
+            setTimeout(() => {
+                setButtonText("Save");
+                setIsSaveDisabled(false);
+            }, 4000);
         } catch (error) {
             console.error(error);
             toast(`Error saving your data: ${error.message}`, { type: "error" } );
+            setTimeout(() => setButtonText("Failed!"), 2000);
+            setTimeout(() => {
+                setButtonText("Save");
+                setIsSaveDisabled(false);
+            }, 4000);
         }
     }
 
@@ -323,12 +324,14 @@ const ProfileSection = () => {
                     <div className="w-full flexAround">
                         <div className="sm:my-6 my-4">
                             <Button 
-                                btnGradColor1={lightBlue}
-                                btnGradColor2={darkBlue}
-                                buttonText={"Save"} 
+                                btnGradColor1={!isSaveDisabled ? lightBlue : darkBlue}
+                                btnGradColor2={!isSaveDisabled ? darkBlue : "#000"}
+                                buttonText={buttonText} 
+                                disabled={isSaveDisabled}
                                 onClick={handleSaveData}
-                                className={`w-[130px] h-[40px] rounded-[20px] text-[16px] text-white
-                                shadow-[0px_0px_5px_0px_#0b1f139c] font-medium`} 
+                                className={`w-[130px] h-[40px] rounded-[20px] text-[16px] 
+                                shadow-[0px_0px_5px_0px_#0b1f139c] font-medium 
+                                ${!isSaveDisabled ? "text-white" : "text-slate-400"}`} 
                             />
                         </div>
                         <div className="sm:my-6 my-4">

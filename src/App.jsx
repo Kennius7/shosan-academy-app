@@ -26,6 +26,10 @@ function App() {
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const lightBlue = "#0E6DBA";
+  const darkBlue = "#084170";
+  const yellow = "#E0D538";
+  const lastVisitedTime = "2 days ago";
   const [signInToken, setSignInToken] = useState("");
 
   const [savedDateOnDataBase, setSavedDateOnDataBase] = useState("");
@@ -80,16 +84,17 @@ function App() {
   });
 
   const downloadData = async () => {
+    const userToken = localStorage.getItem("user-token");
+    console.log("User Token: >>>>", userToken);
 
     try {
         const response = await axios.get(apiFetchUrl, {
           headers: { 
               "Content-Type": "application/json", 
-              Authorization: `Bearer ${signInToken}`,
+              Authorization: `Bearer ${userToken}`,
           },
           // withCredentials: false,
         });
-        // console.log("Res:>>>", response);
         const { name, email, number, batchNum, courseDetails, courseProgress, id } = response.data.data;
 
         setProfileFormData({ 
@@ -102,11 +107,7 @@ function App() {
             courseProgress: courseProgress,
             id: id,
         });
-
         console.log("Updated Data: ", profileFormData);
-        // console.log("Name: ", name);
-        // localStorage.setItem("user", JSON.stringify(profileFormData));
-        // console.log(profileFormData);
     } catch (error) {
         console.error(error);
     }
@@ -175,23 +176,12 @@ function App() {
         setDays(()=>Math.floor(examTimeLimit / 86400));
     }, 1000);
 
-
     return () => { clearInterval(setExamTimerInterval) }
 
   })
 
-  // console.log("Exam Time Limit: >>>", examTimeLimit);
-
-
-  const lightBlue = "#0E6DBA";
-  const darkBlue = "#084170";
-  const yellow = "#E0D538";
-  const lastVisitedTime = "2 days ago";
-
-  localStorage.setItem("user", JSON.stringify(profileFormData));
-
-  const userData = JSON.parse(localStorage.getItem("user"));
-
+  // localStorage.setItem("user", JSON.stringify(profileFormData));
+  // const userData = JSON.parse(localStorage.getItem("user"));
   // console.log("Locally Stored Data: ", userData);
 
 
@@ -205,7 +195,7 @@ function App() {
     >
       <ToastContainer 
         position='top-right' 
-        autoClose={7000} 
+        autoClose={4000} 
         hideProgressBar={false} 
         newestOnTop={true} 
         closeOnClick

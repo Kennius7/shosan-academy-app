@@ -21,11 +21,12 @@ import { BiChevronLeft } from "react-icons/bi";
 
 const Navbar = () => {
     const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, reactNativePics, signInToken,
-        DP1, isMenuOpen, setIsMenuOpen, profileFormData: { name, email } 
+        lightBlue, darkBlue, yellow, isLoggedIn, reactNativePics, DP1, isMenuOpen, 
+        setIsMenuOpen, profileFormData: { name, email } 
     } = useContext(MainContext);
 
     const location = useLocation();
+    const userToken = localStorage.getItem("user-token");
     const sentenceCase = (string) => {
         if (!string) return "";
         return string.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
@@ -76,14 +77,14 @@ const Navbar = () => {
                 <div className="xs:hidden block">
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
-                        Hi, { isLoggedIn && signInToken !== "" ? name?.split(" ")[0] : "Guest" }
+                        Hi, { isLoggedIn && userToken !== null ? name?.split(" ")[0] : "Guest" }
                     </div>
                 </div>
                 <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
                     {/*Name Welcome block*/}
                     <div className="xs:block hidden font-normal font-sans md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white italic ss:px-2 px-1">
-                        Hi, { isLoggedIn && signInToken !== "" ? name?.split(" ")[0] : "Guest" }
+                        Hi, { isLoggedIn && userToken !== null ? name?.split(" ")[0] : "Guest" }
                     </div>
                     {/*Mobile Screen Login Button block*/}
                     {
