@@ -17,7 +17,7 @@ const SignUp = () => {
     const [signInFormData, setSignInFormData] = useState({ email: "", password: ""});
     const { email, password } = signInFormData;
 
-    // const devApiSigninUrl = "http://localhost:3000/api/signin";
+    // const devApiSignInUrl = "http://localhost:3000/api/signin";
     const apiSignInUrl = import.meta.env.VITE_API_SIGN_IN_URL;
 
     const handleChange = (e) => setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
@@ -37,17 +37,16 @@ const SignUp = () => {
                     }
                 );
                 const fetchedToken = response?.data?.token;
-                console.log("User Token From Signin: >>>>>", fetchedToken);
                 localStorage.setItem("user-token", fetchedToken);
                 const message = response?.data?.message || "Signed in successfully!";
                 toast(message, { type: "success" });
-                setSignInFormData({ email: "", password: "" });
+                setSignInFormData({ ...signInFormData, email: "", password: "" });
                 setSignInText("Signed In!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
                 setTimeout(() => navigate("/profile"), 3000);
             } catch (error) {
                 console.error("Error signing in:", error);
-                const errorMessage = error?.response?.data?.error || "An unexpected error occurred.";
+                const errorMessage = error?.message || "An unexpected error occurred.";
                 toast(`Error: ${errorMessage}`, { type: "error" });
                 setSignInText("Sign In Failed!");
                 setTimeout(() => setSignInText("Sign In"), 2000);
@@ -94,11 +93,6 @@ const SignUp = () => {
                     ${!isVisible ? "bg-secondaryBlue" : "bg-secondaryYellow"}`}></div>
                 </div>
             </div>
-            {/* <button 
-                onClick={handleSignin} 
-                className="bg-slate-800 rounded-xl w-full h-10 sm:mt-16 mt-10 text-white font-semibold">
-                Continue
-            </button> */}
             <Button 
                 btnGradColor1={lightBlue}
                 btnGradColor2={darkBlue}

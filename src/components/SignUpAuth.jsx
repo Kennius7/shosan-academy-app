@@ -1,20 +1,21 @@
 import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
-import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
-// import { useAuthState } from "react-firebase-hooks/auth";
-import { db } from "../../FirebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
 import Button from "./Button";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
 const SignUp = () => {
-    // const [ user ] = useAuthState(auth);
     const { setLoginState, lightBlue, darkBlue, yellow } = useContext(MainContext);
     const [isChecked, setIsChecked] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [signUpText, setSignUpText] = useState("Sign Up");
+
+    // const devApiSignUpUrl = "http://localhost:3000/api/signup";
+    const apiSignUpUrl = import.meta.env.VITE_API_SIGN_UP_URL;
+
     const [signUpFormData, setSignUpFormData] = useState({
         name: "",
         email: "",
@@ -27,41 +28,46 @@ const SignUp = () => {
     const { name, email, number, password, batchNum, courseDetails, courseProgress } = signUpFormData;
 
     const handleChange = (e) => setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
-    const uploadData = async() => await addDoc(
-        collection(db, "User_Data"), 
-        { name, email, number, password, batchNum, courseDetails, courseProgress }
-    );
+
     const handleSignUp = async() => {
         setIsLoading(true);
         setSignUpText("Signing Up...");
-        if (name !== "" || email !== "" || number !== "" || password !== "") {
+        if ( name.trim() && email.trim() && number.trim() && password.trim()) {
             try {
-                const authInstance = getAuth();
-                const newUser = await createUserWithEmailAndPassword(authInstance, email, password);
-                await updateProfile(newUser.user, { displayName: name });
-                console.log(newUser);
-                uploadData();
-                alert(`Signed Up with this data, Name: ${newUser?.user?.displayName}`);
-                setSignUpFormData({ ...signUpFormData, name: "", email: "", number: "", password: "" });
-                setIsLoading(false);
+                const response = await axios.post(
+                    apiSignUpUrl, 
+                    { name, email, number, password, batchNum, courseDetails, courseProgress }, 
+                    {
+                        headers: { "Content-Type": "application/json" },
+                        withCredentials: false,
+                    }
+                );
+                const message = response?.data?.message || "Signed in successfully!";
+                toast(message, { type: "success" });
+                toast("Please sign in...", { type: "success" });
+                setSignUpFormData({ ...signUpFormData, name: "", email: "", number: "", password: "", batchNum: "001", courseDetails: "None", courseProgress: 0, });
                 setSignUpText("Signed Up!");
-                setTimeout(() => setSignUpText("Sign Up"), 3000);
+                setTimeout(() => setSignUpText("Sign Up"), 2000);
+                setTimeout(() => setLoginState(false), 3000);
             } catch (error) {
-                if (error.code === "auth/email-already-in-use") {
-                    console.log(error.code);
-                    alert(`Error: ${error.code}`);
-                    setIsLoading(false);
-                    setSignUpText("Signed Up Failed!");
-                    setTimeout(() => setSignUpText("Sign Up"), 3000);
-                } else {
-                    console.error(error);
-                    alert(`Error: ${error.code}`);
-                    setIsLoading(false);
-                    setSignUpText("Signed Up Failed!");
-                    setTimeout(() => setSignUpText("Sign Up"), 3000);
-                }
+                console.error("Error signing in:", error);
+                const errorMessage = error?.response?.data?.error;
+                const errMessage = errorMessage === "Error: Firebase: Error (auth/email-already-in-use)." 
+                ? "Email has been used before." : errorMessage === "Error: Firebase: Error (auth/network-request-failed)." 
+                ? "Network error. Check you network." : "An unexpected error occurred."
+                toast(errMessage, { type: "error" });
+                setSignUpText("Sign Up Failed!");
+                setTimeout(() => setSignUpText("Sign Up"), 2000);
+            } finally {
+                setIsLoading(false);
             }
-        } else setIsLoading(false);
+        } else {
+            // Handle empty email or password
+            toast("Please provide name, number, email and password.", { type: "warning" });
+            setIsLoading(false);
+            setSignUpText("Sign Up Failed!");
+            setTimeout(() => setSignUpText("Sign Up"), 2000);
+        }
     }
 
     return (
@@ -107,13 +113,6 @@ const SignUp = () => {
                         ${!isVisible ? "bg-secondaryBlue" : "bg-secondaryYellow"}`}></div>
                 </div>
             </div>
-            {/* <button 
-                disabled={!isChecked} 
-                onClick={handleSignUp}
-                className={`bg-slate-800 rounded-xl w-full h-9 sm:mt-8 mt-10 font-semibold 
-                ${!isChecked ? "text-slate-500" : "text-white"}`}>
-                Continue
-            </button> */}
             <Button 
                 btnGradColor1={lightBlue}
                 btnGradColor2={darkBlue}

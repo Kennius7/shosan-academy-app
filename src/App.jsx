@@ -26,11 +26,11 @@ function App() {
   const [loginState, setLoginState] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isTokenExpired, setIsTokenExpired] = useState(false);
   const lightBlue = "#0E6DBA";
   const darkBlue = "#084170";
   const yellow = "#E0D538";
   const lastVisitedTime = "2 days ago";
-  const [signInToken, setSignInToken] = useState("");
 
   const [savedDateOnDataBase, setSavedDateOnDataBase] = useState("");
   const deadlineDate = new Date(savedDateOnDataBase);
@@ -85,7 +85,7 @@ function App() {
 
   const downloadData = async () => {
     const userToken = localStorage.getItem("user-token");
-    console.log("User Token: >>>>", userToken);
+    // console.log("User Token: >>>>", userToken);
 
     try {
         const response = await axios.get(apiFetchUrl, {
@@ -108,8 +108,11 @@ function App() {
             id: id,
         });
         console.log("Updated Data: ", profileFormData);
+        setIsTokenExpired(false);
     } catch (error) {
-        console.error(error);
+      const errorMessage = error?.response?.data;
+      if (userToken && errorMessage === "Invalid Token!") setIsTokenExpired(true);
+      console.error("Error downloading data: >>>>", error?.response?.data);
     }
   };
 
@@ -190,7 +193,7 @@ function App() {
       value={{ 
         active, setActive, lightBlue, darkBlue, yellow, DP1, reactNativePics, examTimeLimit,
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, hours, minutes, seconds, days,
-        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, signInToken, setSignInToken,
+        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, isTokenExpired, setIsTokenExpired,
       }}
     >
       <ToastContainer 
@@ -204,7 +207,7 @@ function App() {
         theme='light'
       />
       <BrowserRouter>
-        {/* <ScrollToTop/> */}
+        <ScrollToTop/>
         <Navbar/>
         <Routes>
           <Route path="/" element={ <Home /> } />

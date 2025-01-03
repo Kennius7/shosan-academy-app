@@ -22,7 +22,7 @@ import { BiChevronLeft } from "react-icons/bi";
 const Navbar = () => {
     const { 
         lightBlue, darkBlue, yellow, isLoggedIn, reactNativePics, DP1, isMenuOpen, 
-        setIsMenuOpen, profileFormData: { name, email } 
+        setIsMenuOpen, profileFormData: { name, email }, isTokenExpired, 
     } = useContext(MainContext);
 
     const location = useLocation();
@@ -77,14 +77,24 @@ const Navbar = () => {
                 <div className="xs:hidden block">
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
-                        Hi, { isLoggedIn && userToken !== null ? name?.split(" ")[0] : "Guest" }
+                        { 
+                            isLoggedIn !== null && !isTokenExpired 
+                            ? "Hi, " + name?.split(" ")[0] 
+                            : isLoggedIn !== null && isTokenExpired ? "Please sign in again!" 
+                            : "Hi, Guest"  
+                        }
                     </div>
                 </div>
                 <div className={`flexAround ${isLoggedIn ? "pr-1" : "pr-0"}`}>
                     {/*Name Welcome block*/}
                     <div className="xs:block hidden font-normal font-sans md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white italic ss:px-2 px-1">
-                        Hi, { isLoggedIn && userToken !== null ? name?.split(" ")[0] : "Guest" }
+                        { 
+                            isLoggedIn !== null && !isTokenExpired 
+                            ? "Hi, " + name?.split(" ")[0] 
+                            : isLoggedIn !== null && isTokenExpired ? "Please sign in again!" 
+                            : "Hi, Guest"  
+                        }
                     </div>
                     {/*Mobile Screen Login Button block*/}
                     {
