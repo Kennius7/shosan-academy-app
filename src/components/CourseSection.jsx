@@ -28,10 +28,10 @@ const CourseSection = () => {
 
 
     return (
-        <section className="flexColCenter w-full py-6 bg-slate-300">
+        <section className="flexColCenter w-full py-10 bg-slate-300">
             <div className="w-full mb-4 flexColCenter">
                 <div className="w-full flexColCenter my-4">
-                    <h2 className="text-secondaryBlue text-[20px] text-center mb-2">
+                    <h2 className="text-secondaryBlue text-[22px] text-center font-semibold mb-2">
                         Completed courses
                     </h2>
                     {
@@ -82,7 +82,7 @@ const CourseSection = () => {
                 btnGradColor2={darkBlue}
                 buttonText={"Back"} 
                 onClick={() => navigate(-1)}
-                className={`w-[100px] h-[30px] rounded-[16px] text-[16px] mt-1
+                className={`w-[300px] h-[40px] rounded-[16px] text-[16px] mt-8
                 shadow-[0px_0px_5px_0px_#0b1f139c] font-semibold text-secondaryYellow`} 
             />
         </section>
