@@ -1,21 +1,12 @@
-/* eslint-disable no-unused-vars */
-import { useState, useEffect, useContext } from "react";
+import { useContext, useRef } from "react";
 import { MainContext } from "../context/mainContext";
 import { navLinks } from "../utils/data";
 import { NavLink, Link, useLocation } from "react-router-dom";
-// import { capitalize } from "lodash";
-// import _ from "lodash";
 import { Logo } from "../assets";
 import Button from "./Button";
-// import { CgProfile } from "react-icons/cg";
-// import { BiCaretDown } from "react-icons/bi";
-// import { BsCart } from "react-icons/bs";
-
 import { MdMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
 import { BiChevronLeft } from "react-icons/bi";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { auth } from "../../FirebaseConfig";
 
 
 
@@ -26,11 +17,21 @@ const Navbar = () => {
     } = useContext(MainContext);
 
     const location = useLocation();
-    const userToken = localStorage.getItem("user-token");
+    const menuRef = useRef(null);
+    // const userToken = localStorage.getItem("user-token");
+
     const sentenceCase = (string) => {
         if (!string) return "";
         return string.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     }
+
+    const handleMenuClick = () => {
+        menuRef.current.focus();
+        setIsMenuOpen(!isMenuOpen);
+    }
+
+    const handleBlur = () => setIsMenuOpen(false);
+
     const isActive = (path) => location.pathname === path ? 'active' : '';
 
 
@@ -146,7 +147,7 @@ const Navbar = () => {
                     {/*Mobile Menu block*/}
                     <div className="">
                         <div 
-                            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+                            onClick={handleMenuClick} 
                             className="ss:hidden flex justify-center items-center w-6 h-6 ring-2 ring-white/50 
                             rounded-full shadow-lg overflow-hidden">
                             { 
@@ -157,7 +158,11 @@ const Navbar = () => {
                                 <MdOutlineMenu size={32} color={"#fff"} style={{ width: 50, height: 50 }} />
                             }
                         </div>
-                        <div className={`top-[68px] w-[170px] ss:hidden flexColCenterEnd 
+                        <div 
+                            onBlur={handleBlur}
+                            ref={menuRef}
+                            tabIndex={0}
+                            className={`top-[68px] w-[170px] ss:hidden flexColCenterEnd 
                             bg-secondaryBlue/95 transition-all duration-500 backdrop-blur-md pr-2
                             rounded-bl-[20px] fixed z-10 py-2 ${isMenuOpen ? "right-0" : "-right-60" }`}>
                             {

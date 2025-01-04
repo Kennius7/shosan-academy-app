@@ -28,43 +28,54 @@ const CourseSection = () => {
 
 
     return (
-        <section className="flexColCenter w-full h-[500px] bg-slate-300">
-            <div className="w-full mb-2 flexColCenter">
-                <ul className="grid grid-cols-3 gap-4 bg-white rounded-lg py-8 px-6">
+        <section className="flexColCenter w-full py-6 bg-slate-300">
+            <div className="w-full mb-4 flexColCenter">
+                <div className="w-full flexColCenter my-4">
+                    <h2 className="text-secondaryBlue text-[20px] text-center mb-2">
+                        Completed courses
+                    </h2>
+                    {
+                        selectedCourses.length === 0 ? (
+                        <p>No courses completed yet.</p>
+                        ) : selectedCourses.length === 1 ? (
+                        <p>{ selectedCourses.length } course completed.</p>
+                        // <ul className="">
+                        //     {
+                        //         selectedCourses.map((courseId) => (
+                        //             <li key={courseId}>
+                        //                 {lessons.find((course) => course.id === courseId)?.name}
+                        //             </li>
+                        //         ))
+                        //     }
+                        // </ul>
+                        ) : <p>{ selectedCourses.length } courses completed.</p>
+                    }
+                </div>
+                <ul className="grid sm:grid-cols-3 grid-cols-1 gap-4 bg-white rounded-lg py-8 sm:px-6 px-12">
                     {lessons.map((course) => (
-                        <li key={course.id} style={{ marginBottom: '10px' }}>
-                            <label className="text-slate-900 text-[16px] font-EncodeSans font-medium">
+                        <li 
+                            key={course.id} 
+                            className=""
+                        >
+                            <label className="flex flex-row justify-start items-start">
                                 <input
                                     type="checkbox"
-                                    className="mr-2 ring-1 ring-secondaryBlue animate-pulse"
+                                    className="mr-2 ring-1 ring-secondaryBlue animate-pulse mt-[6px]"
                                     checked={isSelected(course.id)}
                                     onChange={() => handleCourseSelection(course)}
                                 />
-                                {course.name} 
-                                :
-                                (<span className="font-sans italic text-secondaryBlue text-[14px]">
-                                    {course.time}
-                                </span>)
+                                <div className="flexColCenterStart">
+                                    <span className="font-sans italic text-slate-900 text-[16px] font-medium">
+                                        {course.name}
+                                    </span>
+                                    <span className="font-sans italic text-secondaryBlue text-[14px]">
+                                        {course.time}
+                                    </span>
+                                </div>
                             </label>
                         </li>
                     ))}
                 </ul>
-                <div className="w-full flexColCenter my-4">
-                    <h2 className="text-secondaryBlue text-[20px] text-center">
-                        Your Schedule
-                    </h2>
-                    {selectedCourses.length === 0 ? (
-                    <p>No courses selected yet.</p>
-                    ) : (
-                    <ul style={{ listStyleType: 'none', padding: 0 }}>
-                        {selectedCourses.map((courseId) => (
-                        <li key={courseId}>
-                            {lessons.find((course) => course.id === courseId)?.name}: {schedule[courseId]}
-                        </li>
-                        ))}
-                    </ul>
-                    )}
-                </div>
             </div>
             <Button 
                 btnGradColor1={lightBlue}
