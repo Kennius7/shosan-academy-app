@@ -11,7 +11,7 @@ const CourseSelect = () => {
     return (
         <>
             <MiniHero mainText={Course.name} subText={"Video Course Topics"} />
-            <CourseSection/>
+            <CourseSection courseSelect={Course} />
         </>
     )
 }

@@ -3,26 +3,27 @@ import { lessons } from "../utils/data";
 import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import Button from "./Button";
+import Accordion from "./Accordion";
 
 
 
-const CourseSection = () => {
+const CourseSection = (courseSelect) => {
     const { lightBlue, darkBlue } = useContext(MainContext);
     const navigate = useNavigate();
     const [selectedCourses, setSelectedCourses] = useState([]);
     const [schedule, setSchedule] = useState({});
 
-    const handleCourseSelection = (course) => {
-        if (selectedCourses.includes(course.id)) {
-            setSelectedCourses(selectedCourses.filter((id) => id !== course.id));
-            const updatedSchedule = { ...schedule };
-            delete updatedSchedule[course.id];
-            setSchedule(updatedSchedule);
-        } else {
-            setSelectedCourses([...selectedCourses, course.id]);
-            setSchedule({ ...schedule, [course.id]: course.time });
-        }
-    };
+    // const handleCourseSelection = (course) => {
+    //     if (selectedCourses.includes(course.id)) {
+    //         setSelectedCourses(selectedCourses.filter((id) => id !== course.id));
+    //         const updatedSchedule = { ...schedule };
+    //         delete updatedSchedule[course.id];
+    //         setSchedule(updatedSchedule);
+    //     } else {
+    //         setSelectedCourses([...selectedCourses, course.id]);
+    //         setSchedule({ ...schedule, [course.id]: course.time });
+    //     }
+    // };
     
     const isSelected = (courseId) => selectedCourses.includes(courseId);
 
@@ -51,7 +52,19 @@ const CourseSection = () => {
                         ) : <p>{ selectedCourses.length } courses completed.</p>
                     }
                 </div>
-                <ul className="grid sm:grid-cols-3 grid-cols-1 gap-4 bg-white rounded-lg py-8 sm:px-6 px-12">
+                <div className="w-full flexCenter mb-2">
+                    <Accordion 
+                        items={courseSelect} 
+                        width={ window.innerWidth > 500 ? "50%" : "90%" }
+                        lessonData={ lessons }
+                        courseState={ selectedCourses }
+                        setCourseState={ setSelectedCourses }
+                        scheduleState={ schedule }
+                        setScheduleState={ setSchedule }
+                        isSelected={ isSelected }
+                    />
+                </div>
+                {/* <ul className="w-[50%] grid sm:grid-cols-3 grid-cols-1 gap-4 bg-white rounded-lg py-8 sm:px-6 px-12">
                     {lessons.map((course) => (
                         <li 
                             key={course.id} 
@@ -71,18 +84,28 @@ const CourseSection = () => {
                                     <span className="font-sans italic text-secondaryBlue text-[14px]">
                                         {course.time}
                                     </span>
+                                    <div className="w-[160px] flexBetween text-[12px] text-slate-700 italic mt-1">
+                                        <button 
+                                            className="bg-slate-100 rounded-lg ring-[1px] ring-yellow-700/20 
+                                            px-1 py-[2px]">
+                                            Watch video
+                                        </button>
+                                        <button>
+                                            Mark as done
+                                        </button>
+                                    </div>
                                 </div>
                             </label>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
             <Button 
                 btnGradColor1={lightBlue}
                 btnGradColor2={darkBlue}
                 buttonText={"Back"} 
                 onClick={() => navigate(-1)}
-                className={`w-[300px] h-[40px] rounded-[16px] text-[16px] mt-8
+                className={`xs:w-[300px] w-[150px] h-[40px] rounded-[16px] text-[16px] mt-8
                 shadow-[0px_0px_5px_0px_#0b1f139c] font-semibold text-secondaryYellow`} 
             />
         </section>

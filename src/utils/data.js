@@ -86,7 +86,17 @@ export const secFunct = (sec) => {
 }
 
 
-
+export const handleCourseSelection = (course, courseState, setCourseState, scheduleState, setScheduleState) => {
+    if (courseState.includes(course.id)) {
+        setCourseState(courseState.filter((id) => id !== course.id));
+        const updatedSchedule = { ...scheduleState };
+        delete updatedSchedule[course.id];
+        setScheduleState(updatedSchedule);
+    } else {
+        setCourseState([...courseState, course.id]);
+        setScheduleState({ ...scheduleState, [course.id]: course.time });
+    }
+};
 
 
 
