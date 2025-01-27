@@ -70,7 +70,7 @@ const Footer = () => {
                             </p>
                             <a 
                                 href="mailto:shosanacodemy@gmail.com" 
-                                className={`text-lightBlue sm:tracking-normal -tracking-[2px]`}>
+                                className={`text-lightBlue sm:tracking-normal -tracking-[1px]`}>
                                 shosanacodemia@gmail.com
                             </a>
                         </div>
@@ -80,7 +80,7 @@ const Footer = () => {
                             </p>
                             <a 
                                 href="mailto:shosanacodemy@gmail.com" 
-                                className={`text-lightBlue sm:tracking-normal -tracking-[2px]`}>
+                                className={`text-lightBlue sm:tracking-normal -tracking-[1px]`}>
                                 +234-8055549979
                             </a>
                         </div>

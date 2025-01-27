@@ -15,7 +15,7 @@ import Classes from "./pages/Classes.jsx";
 import Contact from "./pages/Contact.jsx";
 import About from "./pages/About.jsx";
 import CourseSelect from "./components/CourseSelect.jsx";
-import { DP1, reactNativePics } from "./assets";
+import { DP1, userIcon } from "./assets";
 import axios from "axios";
 import { monthFunct, dayFunct, hourFunct, minuteFunct, secFunct } from "./utils/data.js";
 
@@ -191,7 +191,7 @@ function App() {
   return (
     <MainContext.Provider 
       value={{ 
-        active, setActive, lightBlue, darkBlue, yellow, DP1, reactNativePics, examTimeLimit,
+        active, setActive, lightBlue, darkBlue, yellow, DP1, userIcon, examTimeLimit,
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, hours, minutes, seconds, days,
         profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, isTokenExpired, setIsTokenExpired,
       }}

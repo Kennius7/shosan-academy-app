@@ -34,18 +34,18 @@ export const courses = [
 
 export const lessons = [
     { id: 1, name: 'Mathematics 101', time: 'Monday 9:00 AM - 11:00 AM' },
-    { id: 2, name: 'Physics 201', time: 'Tuesday 10:00 AM - 12:00 PM' },
-    { id: 3, name: 'Chemistry 301', time: 'Wednesday 1:00 PM - 3:00 PM' },
+    { id: 2, name: 'Physics 201', time: 'Tuesday 9:00 AM - 12:00 PM' },
+    { id: 3, name: 'Chemistry 301', time: 'Friday 1:00 PM - 3:00 PM' },
     { id: 4, name: 'Biology 401', time: 'Thursday 2:00 PM - 4:00 PM' },
     { id: 5, name: 'Computer Science 101', time: 'Friday 11:00 AM - 1:00 PM' },
     { id: 6, name: 'Geography 102', time: 'Monday 9:00 AM - 11:00 AM' },
     { id: 7, name: 'Further Maths 202', time: 'Tuesday 10:00 AM - 12:00 PM' },
-    { id: 8, name: 'Agriculture 302', time: 'Wednesday 1:00 PM - 3:00 PM' },
+    { id: 8, name: 'Agriculture 302', time: 'Friday 1:00 PM - 3:00 PM' },
     { id: 9, name: 'History 402', time: 'Thursday 2:00 PM - 4:00 PM' },
     { id: 10, name: 'Economics 102', time: 'Friday 11:00 AM - 1:00 PM' },
     { id: 11, name: 'Phy. Education 103', time: 'Monday 9:00 AM - 11:00 AM' },
-    { id: 12, name: 'Social Studies 203', time: 'Tuesday 10:00 AM - 12:00 PM' },
-    { id: 13, name: 'French 303', time: 'Wednesday 1:00 PM - 3:00 PM' },
+    { id: 12, name: 'Social Studies 203', time: 'Tuesday 7:00 AM - 12:00 PM' },
+    { id: 13, name: 'French 303', time: 'Friday 1:00 PM - 3:00 PM' },
     { id: 14, name: 'Christian Studies 403', time: 'Thursday 2:00 PM - 4:00 PM' },
     { id: 15, name: 'Igbo Language 103', time: 'Friday 11:00 AM - 1:00 PM' },
 ];

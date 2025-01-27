@@ -94,6 +94,10 @@ h1 { @apply flex flex-row justify-center items-center };
   text-shadow: 0 0 1px #0db915;
 }
 
+.title-text-shadow5{
+  text-shadow: 0 0 1px #ffffff;
+}
+
 .title-text-no-shadow{
   text-shadow: 0 0 0 #e2eee2;
 }
@@ -145,6 +149,10 @@ h1 { @apply flex flex-row justify-center items-center };
 
 .accordion-header:hover {
   background-color: #e0e0e0;
+}
+
+.blurred-video {
+  filter: blur(5px);
 }
 
 

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import { Overlay } from "@mantine/core";
-import { BG1 } from "../assets";
+import { BG1, shosanIntro } from "../assets";
 import CountdownTimer from "./CountdownTimer";
 import { MainContext } from "../context/mainContext";
 
@@ -13,7 +14,8 @@ const Hero = () => {
         <section className="w-full relative">
             <div className="w-full sm:h-[600px] xs:h-[500px] h-[520px]">
                 <img src={BG1} className="w-full h-full object-cover" />
-                <Overlay color="black" opacity={.9} zIndex={1} />
+                {/* <video src={shosanIntro} loop autoPlay muted className="w-full h-full object-cover" /> */}
+                <Overlay color="black" opacity={.6} zIndex={1} />
             </div>
             <div className="w-full absolute z-[2] sm:top-32 top-20 flexColCenter">
                 <div className="font-semibold text-center md:text-[39px] text-dimWhite

@@ -24,7 +24,7 @@ const Accordion = ({
 
 
     return (
-        <div style={{ width: width }} className={`bg-slate-400`}>
+        <div style={{ width: width }} className={`bg-slate-300`}>
             <div 
                 key={courseSelect.id} 
                 className="w-full flexColCenter"
@@ -47,7 +47,9 @@ const Accordion = ({
                     style={{ maxHeight: `${calcHeight(courseSelect.id)}px` }}
                     className={`w-full overflow-hidden transition-all duration-500`}
                 >
-                    {/* <p>{courseSelect.description}</p> */}
+                    <p className="w-full px-4 py-2">
+                        {courseSelect.description}
+                    </p>
                     <CourseDropdown 
                         lessonData={ lessonData } 
                         courseState={ courseState } 

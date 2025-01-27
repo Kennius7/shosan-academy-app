@@ -6,7 +6,7 @@ import ImageBackground from "./ImageBackground";
 
 
 const ProfileHero = () => {
-    const { profileFormData, DP1, reactNativePics, lastVisitedTime } = useContext(MainContext);
+    const { profileFormData, DP1, userIcon, lastVisitedTime } = useContext(MainContext);
 
     return (
         <section className="flexColStart w-full bg-white pt-[60px]">
@@ -25,7 +25,7 @@ const ProfileHero = () => {
                 ${profileFormData?.email === "ogbogukenny@yahoo.com" ? "" : "bg-secondaryBlue"}`}
             >
                 <img 
-                    src={ profileFormData?.email === "ogbogukenny@yahoo.com" ? DP1 : reactNativePics} 
+                    src={ profileFormData?.email === "ogbogukenny@yahoo.com" ? DP1 : userIcon} 
                     alt="dp" 
                     className={`w-full h-full object-cover`} 
                 />

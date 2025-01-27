@@ -9,4 +9,6 @@ export { default as reactPics } from "./logos-edits-react.webp";
 export { default as nodePics } from "./logos-edits-nodejs.webp";
 export { default as reactNativePics } from "./logos-edits-react-native.webp";
 export { default as pythonPics } from "./logos-edits-python.webp";
+export { default as shosanIntro } from "./ShosanCodeHubIntro.mp4";
+export { default as userIcon } from "./UserIcon.png";
 

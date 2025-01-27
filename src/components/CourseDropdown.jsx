@@ -11,7 +11,7 @@ const CourseDropdown = ({
 }) => {
 
     return (
-        <ul className="w-full grid sm:grid-cols-3 grid-cols-1 xs:gap-4 gap-2 bg-white 
+        <ul className="w-full grid sm:grid-cols-3 grid-cols-1 xs:gap-3 gap-2 bg-white 
             rounded-lg xs:py-8 py-3 sm:px-6 px-2">
             {lessonData.map((course) => (
                 <li 
@@ -22,7 +22,7 @@ const CourseDropdown = ({
                         <label className="flex flex-row justify-start items-start">
                             <input
                                 type="checkbox"
-                                className="mr-2 ring-1 ring-secondaryBlue mt-[6px] w-4 h-4"
+                                className="mr-2 ring-1 ring-secondaryBlue mt-[6px] w-3 h-3"
                                 checked={isSelected(course.id)}
                                 onChange={
                                     () => handleCourseSelection(
@@ -35,19 +35,18 @@ const CourseDropdown = ({
                                     text-[18px] font-medium">
                                     {course.name}
                                 </span>
-                                <span className="font-sans italic text-secondaryBlue xs:text-[14px] text-[15px]">
+                                <span className="font-sans text-secondaryBlue xs:text-[14px] text-[15px]">
                                     {course.time}
                                 </span>
-                                <div className="xs:w-[160px] w-[200px] flexBetween xs:text-[12px] text-[14px] 
-                                    text-slate-700 italic mt-1">
+                                <div className="xs:w-[160px] w-[200px] flexBetween text-slate-700 italic mt-1">
                                     <button 
-                                        className="bg-slate-200 rounded-lg ring-[1px] ring-yellow-700/20 
-                                        px-1 py-[2px]">
+                                        className="bg-slate-200/30 rounded-lg ring-[1px] ring-yellow-500/10 
+                                        px-1 py-[2px] xs:text-[12px] text-[14px]">
                                         Watch video
                                     </button>
                                     <button 
-                                        className="bg-slate-100 rounded-lg ring-[1px] ring-yellow-700/20 
-                                        px-1 py-[2px]">
+                                        className="bg-slate-100/30 rounded-lg ring-[1px] ring-yellow-500/10 
+                                        px-1 py-[2px] xs:text-[11px] text-[14px]">
                                         Mark as done
                                     </button>
                                 </div>

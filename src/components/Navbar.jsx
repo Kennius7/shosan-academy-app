@@ -12,7 +12,7 @@ import { BiChevronLeft } from "react-icons/bi";
 
 const Navbar = () => {
     const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, reactNativePics, DP1, isMenuOpen, 
+        lightBlue, darkBlue, yellow, isLoggedIn, userIcon, DP1, isMenuOpen, 
         setIsMenuOpen, profileFormData: { name, email }, isTokenExpired, 
     } = useContext(MainContext);
 
@@ -125,7 +125,7 @@ const Navbar = () => {
                                 <img src={DP1} alt="profile pics" className="w-full h-full object-cover" /> 
                             :
                             // <CgProfile size={32} color={yellow} style={{ width: 100, height: 100 }}/>
-                                <img src={reactNativePics} alt="profile pics" className="w-full h-full object-cover" /> 
+                                <img src={userIcon} alt="profile pics" className="w-full h-full object-cover" /> 
                         }
                     </NavLink>
                     {/*Large Screen Login Button block*/}
