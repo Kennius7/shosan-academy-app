@@ -4,16 +4,21 @@ import { BG1 } from "../assets";
 import ImageBackground from "./ImageBackground";
 import Modal from "./Modal";
 import Button from "./Button";
+import { uploadPics } from "../utils/data.js";
 // import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, updateDoc } from "firebase/firestore";
+// import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../FirebaseConfig";
 import { toast } from "react-toastify";
+// import axios from "axios";
 
 
 
 const ProfileHero = () => {
-    const { profileFormData, userIcon, lastVisitedTime, darkBlue, lightBlue } = useContext(MainContext);
-    const { id, profilePics } = profileFormData;
+    const { 
+        profileFormData: { id, name }, userIcon, lastVisitedTime, darkBlue, 
+        lightBlue, setIsTokenExpired, DPPics, setDPPics,
+    } = useContext(MainContext);
+
     const [isShow, setIsShow] = useState(false);
     const [preview, setPreview] = useState(null);
     const [image, setImage] = useState(null);
@@ -22,12 +27,12 @@ const ProfileHero = () => {
     const [isUploading, setIsUploading] = useState(false);
     const [uploadText, setUploadText] = useState("Upload Picture");
     const [isGetImageURL, setIsGetImageURL] = useState(false);
+    // const [DPPics, setDPPics] = useState("");
 
     const titleText = "Please select an image";
     const cloudinaryURL = "https://api.cloudinary.com/v1_1/dpo6cr2fi/image/upload";
+    const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
     let progressWidthValue = progress.toString() + "%";
-
-    console.log("Profile Pics URL:>>>", profilePics);
 
     const handleFileChange = (event) => { 
         const file = event.target.files[0];
@@ -80,24 +85,13 @@ const ProfileHero = () => {
 
     useEffect(() => {
         if (isGetImageURL) {
-            const uploadPics = async () => {
-                try {
-                    await updateDoc(doc(db, "User_Data", id), { profilePics: imageURL });
-                    toast(`Picture uploaded successfully!`, { type: "success" } );
-                } catch (error) {
-                    toast(`Error uploading picture. ${error}`, { type: "error" } );
-                    console.error(error);
-                } finally {
-                    setUploadText("Upload Picture");
-                    setIsUploading(false);
-                    setIsGetImageURL(false);
-                }
-            }
-            uploadPics();
+            uploadPics(
+                db, imageURL, apiFetchUrl, id, setDPPics, 
+                setIsTokenExpired, setUploadText, 
+                setIsUploading, setIsGetImageURL
+            );
         }
-        console.log("Running...", isGetImageURL, "URL:>>>", imageURL);
-    }, [imageURL, isGetImageURL, id])
-
+    }, [imageURL, isGetImageURL, id, apiFetchUrl, setIsTokenExpired, setDPPics])
 
     const handleClose = () => {setIsShow(false); setPreview(null)}
     const handlePictureEdit = () => {setIsShow(true); setPreview(null)}
@@ -117,18 +111,17 @@ const ProfileHero = () => {
                 overlayOpacity={0.9}
                 className="flexCenter w-full" 
                 childClass={`sm:top-[200px] top-[80px] left-2 sm:w-[200px] sm:h-[200px] w-[120px] h-[120px] 
-                rounded-full overflow-hidden border-[5px] border-white 
-                ${profileFormData?.email === "ogbogukenny@yahoo.com" ? "" : "bg-secondaryBlue"}`}
+                rounded-full overflow-hidden border-[5px] border-white bg-secondaryBlue`}
             >
                 <img 
-                    src={ profilePics !== "" ? profilePics : userIcon} 
+                    src={ DPPics === "" || DPPics === undefined ? userIcon : DPPics } 
                     alt="dp" 
                     className={`w-full h-full object-cover`} 
                 />
             </ImageBackground>
             <div className="w-full h-[40px] sm:mt-[120px] mt-[65px] flexColCenterStart pl-2">
                 <p className="text-secondaryBlue sm:text-[25px] text-[18px] font-semibold text-start leading-[28px]">
-                    {profileFormData.name}
+                    {name}
                 </p>
                 <p className="font-sans text-black sm:text-[14px] text-[12px] sm:leading-[28px] leading-[14px]">
                     Last time here:&nbsp;

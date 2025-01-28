@@ -1,6 +1,10 @@
-
-
+import { doc, updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import axios from "axios";
 import { webDesignBasicPics, reactPics, reactNativePics, nodePics } from "../assets";
+
+
+
 
 export const navLinks = [
     { name: "home", link: "/" },
@@ -98,6 +102,49 @@ export const handleCourseSelection = (course, courseState, setCourseState, sched
     }
 };
 
+export const uploadPics = async (
+    db, imageURL, apiFetchUrl, id, setDPPics, setIsTokenExpired, setUploadText, setIsUploading, setIsGetImageURL
+) => {
+    try {
+        await updateDoc(doc(db, "User_Data", id), { profilePics: imageURL });
+        const userToken = localStorage.getItem("user-token");
+        const response = await axios.get(apiFetchUrl, {
+            headers: { 
+                "Content-Type": "application/json", 
+                Authorization: `Bearer ${userToken}`,
+            },
+            // withCredentials: false,
+        });
+        const { profilePics } = response.data.data;
+        setDPPics(profilePics);
+        setIsTokenExpired(false);
+        toast(`Picture uploaded successfully!`, { type: "success" } );
+    } catch (error) {
+        toast(`Error uploading picture. ${error}`, { type: "error" } );
+        console.error(error);
+    } finally {
+        setUploadText("Upload Picture");
+        setIsUploading(false);
+        setIsGetImageURL(false);
+    }
+}
+
+export const uploadPicsNavbar = async (apiFetchUrl, setDPPics, setIsTokenExpired) => {
+    try {
+        const userToken = localStorage.getItem("user-token");
+        const response = await axios.get(apiFetchUrl, {
+            headers: { 
+                "Content-Type": "application/json", 
+                Authorization: `Bearer ${userToken}`,
+            },
+        });
+        const { profilePics } = response.data.data;
+        setDPPics(profilePics);
+        setIsTokenExpired(false);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 
 

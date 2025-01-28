@@ -27,6 +27,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
+  const [DPPics, setDPPics] = useState("");
+  // const [hasUpdatedDP, setHasUpdatedDP] = useState(false);
   const lightBlue = "#0E6DBA";
   const darkBlue = "#084170";
   const yellow = "#E0D538";
@@ -109,6 +111,7 @@ function App() {
             id: id,
             profilePics: profilePics,
         });
+        setDPPics(profilePics);
         console.log("Updated Data: ", profileFormData);
         setIsTokenExpired(false);
     } catch (error) {
@@ -195,7 +198,8 @@ function App() {
       value={{ 
         active, setActive, lightBlue, darkBlue, yellow, DP1, userIcon, examTimeLimit,
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, hours, minutes, seconds, days,
-        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, isTokenExpired, setIsTokenExpired,
+        profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, isTokenExpired, setIsTokenExpired, 
+        DPPics, setDPPics
       }}
     >
       <ToastContainer 

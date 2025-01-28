@@ -1,6 +1,6 @@
-import { useContext, useRef } from "react";
+import { useEffect, useContext, useRef } from "react";
 import { MainContext } from "../context/mainContext";
-import { navLinks } from "../utils/data";
+import { navLinks, uploadPicsNavbar } from "../utils/data";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { Logo } from "../assets";
 import Button from "./Button";
@@ -12,12 +12,14 @@ import { BiChevronLeft } from "react-icons/bi";
 
 const Navbar = () => {
     const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, userIcon, DP1, isMenuOpen, 
-        setIsMenuOpen, profileFormData: { name, email }, isTokenExpired, 
+        lightBlue, darkBlue, yellow, isLoggedIn, userIcon, isMenuOpen, setIsTokenExpired,
+        setIsMenuOpen, profileFormData: { name }, isTokenExpired, DPPics, setDPPics
     } = useContext(MainContext);
 
     const location = useLocation();
     const menuRef = useRef(null);
+    // const [DPPics, setDPPics] = useState("");
+    const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
     // const userToken = localStorage.getItem("user-token");
 
     const sentenceCase = (string) => {
@@ -29,6 +31,10 @@ const Navbar = () => {
         menuRef.current.focus();
         setIsMenuOpen(!isMenuOpen);
     }
+
+    useEffect(() => {
+        uploadPicsNavbar(apiFetchUrl, setDPPics, setIsTokenExpired);
+    }, [apiFetchUrl, setDPPics, setIsTokenExpired])
 
     const handleBlur = () => setIsMenuOpen(false);
 
@@ -119,14 +125,11 @@ const Navbar = () => {
                         className="flex justify-center items-center sm:w-8 sm:h-8 w-6 h-6 ring-2 ring-white/50 
                         rounded-full shadow-lg overflow-hidden ss:mx-0 mx-2"
                     >
-                        {
-                            isLoggedIn && email === "ogbogukenny@yahoo.com"
-                            ?
-                                <img src={DP1} alt="profile pics" className="w-full h-full object-cover" /> 
-                            :
-                            // <CgProfile size={32} color={yellow} style={{ width: 100, height: 100 }}/>
-                                <img src={userIcon} alt="profile pics" className="w-full h-full object-cover" /> 
-                        }
+                        <img 
+                            src={ DPPics === "" || DPPics === undefined ? userIcon : DPPics } 
+                            alt="profile pics" 
+                            className="w-full h-full object-cover" 
+                        />
                     </NavLink>
                     {/*Large Screen Login Button block*/}
                     {
