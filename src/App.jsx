@@ -24,7 +24,7 @@ import { monthFunct, dayFunct, hourFunct, minuteFunct, secFunct } from "./utils/
 function App() {
   const [active, setActive] = useState("Home");
   const [loginState, setLoginState] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const lightBlue = "#0E6DBA";
@@ -121,7 +121,7 @@ function App() {
       setIsLoggedIn(true);
     } else {
       downloadData();
-      // setIsLoggedIn(false);
+      setIsLoggedIn(false);
     }
   });
 
