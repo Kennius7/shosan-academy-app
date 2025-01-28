@@ -1,12 +1,28 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { BG1 } from "../assets";
 import ImageBackground from "./ImageBackground";
+import Modal from "./Modal";
 
 
 
 const ProfileHero = () => {
     const { profileFormData, DP1, userIcon, lastVisitedTime } = useContext(MainContext);
+    const [isShow, setIsShow] = useState(false);
+
+    const handleClose = () => {
+        console.log("Closing the Modal...");
+    }
+
+    const handlePictureEdit = () => {
+        console.log("Checking the Modal...");
+        setIsShow(true);
+        return (
+            <Modal show={isShow} onClose={handleClose} title={"Welcome"} >
+                Hello
+            </Modal>
+        )
+    }
 
     return (
         <section className="flexColStart w-full bg-white pt-[60px]">
@@ -18,6 +34,8 @@ const ProfileHero = () => {
                 }
                 imgSrc={BG1} 
                 isOverlay={true}
+                isEditPicture={true}
+                onClickEditPics={handlePictureEdit}
                 overlayOpacity={0.9}
                 className="flexCenter w-full" 
                 childClass={`sm:top-[200px] top-[80px] left-2 sm:w-[200px] sm:h-[200px] w-[120px] h-[120px] 
