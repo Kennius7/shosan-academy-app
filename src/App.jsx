@@ -81,6 +81,7 @@ function App() {
     courseDetails: "None",
     courseProgress: 3,
     id: "",
+    profilePics: "",
   });
 
   const downloadData = async () => {
@@ -95,7 +96,7 @@ function App() {
           },
           // withCredentials: false,
         });
-        const { name, email, number, batchNum, courseDetails, courseProgress, id } = response.data.data;
+        const { name, email, number, batchNum, courseDetails, courseProgress, id, profilePics } = response.data.data;
 
         setProfileFormData({ 
             ...profileFormData, 
@@ -106,6 +107,7 @@ function App() {
             courseDetails: courseDetails, 
             courseProgress: courseProgress,
             id: id,
+            profilePics: profilePics,
         });
         console.log("Updated Data: ", profileFormData);
         setIsTokenExpired(false);

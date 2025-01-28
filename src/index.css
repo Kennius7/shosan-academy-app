@@ -161,7 +161,7 @@ h1 { @apply flex flex-row justify-center items-center };
 }
 
 .fadeInAnimate {
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.5s ease;
 }
 
 

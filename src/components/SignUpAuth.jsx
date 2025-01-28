@@ -24,8 +24,9 @@ const SignUp = () => {
         batchNum: "001",
         courseDetails: "None",
         courseProgress: 0,
+        profilePics: "",
     });
-    const { name, email, number, password, batchNum, courseDetails, courseProgress } = signUpFormData;
+    const { name, email, number, password, batchNum, courseDetails, courseProgress, profilePics } = signUpFormData;
 
     const handleChange = (e) => setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
 
@@ -36,7 +37,7 @@ const SignUp = () => {
             try {
                 const response = await axios.post(
                     apiSignUpUrl, 
-                    { name, email, number, password, batchNum, courseDetails, courseProgress }, 
+                    { name, email, number, password, batchNum, courseDetails, courseProgress, profilePics }, 
                     {
                         headers: { "Content-Type": "application/json" },
                         withCredentials: false,

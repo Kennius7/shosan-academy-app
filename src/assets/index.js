@@ -11,4 +11,6 @@ export { default as reactNativePics } from "./logos-edits-react-native.webp";
 export { default as pythonPics } from "./logos-edits-python.webp";
 export { default as shosanIntro } from "./ShosanCodeHubIntro.mp4";
 export { default as userIcon } from "./UserIcon.png";
+export { default as X_Icon } from "./X_Icon.svg";
+
 

@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContext } from "../context/mainContext";
 import { PiPencil } from "react-icons/pi";
 import CircularProgressBar from "../components/CircularProgressBar";
 import { selectCourses } from "../utils/data";
 import Button from "./Button";
-import { db, auth } from "../../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import axios from "axios";
