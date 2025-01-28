@@ -177,7 +177,7 @@ const ProfileHero = () => {
                 {
                     isUploading && !isGetImageURL && (
                         <div className="w-full h-[20px] bg-slate-300 rounded-lg flex flex-row 
-                            justify-start items-center pl-1">
+                            justify-start items-center px-2">
                             <div 
                                 style={{ width: progressWidthValue, height: "12px" }} 
                                 className={`bg-slate-600 rounded`}
