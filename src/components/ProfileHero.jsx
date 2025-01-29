@@ -5,11 +5,9 @@ import ImageBackground from "./ImageBackground";
 import Modal from "./Modal";
 import Button from "./Button";
 import { uploadPics } from "../utils/data.js";
-// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../FirebaseConfig";
 import { toast } from "react-toastify";
-// import axios from "axios";
+
 
 
 
@@ -27,7 +25,6 @@ const ProfileHero = () => {
     const [isUploading, setIsUploading] = useState(false);
     const [uploadText, setUploadText] = useState("Upload Picture");
     const [isGetImageURL, setIsGetImageURL] = useState(false);
-    // const [DPPics, setDPPics] = useState("");
 
     const titleText = "Please select an image";
     const cloudinaryURL = "https://api.cloudinary.com/v1_1/dpo6cr2fi/image/upload";

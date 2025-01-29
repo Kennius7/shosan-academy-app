@@ -28,7 +28,6 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const [DPPics, setDPPics] = useState("");
-  // const [hasUpdatedDP, setHasUpdatedDP] = useState(false);
   const lightBlue = "#0E6DBA";
   const darkBlue = "#084170";
   const yellow = "#E0D538";
