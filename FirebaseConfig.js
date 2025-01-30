@@ -6,8 +6,6 @@ import { getStorage } from "firebase/storage";
 
 
 
-
-
 const apiKey = import.meta.env.VITE_API_KEY;
 const messagingSenderId = import.meta.env.VITE_MESSAGING_SENDERID;
 const appId = import.meta.env.VITE_APP_ID;
