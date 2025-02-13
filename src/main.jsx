@@ -6,7 +6,6 @@ import { MantineProvider } from '@mantine/core'
 import 'react-toastify/dist/ReactToastify.css'
 
 
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <MantineProvider>
