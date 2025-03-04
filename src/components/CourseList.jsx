@@ -112,7 +112,8 @@ function CourseList() {
                 </tbody>
             </table>
 
-            <div className="flex justify-start items-center sm:mt-[20px] xs:mt-[5px] mt-[2px] w-[95%] h-[40px]">
+            <div className="flex justify-start items-center sm:mt-[20px] xs:mt-[5px] w-[95%] 
+                xs:h-[40px] h-[90px]">
                 <div className="font-sans italic text-start sm:font-semibold font-normal w-[94%] sm:text-[16px] 
                     xs:text-[12px] text-[11px]">
                     <span className="font-bold sm:text-[22px] xs:text-[18px] text-[15px]">*</span>

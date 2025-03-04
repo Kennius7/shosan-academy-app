@@ -1,96 +1,93 @@
 import { Link } from "react-router-dom";
 import { Logo } from "../assets";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 
 
 const Footer = () => {
+    const FBLink = "https://web.facebook.com/profile.php?id=61550277522083";
+    const InstagramLink = "https://www.instagram.com/shosan_code_hub/";
+    const TwitterLink = "https://x.com/shosan_code_hub";
+    const LinkedInLink = "https://www.linkedin.com/in/shosan-boggs-b766b7354/";
+
+
     return (
-        <footer className="w-full flexColCenter border-t-[3px] border-black bg-secondaryBlue sm:py-6 py-4">
-            <div className="w-full sm:px-6 px-4 flex sm:flex-row flex-col sm:justify-between justify-center items-center">
-                <div className="w-full sm:hidden flexColCenter mb-6">
-                    <Link 
-                        to={"/"} 
-                        className="h-full sm:pb-0 pb-[10px] flex flex-row justify-start sm:items-center items-end">
-                        <img 
+        <footer className="bg-secondaryBlue text-white py-8">
+            <div className="container mx-auto px-6 grid md:grid-cols-3 gap-8 text-center md:text-left">
+                {/* Company Info */}
+                <div>
+                    <Link to="/" className="flex xs:justify-normal justify-center items-center mb-4">
+                        <img
                             src={Logo}
                             alt="logo" 
-                            className="w-[40px] h-[40px] rounded-full shadow-[0px_0px_5px_0px_#faf5aac2]" 
+                            className="w-[35px] h-[35px] rounded-full shadow-[0px_0px_5px_0px_#faf5aac2]" 
                         />
-                        <div className="font-semibold text-start text-slate-100 text-[22px] sm:pl-[10px] ml-2">
+                        <h2 className="text-xl font-bold ml-2">
                             Shosan Code Hub
-                        </div>
+                        </h2>
                     </Link>
-                    <hr className="w-[85%] bg-white h-[1px] my-[2px]"/>
-                    <hr className="w-[80%] bg-white h-[1px] my-[2px]"/>
-                    <hr className="w-[75%] bg-white h-[1px] my-[2px]"/>
+                    <p className="text-gray-300">
+                        Empowering the next generation of developers through world-class education.
+                    </p>
                 </div>
-                <div className="w-full flexBetween mb-6">
-                    <div className="flexColStartStart">
-                        <p className="text-black font-medium sm:text-[18px] text-[15px]">Follow us on:</p>
-                        <div className="flexColStartStart">
-                            <a 
-                                href="https://facebook.com" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="text-lightBlue">
-                                Facebook
-                            </a>
-                            <a 
-                                href="https://twitter.com" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="text-lightBlue">
-                                Twitter
-                            </a>
-                            <a 
-                                href="https://instagram.com" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="text-lightBlue">
-                                Instagram
-                            </a>
-                        </div>
-                    </div>
-                    <div className="sm:block hidden">
-                        <Link to={"/"} className="h-full sm:pb-0 pb-[10px] flex flex-row justify-start sm:items-center items-end">
-                            <img 
-                                src={Logo}
-                                alt="logo" 
-                                className="w-[35px] h-[35px] rounded-full shadow-[0px_0px_5px_0px_#faf5aac2]" 
-                            />
-                            <div className="font-semibold text-start text-slate-100 text-[25px] sm:pl-[10px] ml-2">
-                                Shosan Code Hub
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="sm:flexColCenterStart flexColCenterEnd">
-                        <div className="flex flex-col sm:item-start item-end">
-                            <p className="text-end text-black font-medium sm:text-[18px] text-[15px]">
-                                Contact us at:
-                            </p>
-                            <a 
-                                href="mailto:shosanacodemy@gmail.com" 
-                                className={`text-lightBlue sm:tracking-normal -tracking-[1px]`}>
-                                shosanacodemia@gmail.com
-                            </a>
-                        </div>
-                        <div className="flex flex-col sm:item-start item-end">
-                            <p className="text-end text-black font-medium sm:text-[18px] text-[15px]">
-                                Phone:
-                            </p>
-                            <a 
-                                href="mailto:shosanacodemy@gmail.com" 
-                                className={`text-lightBlue sm:tracking-normal -tracking-[1px]`}>
-                                +234-8055549979
-                            </a>
-                        </div>
+
+                {/* Quick Links */}
+                <div>
+                    <h3 className="text-lg font-semibold mb-4">
+                        Quick Links
+                    </h3>
+                    <ul className="space-y-2">
+                        <li><Link to="/about_us" className="text-gray-300 hover:text-white">About Us</Link></li>
+                        <li><Link to="/classes" className="text-gray-300 hover:text-white">Classes</Link></li>
+                        <li><Link to="/blog" className="text-gray-300 hover:text-white">Blog</Link></li>
+                        <li><Link to="/profile" className="text-gray-300 hover:text-white">My Profile</Link></li>
+                        <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact Us</Link></li>
+                    </ul>
+                </div>
+
+                {/* Social Media */}
+                <div>
+                    <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div className="flex justify-center md:justify-start space-x-4">
+                        <a 
+                            href={FBLink} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-gray-300 hover:text-white text-2xl"
+                        >
+                            <FaFacebook />
+                        </a>
+                        <a 
+                            href={TwitterLink} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-gray-300 hover:text-white text-2xl"
+                        >
+                            <FaTwitter />
+                        </a>
+                        <a 
+                            href={LinkedInLink} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-gray-300 hover:text-white text-2xl"
+                        >
+                            <FaLinkedin />
+                        </a>
+                        <a 
+                            href={InstagramLink} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-gray-300 hover:text-white text-2xl"
+                        >
+                            <FaInstagram />
+                        </a>
                     </div>
                 </div>
             </div>
-            <p className="text-center text-[15px] italic text-white">
-                &copy; {new Date().getFullYear()} Shosan Code Hub Online Academy.
-                <br className="sm:hidden block"/> All rights reserved.
-            </p>
+
+            <div className="border-t border-gray-700 mt-8 pt-4 text-center text-gray-300 text-sm">
+                &copy; {new Date().getFullYear()} Shosan Code Hub Online Academy. All Rights Reserved.
+            </div>
         </footer>
     )
 }

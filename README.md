@@ -16,3 +16,5 @@ Note:
 3. Design the Footer.
 4. Add the deadline date just below the countdown timer.
 5. make the video viewable only on mobile phone.
+6. Activate the database for saving the videos.
+
