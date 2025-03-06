@@ -129,6 +129,7 @@ export const uploadPics = async (
     }
 }
 
+
 export const uploadPicsNavbar = async (apiFetchUrl, setDPPics, setIsTokenExpired) => {
     try {
         const userToken = localStorage.getItem("user-token");
