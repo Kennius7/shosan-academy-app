@@ -15,7 +15,7 @@ import axios from "axios";
 
 const ProfileSection = () => {
     const navigate = useNavigate();
-    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData } = useContext(MainContext);
+    const { darkBlue, lightBlue, yellow, profileFormData, setProfileFormData, downloadData } = useContext(MainContext);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaveDisabled, setIsSaveDisabled] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
@@ -75,6 +75,7 @@ const ProfileSection = () => {
             courseDetails: "None",
             courseProgress: 3, 
         });
+        downloadData();
         setTimeout(() => {
             setIsLoading(false);
             setTimeout(() => {
@@ -138,7 +139,7 @@ const ProfileSection = () => {
 
     return (
         <section className="w-full">
-            <div className="w-full h-[300px] sm:mt-10 mt-4 flexStartStart sm:px-3 px-2 relative">
+            <div className="w-full xs:h-[300px] h-[900px] sm:mt-10 mt-4 flexStartStart sm:px-3 px-2 relative">
                 <div className="sm:w-[30%] w-full flexColCenterStart">
                     <CircularProgressBar 
                         percentage={courseProgress} 

@@ -103,7 +103,7 @@ export const handleCourseSelection = (course, courseState, setCourseState, sched
 };
 
 export const uploadPics = async (
-    db, imageURL, apiFetchUrl, id, setDPPics, setIsTokenExpired, setUploadText, setIsUploading, setIsGetImageURL
+    db, imageURL, apiFetchUrl, id, profileFormData, setProfileFormData, setUploadText, setIsUploading
 ) => {
     try {
         await updateDoc(doc(db, "User_Data", id), { profilePics: imageURL });
@@ -115,9 +115,9 @@ export const uploadPics = async (
             },
             // withCredentials: false,
         });
+        console.log("Response:>>>>", response.data.data.name);
         const { profilePics } = response.data.data;
-        setDPPics(profilePics);
-        setIsTokenExpired(false);
+        setProfileFormData({ ...profileFormData, profilePics: profilePics })
         toast(`Picture uploaded successfully!`, { type: "success" } );
     } catch (error) {
         toast(`Error uploading picture. ${error}`, { type: "error" } );
@@ -125,7 +125,7 @@ export const uploadPics = async (
     } finally {
         setUploadText("Upload Picture");
         setIsUploading(false);
-        setIsGetImageURL(false);
+        // setIsGetImageURL(false);
     }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useContext, useRef } from "react";
 import { MainContext } from "../context/mainContext";
 import { navLinks, uploadPicsNavbar } from "../utils/data";
@@ -7,18 +8,18 @@ import Button from "./Button";
 import { MdMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
 import { BiChevronLeft } from "react-icons/bi";
+import { Avatar } from "@mui/material";
 
 
 
 const Navbar = () => {
     const { 
-        lightBlue, darkBlue, yellow, isLoggedIn, userIcon, isMenuOpen, setIsTokenExpired,
-        setIsMenuOpen, profileFormData: { name }, isTokenExpired, DPPics, setDPPics
+        lightBlue, darkBlue, yellow, isLoggedIn, isMenuOpen, setIsMenuOpen, 
+        profileFormData: { name, profilePics }, isTokenExpired,
     } = useContext(MainContext);
 
     const location = useLocation();
     const menuRef = useRef(null);
-    // const [DPPics, setDPPics] = useState("");
     const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
     // const userToken = localStorage.getItem("user-token");
 
@@ -32,9 +33,9 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen);
     }
 
-    useEffect(() => {
-        uploadPicsNavbar(apiFetchUrl, setDPPics, setIsTokenExpired);
-    }, [apiFetchUrl, setDPPics, setIsTokenExpired])
+    // useEffect(() => {
+    //     uploadPicsNavbar(apiFetchUrl, setDPPics, setIsTokenExpired);
+    // }, [apiFetchUrl, setDPPics, setIsTokenExpired])
 
     const handleBlur = () => setIsMenuOpen(false);
 
@@ -85,10 +86,9 @@ const Navbar = () => {
                     <div className="font-normal md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white ss:px-2 px-1">
                         { 
-                            isLoggedIn !== null && !isTokenExpired 
-                            ? "Hi, " + name?.split(" ")[0] 
-                            : isLoggedIn !== null && isTokenExpired ? "Please sign in again!" 
-                            : "Hi, Guest"  
+                            isLoggedIn !== null && isTokenExpired 
+                            ? "Please sign in again!" 
+                            : "Hi, " + name?.split(" ")[0]   
                         }
                     </div>
                 </div>
@@ -97,10 +97,9 @@ const Navbar = () => {
                     <div className="xs:block hidden font-normal font-sans md:text-[15px] ss:text-[13px] text-[11px] 
                         text-white italic ss:px-2 px-1">
                         { 
-                            isLoggedIn !== null && !isTokenExpired 
-                            ? "Hi, " + name?.split(" ")[0] 
-                            : isLoggedIn !== null && isTokenExpired ? "Please sign in again!" 
-                            : "Hi, Guest"  
+                            isLoggedIn !== null && isTokenExpired 
+                            ? "Please sign in again!" 
+                            : "Hi, " + name?.split(" ")[0]   
                         }
                     </div>
                     {/*Mobile Screen Login Button block*/}
@@ -122,13 +121,23 @@ const Navbar = () => {
                     {/*Profile Pics block*/}
                     <NavLink
                         to={"/profile"} 
-                        className="flex justify-center items-center sm:w-8 sm:h-8 w-6 h-6 ring-2 ring-white/50 
+                        className="flex justify-center items-center sm:w-8 sm:h-8 w-6 h-6 ring-2 ring-white 
                         rounded-full shadow-lg overflow-hidden ss:mx-0 mx-2"
                     >
-                        <img 
+                        {/* <img 
                             src={ DPPics === "" || DPPics === undefined ? userIcon : DPPics } 
                             alt="profile pics" 
                             className="w-full h-full object-cover" 
+                        /> */}
+                        <Avatar
+                            alt="Guest"
+                            src={profilePics}
+                            sx={{
+                                width: "100%",
+                                height: "100%", 
+                                cursor: "pointer",
+                                objectPosition: "center",
+                            }}
                         />
                     </NavLink>
                     {/*Large Screen Login Button block*/}

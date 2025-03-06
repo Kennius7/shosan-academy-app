@@ -18,6 +18,8 @@ import CourseSelect from "./components/CourseSelect.jsx";
 import { DP1, userIcon } from "./assets";
 import axios from "axios";
 import { monthFunct, dayFunct, hourFunct, minuteFunct, secFunct } from "./utils/data.js";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from '../FirebaseConfig.js';
 
 
 
@@ -75,7 +77,7 @@ function App() {
 
 
   const [profileFormData, setProfileFormData] = useState({
-    name: "Guest",
+    name: "Guest User",
     email: "guest@mail.com",
     number: "10000100001",
     batchNum: "000",
@@ -110,10 +112,20 @@ function App() {
             id: id,
             profilePics: profilePics,
         });
-        setDPPics(profilePics);
         console.log("Updated Data: ", profileFormData);
         setIsTokenExpired(false);
     } catch (error) {
+      setProfileFormData({ 
+        ...profileFormData, 
+        name: "Guest User",
+        email: "guest@mail.com",
+        number: "10000100001",
+        batchNum: "000",
+        courseDetails: "None",
+        courseProgress: 3,
+        id: "",
+        profilePics: "",
+      });
       const errorMessage = error?.response?.data;
       if (userToken && errorMessage === "Invalid Token!") setIsTokenExpired(true);
       console.error("Error downloading data: >>>>", error?.response?.data);
@@ -121,7 +133,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (profileFormData.name !== "Guest") {
+    if (profileFormData.email !== "guest@mail.com") {
       setIsLoggedIn(true);
     } else {
       downloadData();
@@ -139,6 +151,28 @@ function App() {
       setIsFetched(true);
     } catch (error) {
       console.log("Error fetching Date: >>>", error);
+    }
+  }
+
+  const uploadPics = async (id, imageURL) => {
+    try {
+      await updateDoc(doc(db, "User_Data", id), { profilePics: imageURL });
+      console.log("Picture Saved Successfully!");
+      // const userToken = localStorage.getItem("user-token");
+      // const response = await axios.get(apiFetchUrl, {
+      //     headers: { 
+      //         "Content-Type": "application/json", 
+      //         Authorization: `Bearer ${userToken}`,
+      //     },
+      //     // withCredentials: false,
+      // });
+      // console.log("Response:>>>>", response.data.data.name);
+      // const { profilePics } = response.data.data;
+      // setProfileFormData({ ...profileFormData, profilePics: profilePics })
+      // toast(`Picture uploaded successfully!`, { type: "success" } );
+    } catch (error) {
+      // toast(`Error uploading picture. ${error}`, { type: "error" } );
+      console.error("Error saving picture:", error);
     }
   }
 
@@ -198,7 +232,7 @@ function App() {
         active, setActive, lightBlue, darkBlue, yellow, DP1, userIcon, examTimeLimit,
         loginState, setLoginState, isLoggedIn, setIsLoggedIn, lastVisitedTime, hours, minutes, seconds, days,
         profileFormData, setProfileFormData, isMenuOpen, setIsMenuOpen, isTokenExpired, setIsTokenExpired, 
-        DPPics, setDPPics
+        DPPics, setDPPics, downloadData, uploadPics
       }}
     >
       <ToastContainer 

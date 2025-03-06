@@ -1,21 +1,20 @@
-import { useState, useEffect, useContext } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useContext } from "react";
 import { MainContext } from "../context/mainContext";
 import { BG1 } from "../assets";
 import ImageBackground from "./ImageBackground";
 import Modal from "./Modal";
 import Button from "./Button";
-import { uploadPics } from "../utils/data.js";
-import { db } from "../../FirebaseConfig";
 import { toast } from "react-toastify";
+// import { db } from "../../FirebaseConfig";
+// import { uploadPics } from "../utils/data";
 
 
 
 
 const ProfileHero = () => {
-    const { 
-        profileFormData: { id, name }, userIcon, lastVisitedTime, darkBlue, 
-        lightBlue, setIsTokenExpired, DPPics, setDPPics,
-    } = useContext(MainContext);
+    const { profileFormData, lastVisitedTime, darkBlue, lightBlue, uploadPics, downloadData, setProfileFormData } = useContext(MainContext);
+    const { id, name, profilePics } = profileFormData;
 
     const [isShow, setIsShow] = useState(false);
     const [preview, setPreview] = useState(null);
@@ -24,11 +23,11 @@ const ProfileHero = () => {
     const [progress, setProgress] = useState(1);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadText, setUploadText] = useState("Upload Picture");
-    const [isGetImageURL, setIsGetImageURL] = useState(false);
+    // const [isGetImageURL, setIsGetImageURL] = useState(false);
 
     const titleText = "Please select an image";
     const cloudinaryURL = "https://api.cloudinary.com/v1_1/dpo6cr2fi/image/upload";
-    const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
+    // const apiFetchUrl = import.meta.env.VITE_API_FETCH_DATA_URL;
     let progressWidthValue = progress.toString() + "%";
 
     const handleFileChange = (event) => { 
@@ -36,7 +35,7 @@ const ProfileHero = () => {
         if (file) {
             setImage(file);
             setPreview(URL.createObjectURL(file));
-            setTimeout(() => { console.log("Preview Pics:", preview, "Image Content:", image) }, 3000);
+            setTimeout(() => { console.log("Preview Pics:", URL.createObjectURL(file), "Image Content:", file) }, 3000);
         }
     }
 
@@ -67,8 +66,14 @@ const ProfileHero = () => {
                 const response = JSON.parse(xhr.responseText);
                 setImageURL(response.secure_url);
                 toast(`Picture saved!`, { type: "success" } );
-                setIsGetImageURL(true);
+                // setIsGetImageURL(true);
                 setProgress(0);
+                // uploadPics(db, imageURL, apiFetchUrl, id, setProfileFormData, setUploadText, setIsUploading);
+                uploadPics(id, response.secure_url);
+                setTimeout(() => { 
+                    downloadData();
+                    setIsUploading(false);
+                }, 2000);
             } else { toast(`Failed to save picture. Please try again.`, { type: "error" } ) }
         }
 
@@ -78,17 +83,15 @@ const ProfileHero = () => {
         }
 
         xhr.send(DP_FormData);
+
     }
 
-    useEffect(() => {
-        if (isGetImageURL) {
-            uploadPics(
-                db, imageURL, apiFetchUrl, id, setDPPics, 
-                setIsTokenExpired, setUploadText, 
-                setIsUploading, setIsGetImageURL
-            );
-        }
-    }, [imageURL, isGetImageURL, id, apiFetchUrl, setIsTokenExpired, setDPPics])
+    // console.log("Profile Pics Url:>>>>", profilePics);
+
+    // useEffect(() => {
+    //     if (isGetImageURL) {
+    //     }
+    // }, [imageURL])
 
     const handleClose = () => {setIsShow(false); setPreview(null)}
     const handlePictureEdit = () => {setIsShow(true); setPreview(null)}
@@ -111,7 +114,7 @@ const ProfileHero = () => {
                 rounded-full overflow-hidden border-[5px] border-white bg-secondaryBlue`}
             >
                 <img 
-                    src={ DPPics === "" || DPPics === undefined ? userIcon : DPPics } 
+                    src={ profilePics } 
                     alt="dp" 
                     className={`w-full h-full object-cover`} 
                 />
@@ -172,7 +175,7 @@ const ProfileHero = () => {
                     </div>
                 </div>
                 {
-                    isUploading && !isGetImageURL && (
+                    isUploading && (
                         <div className="w-full h-[20px] bg-slate-300 rounded-lg flex flex-row 
                             justify-center items-center">
                             <div className="w-[98%] justify-start items-center">
